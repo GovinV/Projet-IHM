@@ -2,6 +2,6 @@
 
 ChangementSens::ChangementSens(int c)
 {
-    type="changement de sens";
+    type="Carte changement de sens";
     couleur=c;
 }

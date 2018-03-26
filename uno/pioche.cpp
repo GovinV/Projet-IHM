@@ -67,10 +67,8 @@ AbstractCarte Pioche::tirerCarte()
 {
     AbstractCarte c;
 
-    std::cout << pile.size();
     c = pile.back();
     pile.pop_back();
-    std::cout << pile.size();
 
     return c;
 }

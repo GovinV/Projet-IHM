@@ -2,5 +2,6 @@
 
 TaGueule::TaGueule(int c)
 {
+    type="Carte ta gueule";
     couleur=c;
 }

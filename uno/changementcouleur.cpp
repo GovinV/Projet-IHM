@@ -2,6 +2,6 @@
 
 ChangementCouleur::ChangementCouleur(int c)
 {
-    type="changement de couleur";
+    type="Carte changement de couleur";
     couleur=c;
 }
