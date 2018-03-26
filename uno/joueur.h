@@ -4,17 +4,18 @@
 #include<iostream>
 #include"abstractcarte.h"
 #include"cartenombre.h"
+#include<vector>
 
 #define CARTES_MAIN 7
 
-class AbstractCarte;
+//class AbstractCarte;
 
 class Joueur
 {
 public:
     Joueur();
-    int nbCartes;
-    AbstractCarte* cmain;
+    //int nbCartes;
+    std::vector<AbstractCarte> cmain;
 };
 
 #endif // JOUEUR_H

@@ -2,10 +2,10 @@
 
 Joueur::Joueur()
 {
-    nbCartes = CARTES_MAIN;
-    cmain = new AbstractCarte[7];
+    //nbCartes = CARTES_MAIN;
 
-    std::cout << "Joueur cree avec " << nbCartes << " cartes dans la main\n";
+
+    std::cout << "Joueur cree avec " << "nbCartes" << " cartes dans la main\n";
 }
 
 

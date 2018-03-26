@@ -2,6 +2,7 @@
 #define CARTENOMBRE_H
 
 #include<iostream>
+#include<string>
 #include"abstractcarte.h"
 
 //class Couleur;

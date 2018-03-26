@@ -15,6 +15,13 @@ class AbstractCarte
 public:
     AbstractCarte();
     int couleur;
+    std::string type;
 };
+
+inline std::ostream &operator<< (std::ostream &out, const AbstractCarte c)
+{
+    out << c.type;
+    return out;
+}
 
 #endif // ABSTRACTCARTE_H

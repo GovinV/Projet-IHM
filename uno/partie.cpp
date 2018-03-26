@@ -9,10 +9,9 @@ Partie::Partie(int nbJoueur)
 
         Pioche pioche;
 
-        /*AbstractCarte c1,c2,c3;
-        c1 = CarteNombre(8,1);
+        pioche.afficher();
+        pioche.melanger();
+        pioche.afficher();
 
-        c2(9,3);
 
-        c3 = new CarteNombre(3,4);*/
 }
