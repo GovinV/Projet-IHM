@@ -24,6 +24,7 @@ class Pioche
 
         void melanger();
         void afficher();
+        AbstractCarte tirerCarte();
 };
 
 #endif // PIOCHE_H

@@ -43,13 +43,11 @@ Pioche::Pioche()
 
         pile.push_back(ChangementCouleur(NOIR));
     }
-
-    std::cout << pile.size();
 }
 
 void Pioche::melanger()
 {
-    std::random_shuffle(pile.begin(),pile.end());
+    std::random_shuffle(pile.begin(),pile.end());//pas vraiment aleatoire
 }
 
 void Pioche::afficher()
@@ -58,4 +56,21 @@ void Pioche::afficher()
     {
         std::cout << pile[i] << std::endl;
     }
+}
+
+
+/*
+ * On pioche la carte de la fin du vecteur
+ * si on veut en ajouter une, on l'ajoutera au debut
+ * */
+AbstractCarte Pioche::tirerCarte()
+{
+    AbstractCarte c;
+
+    std::cout << pile.size();
+    c = pile.back();
+    pile.pop_back();
+    std::cout << pile.size();
+
+    return c;
 }

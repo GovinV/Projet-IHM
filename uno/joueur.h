@@ -2,9 +2,10 @@
 #define JOUEUR_H
 
 #include<iostream>
+#include<vector>
 #include"abstractcarte.h"
 #include"cartenombre.h"
-#include<vector>
+#include"pioche.h"
 
 #define CARTES_MAIN 7
 
@@ -14,8 +15,11 @@ class Joueur
 {
 public:
     Joueur();
-    //int nbCartes;
+    Joueur(Pioche *p);
+
     std::vector<AbstractCarte> cmain;
+    void piocher(Pioche *pioche);
+    void afficherMain();
 };
 
 #endif // JOUEUR_H

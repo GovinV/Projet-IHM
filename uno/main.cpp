@@ -8,8 +8,10 @@
 
 int main()
 {
-    Partie jeu(2);
+   Partie jeu(2);
 
-    return 0;
+   jeu.debut();
+
+   return 0;
 }
 

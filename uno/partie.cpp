@@ -2,16 +2,23 @@
 
 Partie::Partie(int nbJoueur)
 {
-        std::cout << "Il y a " << nbJoueur << "joueurs.\n";
+    pioche= new Pioche();
+    pioche->melanger();
+    pioche->afficher();
 
-        Joueur j1;
-        Joueur j2;
+   for(int i=0;i<nbJoueur;i++)
+   {
+       joueurs.push_back(Joueur(pioche));
+   }
+}
 
-        Pioche pioche;
 
-        pioche.afficher();
-        pioche.melanger();
-        pioche.afficher();
+void Partie::debut()
+{
+    for(int i=0;i<joueurs.size();i++)
+    {
+        joueurs[i].afficherMain();
+    }
 
 
 }
