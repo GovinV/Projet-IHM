@@ -10,8 +10,6 @@ Partie::Partie(int nbJoueur)
    {
        joueurs.push_back(Joueur(pioche));
    }
-
-   active = pioche->tirerCarte();
 }
 
 
@@ -22,7 +20,9 @@ void Partie::debut()
         joueurs[i].afficherMain();
     }
 
-    std::cout << "Carte active :" << active << std::endl;
+    pioche->PremiereCarte();
 
+    std::cout << "Carte active : " << pioche->active << std::endl;
 
+    joueurs[0].jouer(pioche);
 }

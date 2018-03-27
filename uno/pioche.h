@@ -17,12 +17,16 @@
 class Pioche
 {
     public:
-        Pioche();
         std::vector<Carte> pile;
+        Carte active;
 
+        Pioche();
+
+        void PremiereCarte();
         void melanger();
         void afficher();
         Carte tirerCarte();
+        void ajouter(Carte c);
 };
 
 #endif // PIOCHE_H

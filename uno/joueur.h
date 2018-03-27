@@ -3,6 +3,7 @@
 
 #include<iostream>
 #include<vector>
+#include<string>
 #include"carte.h"
 #include"cartenombre.h"
 #include"pioche.h"
@@ -12,11 +13,16 @@
 class Joueur
 {
 public:
+    std::vector<Carte> cmain;
+
     Joueur();
     Joueur(Pioche *p);
 
-    std::vector<Carte> cmain;
+    int trouver(Carte c);
     void piocher(Pioche *pioche);
+    void poser(Carte c, Pioche *p);
+    bool DroitDeJouer();
+    void jouer(Pioche *pioche);
     void afficherMain();
 };
 

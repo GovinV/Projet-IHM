@@ -50,6 +50,16 @@ void Pioche::melanger()
     std::random_shuffle(pile.begin(),pile.end());//pas vraiment aleatoire
 }
 
+void Pioche::PremiereCarte()
+{
+    active=tirerCarte();
+    while(active.couleur==NOIR)
+    {
+        ajouter(active);
+        active=tirerCarte();
+    }
+}
+
 void Pioche::afficher()
 {
     for(int i=0;i<108;i++)
@@ -77,4 +87,9 @@ Carte Pioche::tirerCarte()
     pile.pop_back();
 
     return c;
+}
+
+void Pioche::ajouter(Carte c)
+{
+    pile.insert(pile.begin(),c);
 }
