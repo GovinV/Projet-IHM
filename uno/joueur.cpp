@@ -28,35 +28,73 @@ int Joueur::trouver(Carte c)
     return -1;
 }
 
-void Joueur::poser(Carte c, Pioche* p)
-{
-    int pos;
 
-    pos = trouver(c);
-    if(pos != -1)
+void Joueur::trierMain()
+{
+    std::sort(cmain.begin(),cmain.end());
+}
+
+
+bool Joueur::jouer(Pioche* pioche, Carte active, Couleur couleur_active, Carte* carte_jouee)
+{
+    int taille = cmain.size();
+    int icarte_jouee;
+    bool deja_pioche = false;
+
+    std::vector<int> cartes_jouables;
+
+
+    //determine les cartes que le joueur peut jouer
+    for(int i=0;i<taille;i++)
     {
-        p->active=c;
-        cmain.erase(cmain.begin()+pos);
+        if(cmain[i].couleur==couleur_active || cmain[i].couleur==NOIR)
+            cartes_jouables.push_back(i);
+
+        else if(cmain[i].numero==active.numero)
+            cartes_jouables.push_back(i);
     }
 
-}
-
-bool Joueur::DroitDeJouer()
-{
-    return true;
-}
-
-
-void Joueur::jouer(Pioche* pioche)
-{
-    if(DroitDeJouer())
+    if(cartes_jouables.empty())
     {
+        piocher(pioche);
+        deja_pioche = true;
+        trierMain();
 
+        for(int i=0;i<taille;i++)
+        {
+            if(cmain[i].couleur==couleur_active || cmain[i].couleur==NOIR)
+                cartes_jouables.push_back(i);
+
+            else if(cmain[i].numero==active.numero)
+                cartes_jouables.push_back(i);
+        }
+
+        if(cartes_jouables.empty())
+            return false;
+    }
+
+    icarte_jouee = action(cartes_jouables);
+
+    if(icarte_jouee == -1)//si le joueur ne veut pas poser de cartes
+    {
+        if(!deja_pioche)
+            piocher(pioche);
+
+        trierMain();
+        return false;
     }
     else
     {
-        piocher(pioche);
+        *carte_jouee = cmain[icarte_jouee];
+        cmain.erase(cmain.begin()+icarte_jouee);
+        return true;
     }
+}
+
+//TODO : doit retourner -1 si le joueur decide de piocher
+int Joueur::action(std::vector<int> cartes_jouables)
+{
+    return cartes_jouables.front();
 }
 
 void Joueur::afficherMain()

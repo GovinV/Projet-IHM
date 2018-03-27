@@ -19,7 +19,6 @@ class Pioche
 {
     public:
         std::vector<Carte> pile;
-        Carte active;
 
         Pioche();
 

@@ -51,15 +51,6 @@ void Pioche::melanger()
     std::random_shuffle(pile.begin(),pile.end());
 }
 
-void Pioche::PremiereCarte()
-{
-    active=tirerCarte();
-    while(active.couleur==NOIR)
-    {
-        ajouter(active);
-        active=tirerCarte();
-    }
-}
 
 void Pioche::afficher()
 {
@@ -68,7 +59,6 @@ void Pioche::afficher()
         std::cout << pile[i] << std::endl;
     }
 }
-
 
 /*
  * On pioche la carte de la fin du vecteur

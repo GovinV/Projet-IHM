@@ -12,6 +12,8 @@ int main()
 
    jeu.debut();
 
+   jeu.jouer();
+
    return 0;
 }
 

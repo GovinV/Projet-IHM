@@ -20,10 +20,11 @@ public:
 
     int trouver(Carte c);
     void piocher(Pioche *pioche);
-    void poser(Carte c, Pioche *p);
-    bool DroitDeJouer();
-    void jouer(Pioche *pioche);
+    void trierMain();
+    int action(std::vector<int> cartes_jouables);
+    bool jouer(Pioche *pioche, Carte active, Couleur couleur_active, Carte* carte_jouee);
     void afficherMain();
+
 };
 
 #endif // JOUEUR_H
