@@ -4,8 +4,7 @@
 #include <iostream>
 #include<algorithm>
 #include<vector>
-#include"abstractcarte.h"
-#include"cartenombre.h"
+#include"carte.h"
 #include"cartenombre.h"
 #include"changementcouleur.h"
 #include"changementsens.h"
@@ -19,12 +18,11 @@ class Pioche
 {
     public:
         Pioche();
-        //int nbCartes;
-        std::vector<AbstractCarte> pile;
+        std::vector<Carte> pile;
 
         void melanger();
         void afficher();
-        AbstractCarte tirerCarte();
+        Carte tirerCarte();
 };
 
 #endif // PIOCHE_H

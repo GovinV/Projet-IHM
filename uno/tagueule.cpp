@@ -1,6 +1,6 @@
 #include "tagueule.h"
 
-TaGueule::TaGueule(int c)
+TaGueule::TaGueule(Couleur c)
 {
     type="Carte ta gueule";
     couleur=c;

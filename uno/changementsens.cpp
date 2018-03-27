@@ -1,6 +1,6 @@
 #include "changementsens.h"
 
-ChangementSens::ChangementSens(int c)
+ChangementSens::ChangementSens(Couleur c)
 {
     type="Carte changement de sens";
     couleur=c;

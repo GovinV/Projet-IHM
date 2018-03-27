@@ -1,6 +1,6 @@
 #include "changementcouleur.h"
 
-ChangementCouleur::ChangementCouleur(int c)
+ChangementCouleur::ChangementCouleur(Couleur c)
 {
     type="Carte changement de couleur";
     couleur=c;

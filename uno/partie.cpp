@@ -10,15 +10,19 @@ Partie::Partie(int nbJoueur)
    {
        joueurs.push_back(Joueur(pioche));
    }
+
+   active = pioche->tirerCarte();
 }
 
 
 void Partie::debut()
 {
-    for(int i=0;i<joueurs.size();i++)
+    for(unsigned int i=0;i<joueurs.size();i++)
     {
         joueurs[i].afficherMain();
     }
+
+    std::cout << "Carte active :" << active << std::endl;
 
 
 }

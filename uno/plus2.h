@@ -2,12 +2,12 @@
 #define PLUS2_H
 
 #include<iostream>
-#include<abstractcarte.h>
+#include<carte.h>
 
-class Plus2 : public AbstractCarte
+class Plus2 : public Carte
 {
 public:
-    Plus2(int c);
+    Plus2(Couleur c);
 };
 
 #endif // PLUS2_H

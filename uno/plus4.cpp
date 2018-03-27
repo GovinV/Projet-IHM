@@ -2,7 +2,7 @@
 
 
 
-Plus4::Plus4(int c)
+Plus4::Plus4(Couleur c)
 {
     type="Carte plus 4";
     couleur=c;

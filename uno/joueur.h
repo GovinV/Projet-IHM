@@ -3,13 +3,11 @@
 
 #include<iostream>
 #include<vector>
-#include"abstractcarte.h"
+#include"carte.h"
 #include"cartenombre.h"
 #include"pioche.h"
 
 #define CARTES_MAIN 7
-
-//class AbstractCarte;
 
 class Joueur
 {
@@ -17,7 +15,7 @@ public:
     Joueur();
     Joueur(Pioche *p);
 
-    std::vector<AbstractCarte> cmain;
+    std::vector<Carte> cmain;
     void piocher(Pioche *pioche);
     void afficherMain();
 };

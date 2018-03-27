@@ -2,12 +2,12 @@
 #define PLUS4_H
 
 #include<iostream>
-#include"abstractcarte.h"
+#include"carte.h"
 
-class Plus4 : public AbstractCarte
+class Plus4 : public Carte
 {
 public:
-    Plus4(int c=4);
+    Plus4(Couleur c = NOIR);
 };
 
 #endif // PLUS4_H

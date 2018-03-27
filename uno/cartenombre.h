@@ -3,13 +3,13 @@
 
 #include<iostream>
 #include<string>
-#include"abstractcarte.h"
+#include"carte.h"
 
 
-class CarteNombre : public AbstractCarte
+class CarteNombre : public Carte
 {
 public:
-    CarteNombre(int n, int c);
+    CarteNombre(int n, Couleur c);
     int numero;
 };
 

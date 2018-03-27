@@ -2,12 +2,12 @@
 #define TAGUEULE_H
 
 #include<iostream>
-#include"abstractcarte.h"
+#include"carte.h"
 
-class TaGueule : public AbstractCarte
+class TaGueule : public Carte
 {
 public:
-    TaGueule(int c);
+    TaGueule(Couleur c);
 };
 
 #endif // TAGUEULE_H

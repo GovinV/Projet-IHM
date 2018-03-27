@@ -11,6 +11,8 @@ class Partie
     public:
         Pioche* pioche;
         std::vector<Joueur> joueurs;
+        Carte active;
+
         Partie(int nbJoueur);
 
         void debut();

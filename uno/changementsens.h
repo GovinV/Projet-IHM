@@ -2,12 +2,12 @@
 #define CHANGEMENTSENS_H
 
 #include<iostream>
-#include"abstractcarte.h"
+#include"carte.h"
 
-class ChangementSens : public AbstractCarte
+class ChangementSens : public Carte
 {
 public:
-    ChangementSens(int c);
+    ChangementSens(Couleur c);
 };
 
 #endif // CHANGEMENTSENS_H

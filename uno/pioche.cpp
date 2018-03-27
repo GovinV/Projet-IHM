@@ -63,9 +63,15 @@ void Pioche::afficher()
  * On pioche la carte de la fin du vecteur
  * si on veut en ajouter une, on l'ajoutera au debut
  * */
-AbstractCarte Pioche::tirerCarte()
+Carte Pioche::tirerCarte()
 {
-    AbstractCarte c;
+    Carte c;
+
+    if(pile.empty())
+    {
+        std::cout << "Il n'y a plus de cartes a piocher" << std::endl;
+        exit(1);
+    }
 
     c = pile.back();
     pile.pop_back();

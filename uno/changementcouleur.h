@@ -2,12 +2,12 @@
 #define CHANGEMENTCOULEUR_H
 
 #include<iostream>
-#include"abstractcarte.h"
+#include"carte.h"
 
-class ChangementCouleur : public AbstractCarte
+class ChangementCouleur : public Carte
 {
 public:
-    ChangementCouleur(int c=4);
+    ChangementCouleur(Couleur c = NOIR);
 };
 
 #endif // CHANGEMENTCOULEUR_H
