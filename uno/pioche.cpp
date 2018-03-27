@@ -47,7 +47,8 @@ Pioche::Pioche()
 
 void Pioche::melanger()
 {
-    std::random_shuffle(pile.begin(),pile.end());//pas vraiment aleatoire
+    std::srand(unsigned(std::time(0)));
+    std::random_shuffle(pile.begin(),pile.end());
 }
 
 void Pioche::afficher()
