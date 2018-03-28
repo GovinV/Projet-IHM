@@ -7,8 +7,11 @@
 #include"carte.h"
 #include"cartenombre.h"
 #include"pioche.h"
+#include"partie.h"
 
 #define CARTES_MAIN 7
+
+class Partie;
 
 class Joueur
 {
@@ -22,7 +25,8 @@ public:
     void piocher(Pioche *pioche);
     void trierMain();
     int action(std::vector<int> cartes_jouables);
-    bool jouer(Pioche *pioche, Carte active, Couleur couleur_active, Carte* carte_jouee);
+    std::vector<int> determinerPossibilite(Carte active, Couleur couleur_active);
+    bool jouer(Partie* p, Carte active, Couleur couleur_active, Carte* carte_jouee);
     void afficherMain();
 
 };

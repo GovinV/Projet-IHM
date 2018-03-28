@@ -6,6 +6,8 @@
 #include"pioche.h"
 #include"joueur.h"
 
+class Joueur;
+
 class Partie
 {
     public:

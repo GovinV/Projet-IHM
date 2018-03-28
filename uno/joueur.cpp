@@ -34,17 +34,12 @@ void Joueur::trierMain()
     std::sort(cmain.begin(),cmain.end());
 }
 
-
-bool Joueur::jouer(Pioche* pioche, Carte active, Couleur couleur_active, Carte* carte_jouee)
+std::vector<int> Joueur::determinerPossibilite(Carte active, Couleur couleur_active)
 {
     int taille = cmain.size();
-    int icarte_jouee;
-    bool deja_pioche = false;
-
     std::vector<int> cartes_jouables;
 
 
-    //determine les cartes que le joueur peut jouer
     for(int i=0;i<taille;i++)
     {
         if(cmain[i].couleur==couleur_active || cmain[i].couleur==NOIR)
@@ -54,20 +49,27 @@ bool Joueur::jouer(Pioche* pioche, Carte active, Couleur couleur_active, Carte* 
             cartes_jouables.push_back(i);
     }
 
+    return cartes_jouables;
+}
+
+
+bool Joueur::jouer(Partie* p, Carte active, Couleur couleur_active, Carte* carte_jouee)
+{
+    int icarte_jouee;
+    bool deja_pioche = false;
+
+    std::vector<int> cartes_jouables;
+
+    cartes_jouables = determinerPossibilite(active, couleur_active);
+
     if(cartes_jouables.empty())
     {
-        piocher(pioche);
+        piocher(p->pioche);
         deja_pioche = true;
         trierMain();
 
-        for(int i=0;i<taille;i++)
-        {
-            if(cmain[i].couleur==couleur_active || cmain[i].couleur==NOIR)
-                cartes_jouables.push_back(i);
+        cartes_jouables = determinerPossibilite(active, couleur_active);
 
-            else if(cmain[i].numero==active.numero)
-                cartes_jouables.push_back(i);
-        }
 
         if(cartes_jouables.empty())
             return false;
@@ -78,7 +80,7 @@ bool Joueur::jouer(Pioche* pioche, Carte active, Couleur couleur_active, Carte* 
     if(icarte_jouee == -1)//si le joueur ne veut pas poser de cartes
     {
         if(!deja_pioche)
-            piocher(pioche);
+            piocher(p->pioche);
 
         trierMain();
         return false;
@@ -87,6 +89,9 @@ bool Joueur::jouer(Pioche* pioche, Carte active, Couleur couleur_active, Carte* 
     {
         *carte_jouee = cmain[icarte_jouee];
         cmain.erase(cmain.begin()+icarte_jouee);
+        if(cmain.empty())
+            p->partie_en_cours=false;
+
         return true;
     }
 }

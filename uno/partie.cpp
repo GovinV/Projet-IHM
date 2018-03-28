@@ -65,7 +65,7 @@ void Partie::jouer()
     {
         std::cout << "Carte active : " << active << "\nAu tour du joueur " << joueur_courant  << std::endl;
 
-        joueurs[joueur_courant].jouer(pioche, active, couleur_active, &carte_jouee);
+        joueurs[joueur_courant].jouer(this, active, couleur_active, &carte_jouee);
         pioche->ajouter(active);
         active = carte_jouee;
 
