@@ -1,57 +1,60 @@
 #include "partie.h"
 
+
 Partie::Partie(int nbJoueur)
 {
     nb_joueur = nbJoueur;
-    pioche= new Pioche();
+    pioche = new Pioche();
 
-   for(int i=0;i<nbJoueur;i++)
+   for(int i=0; i<nbJoueur; i++)
    {
        joueurs.push_back(Joueur());
    }
-
-   joueur_courant = 0;
-   partie_en_cours = true;
 }
 
-void Partie::PremiereCarte()
+
+void Partie::distribution(int nb_cartes)
 {
-    active=pioche->tirerCarte();
-    while(active.numero==14)
+    //std::cout << "Distribution de " << nb_cartes << " cartes " << std::endl;
+    for(int i=0; i<nb_cartes; i++)
     {
-        pioche->ajouter(active);
-        active=pioche->tirerCarte();
+        for(int j=0; j<nb_joueur; j++)
+        {
+            joueurs[j].piocher(pioche, 1);
+        }
     }
 }
+
+
+void Partie::premiere_carte()
+{
+    active = pioche->tirer_carte();
+
+    while(active.numero == 14)
+    {
+        pioche->ajouter(active);
+        active = pioche->tirer_carte();
+    }
+}
+
 
 void Partie::debut()
 {
     pioche->melanger();
 
-    //chaque joueur commence par piocher
-    for(int i=0;i<CARTES_MAIN;i++)
+    distribution(nb_cartes_debut);
+
+    for(int i=0; i<nb_joueur; i++)
     {
-        for(unsigned int j=0;j<joueurs.size();j++)
-        {
-            joueurs[j].piocher(pioche);
-        }
+        joueurs[i].trier_main();
+        joueurs[i].afficher_main(); /// DEBUG
     }
 
-    for(unsigned int i=0;i<joueurs.size();i++)
-    {
-        joueurs[i].afficherMain();
+    premiere_carte();
 
-        joueurs[i].trierMain();
-
-        joueurs[i].afficherMain();
-    }
-
-
-
-    PremiereCarte();
-
-    std::cout << "Carte active : " << active << std::endl;
+    std::cout << "\n" << "Carte active : " << active << std::endl; /// DEBUG
 }
+
 
 void Partie::jouer()
 {
@@ -59,16 +62,18 @@ void Partie::jouer()
     Carte carte_jouee;
     Couleur couleur_active = active.couleur;
 
-    std::cout << "Debut partie\n";
+    partie_en_cours = true;
+
+    std::cout << "Debut partie" << std::endl;
 
     while(partie_en_cours)
     {
-        std::cout << "Carte active : " << active << "\nAu tour du joueur " << joueur_courant  << std::endl;
+        //std::cout << "Carte active : " << active << "\nAu tour du joueur " << joueur_courant  << std::endl; ///DEBUG
 
         joueurs[joueur_courant].jouer(this, active, couleur_active, &carte_jouee);
+
         pioche->ajouter(active);
         active = carte_jouee;
-
         joueur_courant = (joueur_courant+sens)%nb_joueur;
     }
 }

@@ -6,6 +6,8 @@
 #include"pioche.h"
 #include"joueur.h"
 
+#define CARTES_MAIN 7
+
 class Joueur;
 
 class Partie
@@ -18,11 +20,17 @@ class Partie
         Carte active;
         bool partie_en_cours;
 
+        const int nb_cartes_debut = CARTES_MAIN;
+
 
         Partie(int nbJoueur);
 
-        void PremiereCarte();
+        void distribution(int nb_cartes);
+
+        void premiere_carte();
+
         void debut();
+
         void jouer();
 };
 

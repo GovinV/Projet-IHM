@@ -2,9 +2,8 @@
 
 CarteNombre::CarteNombre(int n, Couleur c)
 {
-    numero=n;
-    couleur=c;
-
-    type="Carte " + std::to_string(numero) + " " + std::to_string(c);
+    numero = n;
+    couleur = c;
+    type = "Carte " + couleur_to_string(c) + " : " + std::to_string(numero);
 
 }

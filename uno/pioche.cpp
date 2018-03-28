@@ -6,7 +6,8 @@ Pioche::Pioche()
 
     pile.reserve(108);
 
-    for(i=2;i<20;i++)
+    // Ajout des cartes numeros (1 à 9 deux fois par couleur et le 0 une fois par couleur)
+    for(i=1;i<20;i++)
     {
         pile.push_back(CarteNombre(i/2,ROUGE));
         pile.push_back(CarteNombre(i/2,VERT));
@@ -14,11 +15,7 @@ Pioche::Pioche()
         pile.push_back(CarteNombre(i/2,JAUNE));
     }
 
-    pile.push_back(CarteNombre(0,ROUGE));
-    pile.push_back(CarteNombre(0,VERT));
-    pile.push_back(CarteNombre(0,BLEU));
-    pile.push_back(CarteNombre(0,JAUNE));
-
+    // Ajout des cartes pieges de couleurs (+2, changement de sens et passe ton tour)
     for(i=0;i<2;i++)
     {
         pile.push_back(Plus2(ROUGE));
@@ -37,10 +34,10 @@ Pioche::Pioche()
         pile.push_back(TaGueule(JAUNE));
     }
 
+    // Ajout des +4 et changement de couleur
     for(i=0;i<4;i++)
     {
         pile.push_back(Plus4(NOIR));
-
         pile.push_back(ChangementCouleur(NOIR));
     }
 }
@@ -64,7 +61,7 @@ void Pioche::afficher()
  * On pioche la carte de la fin du vecteur
  * si on veut en ajouter une, on l'ajoutera au debut
  * */
-Carte Pioche::tirerCarte()
+Carte Pioche::tirer_carte()
 {
     Carte c;
 

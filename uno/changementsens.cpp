@@ -2,7 +2,7 @@
 
 ChangementSens::ChangementSens(Couleur c)
 {
-    type="Carte changement de sens " + std::to_string(c);
-    couleur=c;
-    numero=10;
+    numero = 10;
+    couleur = c;
+    type = "Carte " + couleur_to_string(c) + " : changement de sens ";
 }

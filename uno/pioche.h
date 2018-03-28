@@ -22,10 +22,14 @@ class Pioche
 
         Pioche();
 
-        void PremiereCarte();
+        void premiere_carte();
+
         void melanger();
+
         void afficher();
-        Carte tirerCarte();
+
+        Carte tirer_carte();
+
         void ajouter(Carte c);
 };
 

@@ -2,7 +2,7 @@
 
 TaGueule::TaGueule(Couleur c)
 {
-    type="Carte ta gueule " + std::to_string(c);
-    couleur=c;
-    numero=11;
+    numero = 11;
+    couleur = c;
+    type = "Carte " + couleur_to_string(c) + " : passe ton tour";
 }

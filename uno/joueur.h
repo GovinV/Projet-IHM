@@ -9,8 +9,6 @@
 #include"pioche.h"
 #include"partie.h"
 
-#define CARTES_MAIN 7
-
 class Partie;
 
 class Joueur
@@ -19,16 +17,18 @@ public:
     std::vector<Carte> cmain;
 
     Joueur();
-    Joueur(Pioche *p);
 
-    int trouver(Carte c);
-    void piocher(Pioche *pioche);
-    void trierMain();
+    void piocher(Pioche *pioche, int nb_cartes);
+
+    void trier_main();
+
     int action(std::vector<int> cartes_jouables);
-    std::vector<int> determinerPossibilite(Carte active, Couleur couleur_active);
-    bool jouer(Partie* p, Carte active, Couleur couleur_active, Carte* carte_jouee);
-    void afficherMain();
 
+    std::vector<int> recherche_cartes_jouables(Carte active, Couleur couleur_active);
+
+    bool jouer(Partie* p, Carte active, Couleur couleur_active, Carte* carte_jouee);
+
+    void afficher_main();
 };
 
 #endif // JOUEUR_H
