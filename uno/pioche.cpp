@@ -42,9 +42,9 @@ Pioche::Pioche()
     }
 }
 
-void Pioche::melanger()
+void Pioche::melanger(unsigned int seed)
 {
-   // std::srand(unsigned(std::time(0)));
+    std::srand(seed);
     std::random_shuffle(pile.begin(),pile.end());
 }
 

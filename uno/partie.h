@@ -23,10 +23,14 @@ class Partie
         bool plus4_actif;
         int prends_toi_ca;
 
+        unsigned int seed;
+
         const int nb_cartes_debut = CARTES_MAIN;
 
 
         Partie(int nbJoueur);
+        Partie(int nbJoueur, unsigned int s);
+
 
         void distribution(int nb_cartes);
 

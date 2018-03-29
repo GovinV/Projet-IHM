@@ -10,6 +10,16 @@ Partie::Partie(int nbJoueur)
    {
        joueurs.push_back(Joueur(i));
    }
+
+   seed = unsigned(std::time(0));
+
+   std::cout << "Seed de la partie : " << seed << std::endl;
+}
+
+Partie::Partie(int nbJoueur, unsigned int s):
+            Partie(nbJoueur)
+{
+    seed = s;
 }
 
 
@@ -39,7 +49,7 @@ void Partie::premiere_carte()
 
 void Partie::debut()
 {
-    pioche->melanger();
+    pioche->melanger(seed);
 
     distribution(nb_cartes_debut);
 
