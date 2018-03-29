@@ -19,6 +19,9 @@ class Partie
         int joueur_courant;
         Carte active;
         bool partie_en_cours;
+        bool plus2_actif;
+        bool plus4_actif;
+        int prends_toi_ca;
 
         const int nb_cartes_debut = CARTES_MAIN;
 

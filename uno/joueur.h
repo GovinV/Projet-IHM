@@ -15,18 +15,26 @@ class Joueur
 {
 public:
     std::vector<Carte> cmain;
+    int n_joueur;
+    std::string nom;
 
-    Joueur();
+    Joueur(int n);
 
     void piocher(Pioche *pioche, int nb_cartes);
 
     void trier_main();
 
+    bool gagne();
+
+    bool decide_piocher();
+
     int action(std::vector<int> cartes_jouables);
 
-    std::vector<int> recherche_cartes_jouables(Carte active, Couleur couleur_active);
+    Couleur choisir_couleur();
 
-    bool jouer(Partie* p, Carte active, Couleur couleur_active, Carte* carte_jouee);
+    std::vector<int> recherche_cartes_jouables(Partie *p, Couleur couleur_active);
+
+    bool jouer(Partie* p, Couleur couleur_active, Carte* carte_jouee);
 
     void afficher_main();
 };
