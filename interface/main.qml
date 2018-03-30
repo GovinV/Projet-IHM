@@ -1,7 +1,9 @@
 import QtQuick 2.10
 import QtQuick.Window 2.10
+import QtQuick.Controls 2.2
 
 Window {
+    id: window
     visible: true
     width: 1280
     height: 800
@@ -12,13 +14,31 @@ Window {
         anchors.fill: parent
         fillMode: Image.PreserveAspectCrop
         source: "qrc:/resources/img/bg.jpg"
+    }
 
-        MenuBarForm {
-            id: menuBarForm
-            x: 0
-            y: 0
+    SwipeView {
+        id: swipeView
+        currentIndex: 1
+
+        width: parent.width
+        height: parent.height-97
+
+        anchors.top: parent.top
+        anchors.topMargin: 97
+
+        MainMenu{
             width: parent.width
-            height: 300
+            height: parent.height
         }
     }
+
+    MenuBarForm {
+        id: menuBarForm
+        x: 0
+        y: 0
+        width: parent.width
+        height: 300
+    }
+
+
 }

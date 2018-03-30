@@ -3,5 +3,7 @@
         <file>main.qml</file>
         <file>MenuBar.qml</file>
         <file>MenuBarForm.ui.qml</file>
+        <file>MainMenu.qml</file>
+        <file>MainMenuForm.ui.qml</file>
     </qresource>
 </RCC>
