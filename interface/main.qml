@@ -1,6 +1,5 @@
 import QtQuick 2.10
 import QtQuick.Window 2.10
-import QtQuick.Controls 2.3
 
 Window {
     visible: true
@@ -12,14 +11,6 @@ Window {
         id: background
         anchors.fill: parent
         fillMode: Image.PreserveAspectCrop
-        source: "qrc:/resources/img/background.jpg"
-    }
-
-    SwipeView {
-        id: swipeView
-        anchors.fill: parent
-
-        MainMenuForm {
-        }
+        source: "qrc:/resources/img/bg.jpg"
     }
 }
