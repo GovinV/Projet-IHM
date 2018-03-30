@@ -12,5 +12,13 @@ Window {
         anchors.fill: parent
         fillMode: Image.PreserveAspectCrop
         source: "qrc:/resources/img/bg.jpg"
+
+        MenuBarForm {
+            id: menuBarForm
+            x: 0
+            y: 0
+            width: parent.width
+            height: 300
+        }
     }
 }
