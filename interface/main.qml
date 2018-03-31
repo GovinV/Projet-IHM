@@ -32,7 +32,7 @@ Window {
         }
     }
 
-    MenuBarForm {
+    MenuBar {
         id: menuBarForm
         x: 0
         y: 0
