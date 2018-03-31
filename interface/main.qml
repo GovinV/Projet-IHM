@@ -27,6 +27,13 @@ Window {
         anchors.top: parent.top
         anchors.topMargin: 97
 
+        onCurrentIndexChanged: {
+            if(currentIndex==0)
+                returnButton.visible=false;
+            else
+                returnButton.visible=true;
+        }
+
         MainMenu{
         }
         ServerMenu{
@@ -41,5 +48,44 @@ Window {
         height: 300
     }
 
+    Button {
+        id: returnButton
+        visible: false
+        y: 691
+        width: (parent.width / 2048) * 77 + 100
+        height: (parent.width / 2048) * 86
+        transformOrigin: Item.Center
+        anchors.left: parent.left
+        anchors.leftMargin: 30
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 30
+        background: rgba(0,0,0,0)
+
+        onClicked: {
+            swipeHorizontal.setCurrentIndex(0);
+        }
+
+        Image {
+            id: backLogo
+            width: (window.width / 2048) * 77
+            height: (window.width / 2048) * 86
+            fillMode: Image.PreserveAspectCrop
+            source: "qrc:/resources/img/back.png"
+        }
+
+        Text {
+            id: text1
+            y: 11
+            color: "#ffffff"
+            text: "Return"
+            anchors.verticalCenterOffset: -1
+            anchors.left: parent.left
+            anchors.leftMargin: (window.width / 2048) * 97
+            anchors.verticalCenter: parent.verticalCenter
+            font.weight: Font.Bold
+            font.family: "Tahoma"
+            font.pixelSize: 25
+        }
+    }
 
 }
