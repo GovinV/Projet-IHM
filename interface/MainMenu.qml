@@ -1,12 +1,38 @@
 import QtQuick 2.4
+import QtQuick.Controls 2.3
+import QtQml 2.2
 
 MainMenuForm {
     id: mainMenuForm
     width: 1280
     height: 800
 
-    Image {
+    Button {
         id: profil
+        x: 534
+        y: 502
+        width: (parent.width / 2048) * 327
+        height: (parent.width / 2048) * 502
+        anchors.verticalCenterOffset: 0
+        anchors.horizontalCenterOffset: ((parent.width / 2048) * (-440))
+        anchors.horizontalCenter: parent.horizontalCenter
+        transformOrigin: Item.Center
+        anchors.verticalCenter: parent.verticalCenter
+        background: rgba(0,0,0,0)
+
+        onClicked: {
+            swipeHorizontal.setCurrentIndex(1);
+        }
+
+        Image {
+            id: profilBackground
+            anchors.fill: parent
+            source: "qrc:/resources/img/menu.png"
+        }
+
+    }
+    Button {
+        id: play
         x: 538
         y: 502
         //width: 204
@@ -17,37 +43,43 @@ MainMenuForm {
         anchors.verticalCenterOffset: 0
         anchors.verticalCenter: parent.verticalCenter
         transformOrigin: Item.Center
-        source: "qrc:/resources/img/menu.png"
+        background: rgba(0,0,0,0)
+
+        onClicked: {
+            swipeHorizontal.setCurrentIndex(1);
+        }
+
+        Image {
+            id: playBackground
+            anchors.fill: parent
+            source: "qrc:/resources/img/menu.png"
+        }
 
     }
 
-    Image {
-        id: play
+    Button {
+        id: custom
         x: 534
         y: 495
         width: (parent.width / 2048) * 327
         height: (parent.width / 2048) * 502
         anchors.horizontalCenterOffset: ((parent.width / 2048) * (440))
         anchors.verticalCenterOffset: 0
-        source: "qrc:/resources/img/menu.png"
         anchors.horizontalCenter: parent.horizontalCenter
         transformOrigin: Item.Center
         anchors.verticalCenter: parent.verticalCenter
+        background: rgba(0,0,0,0)
+
+        onClicked: {
+            swipeHorizontal.setCurrentIndex(1);
+        }
+
+        Image {
+            id: customBackground
+            anchors.fill: parent
+            source: "qrc:/resources/img/menu.png"
+        }
 
     }
 
-    Image {
-        id: custom
-        x: 534
-        y: 502
-        width: (parent.width / 2048) * 327
-        height: (parent.width / 2048) * 502
-        anchors.verticalCenterOffset: 0
-        anchors.horizontalCenterOffset: ((parent.width / 2048) * (-440))
-        source: "qrc:/resources/img/menu.png"
-        anchors.horizontalCenter: parent.horizontalCenter
-        transformOrigin: Item.Center
-        anchors.verticalCenter: parent.verticalCenter
-
-    }
 }

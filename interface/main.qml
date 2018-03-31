@@ -1,6 +1,6 @@
 import QtQuick.Window 2.10
 import QtQuick.Controls 2.2
-import QtQuick 2.1
+import QtQuick 2.9
 
 Window {
     id: window
@@ -17,20 +17,20 @@ Window {
     }
 
     SwipeView {
-        id: swipeView
-        currentIndex: 1
+        id: swipeHorizontal
+        currentIndex: 0
 
         width: parent.width
         height: parent.height-97
+        interactive: false
 
         anchors.top: parent.top
         anchors.topMargin: 97
 
         MainMenu{
-            width: parent.width
-            height: parent.height
         }
-
+        ServerMenu{
+        }
     }
 
     MenuBar {
