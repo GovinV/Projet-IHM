@@ -5,5 +5,7 @@
         <file>MenuBarForm.ui.qml</file>
         <file>MainMenu.qml</file>
         <file>MainMenuForm.ui.qml</file>
+        <file>ServerMenu.qml</file>
+        <file>ServerMenuForm.ui.qml</file>
     </qresource>
 </RCC>

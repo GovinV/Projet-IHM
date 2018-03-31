@@ -5,7 +5,7 @@ MenuBarForm {
     height: 300
 
     Rectangle {
-        id: rectangle
+        id: backgroundGris
         x: 0
         y: 0
         width:  parent.width
@@ -17,7 +17,7 @@ MenuBarForm {
     }
 
     Rectangle {
-        id: rectangle1
+        id: borderWhite
         x: 0
         y: 85
         width:  parent.width
@@ -27,7 +27,7 @@ MenuBarForm {
     }
 
     Image {
-        id: image
+        id: logo
         x: 0
         y: (parent.width / 2048) * 6
         width: (parent.width / 2048) * 369

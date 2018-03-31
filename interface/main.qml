@@ -1,6 +1,6 @@
-import QtQuick 2.10
 import QtQuick.Window 2.10
 import QtQuick.Controls 2.2
+import QtQuick 2.1
 
 Window {
     id: window
@@ -30,6 +30,7 @@ Window {
             width: parent.width
             height: parent.height
         }
+
     }
 
     MenuBar {

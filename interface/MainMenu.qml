@@ -1,7 +1,7 @@
 import QtQuick 2.4
 
 MainMenuForm {
-    id: item1
+    id: mainMenuForm
     width: 1280
     height: 800
 
