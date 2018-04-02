@@ -67,6 +67,21 @@ MenuBarForm {
             anchors.topMargin: 0
             background: rgba(0,0,0,0)
 
+            property variant screenMode: "Windowed"
+
+            onClicked: {
+                if(screenMode=="FullScreen")
+                {
+                    screenMode="Windowed"
+                    window.visibility="Windowed";
+                }
+                else
+                {
+                    screenMode="FullScreen"
+                    window.visibility="FullScreen";
+                }
+            }
+
             Image {
                 id: fullLogo
                 anchors.fill: parent
@@ -84,6 +99,10 @@ MenuBarForm {
             anchors.top: parent.top
             anchors.topMargin: 0
             background: rgba(0,0,0,0)
+
+            onClicked: {
+                    window.visibility="Windowed";
+            }
 
             Image {
                 id: lessLogo
