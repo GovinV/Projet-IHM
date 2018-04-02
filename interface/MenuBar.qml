@@ -1,5 +1,6 @@
 import QtQuick 2.4
 import QtQuick.Controls 2.3
+import QtQuick.Window 2.3
 
 MenuBarForm {
     width: 1280
@@ -67,19 +68,12 @@ MenuBarForm {
             anchors.topMargin: 0
             background: rgba(0,0,0,0)
 
-            property variant screenMode: "Windowed"
 
             onClicked: {
-                if(screenMode=="FullScreen")
-                {
-                    screenMode="Windowed"
-                    window.visibility="Windowed";
-                }
+                if(window.visibility===Window.FullScreen)
+                    window.visibility=Window.Windowed;
                 else
-                {
-                    screenMode="FullScreen"
-                    window.visibility="FullScreen";
-                }
+                    window.visibility=Window.FullScreen;
             }
 
             Image {
@@ -101,7 +95,7 @@ MenuBarForm {
             background: rgba(0,0,0,0)
 
             onClicked: {
-                    window.visibility="Windowed";
+                    window.visibility=Window.Minimized;
             }
 
             Image {
