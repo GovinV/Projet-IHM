@@ -2,7 +2,6 @@ import QtQuick 2.4
 import QtQuick.Controls 2.3
 import QtQml 2.2
 import QtQuick.Controls.Styles 1.4
-
 MainMenuForm {
     id: mainMenuForm
     width: 1280
@@ -28,7 +27,7 @@ MainMenuForm {
         Image {
             id: profilBackground
             anchors.fill: parent
-            source: "qrc:/resources/img/menu.png"
+            source: "qrc:/resources/img/card.png"
         }
 
     }
@@ -47,13 +46,13 @@ MainMenuForm {
         background: rgba(0,0,0,0)
 
         onClicked: {
-            swipeHorizontal.setCurrentIndex(1);
+            swipeVertical.setCurrentIndex(0);
         }
 
         Image {
             id: playBackground
             anchors.fill: parent
-            source: "qrc:/resources/img/menu.png"
+            source: "qrc:/resources/img/card.png"
         }
 
     }
@@ -78,7 +77,7 @@ MainMenuForm {
         Image {
             id: customBackground
             anchors.fill: parent
-            source: "qrc:/resources/img/menu.png"
+            source: "qrc:/resources/img/card.png"
         }
 
     }

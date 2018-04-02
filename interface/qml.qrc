@@ -7,5 +7,7 @@
         <file>MainMenuForm.ui.qml</file>
         <file>ServerMenu.qml</file>
         <file>ServerMenuForm.ui.qml</file>
+        <file>CardEditor.qml</file>
+        <file>CardEditorForm.ui.qml</file>
     </qresource>
 </RCC>
