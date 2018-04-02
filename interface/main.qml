@@ -7,7 +7,9 @@ Window {
     visible: true
     width: 1280
     height: 800
-    title: qsTr("Hello World")
+    title: qsTr("Uno")
+
+    flags: Qt.FramelessWindowHint
 
     Image {
         id: background
@@ -16,29 +18,58 @@ Window {
         source: "qrc:/resources/img/bg.jpg"
     }
 
-    SwipeView {
-        id: swipeHorizontal
-        currentIndex: 0
+    SwipeView
+    {
+        id: swipeVertical
+        currentIndex: 1
 
         width: parent.width
         height: parent.height-97
+        orientation: Qt.Vertical
         interactive: false
 
         anchors.top: parent.top
         anchors.topMargin: 97
 
         onCurrentIndexChanged: {
-            if(currentIndex==0)
+            if(currentIndex==1)
+            {
+                backLogo.rotation=0;
                 returnButton.visible=false;
+            }
             else
+            {
+                backLogo.rotation=-90;
                 returnButton.visible=true;
+            }
         }
 
-        MainMenu{
-        }
         ServerMenu{
         }
+
+        SwipeView {
+            id: swipeHorizontal
+            currentIndex: 0
+/*
+            width: parent.width
+            height: parent.height
+*/
+            onCurrentIndexChanged: {
+                if(currentIndex==0)
+                    returnButton.visible=false;
+                else
+                    returnButton.visible=true;
+            }
+
+            MainMenu{
+            }
+            CardEditor{
+            }
+        }
+
     }
+
+
 
     MenuBar {
         id: menuBarForm
@@ -62,7 +93,10 @@ Window {
         background: rgba(0,0,0,0)
 
         onClicked: {
-            swipeHorizontal.setCurrentIndex(0);
+            if(swipeVertical.currentIndex==0)
+                swipeVertical.setCurrentIndex(1);
+            else
+                swipeHorizontal.setCurrentIndex(0);
         }
 
         Image {
@@ -87,5 +121,6 @@ Window {
             font.pixelSize: 25
         }
     }
+
 
 }

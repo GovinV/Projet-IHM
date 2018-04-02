@@ -28,7 +28,7 @@ MainMenuForm {
         Image {
             id: profilBackground
             anchors.fill: parent
-            source: "qrc:/resources/img/menu.png"
+            source: "qrc:/resources/img/card.png"
         }
 
     }
@@ -47,13 +47,13 @@ MainMenuForm {
         background: rgba(0,0,0,0)
 
         onClicked: {
-            swipeHorizontal.setCurrentIndex(1);
+            swipeVertical.setCurrentIndex(0);
         }
 
         Image {
             id: playBackground
             anchors.fill: parent
-            source: "qrc:/resources/img/menu.png"
+            source: "qrc:/resources/img/card.png"
         }
 
     }
@@ -78,7 +78,7 @@ MainMenuForm {
         Image {
             id: customBackground
             anchors.fill: parent
-            source: "qrc:/resources/img/menu.png"
+            source: "qrc:/resources/img/card.png"
         }
 
     }
