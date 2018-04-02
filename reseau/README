@@ -1,8 +1,0 @@
-README
-
-au moins python 3.5
-
-sudo apt install python3-pip
-sudo -H pip3 install --upgrade pip
-sudo -H pip3 install websockets
-
