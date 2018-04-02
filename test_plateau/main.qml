@@ -1,22 +1,21 @@
-import QtQuick 2.10
-import QtQuick.Window 2.10
+import QtQuick 2.0
+import QtQuick.Window 2.1
 
 Window {
+    id: window
     visible: true
     width: 1280
     height: 800
     title: qsTr("Hello World")
 
-    Rectangle{
-        height: 100 ; width: 200
-        x: 100
-        y: 200
-        color: "#110000"
+    Hand{
+        anchors.centerIn: parent
+        width: parent.width
     }
 
-    Card{
-        Image{
-            source: "qrc:/img/cards/1r.png"
-        }
+    Hand{
+        transform: Rotation{origin.x : 0; origin.y: -100; angle: -45}
+        anchors.centerIn: parent
+        width: parent.width
     }
 }

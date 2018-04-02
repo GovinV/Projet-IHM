@@ -1,6 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>main.qml</file>
         <file>img/cards/0r.png</file>
         <file>img/cards/1r.png</file>
         <file>img/cards/2r.png</file>
@@ -12,7 +11,7 @@
         <file>img/cards/8r.png</file>
         <file>img/cards/9r.png</file>
         <file>img/bg.jpg</file>
-        <file>Card.qml</file>
-        <file>CardForm.ui.qml</file>
+        <file>main.qml</file>
+        <file>Hand.qml</file>
     </qresource>
 </RCC>
