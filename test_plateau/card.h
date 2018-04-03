@@ -1,6 +1,8 @@
 #ifndef CARD_H
 #define CARD_H
 
+// convert to card model !
+
 #include <QObject>
 
 enum Couleur{ROUGE, VERT, JAUNE, BLEU, NOIR};

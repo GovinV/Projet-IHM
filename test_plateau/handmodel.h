@@ -1,3 +1,9 @@
+/** @todo add bool(flip) value to hand -> show cards filped
+ * drag and drop (remove card from hand)
+ * pick a card (add card to hand)
+ * display multiple types of cards according to some higher-level data
+ */
+
 #ifndef HANDMODEL_H
 #define HANDMODEL_H
 

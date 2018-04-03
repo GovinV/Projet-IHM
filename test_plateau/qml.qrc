@@ -13,5 +13,7 @@
         <file>img/bg.jpg</file>
         <file>main.qml</file>
         <file>Hand.qml</file>
+        <file>Card.qml</file>
+        <file>img/cards/dos.png</file>
     </qresource>
 </RCC>

@@ -21,10 +21,9 @@ QVariant HandModel::data(const QModelIndex &index, int role) const
     if (!index.isValid())
         return QVariant();
 
-    // FIXME: Implement me!
     switch(role){
     case SourceRole:
-        return QString(QStringLiteral("qrc:/img/cards/0r.png"));
+        return QString(QStringLiteral("qrc:/img/cards/4r.png"));
     }
     return QVariant("qrc:/img/cards/dos.png");
 }
