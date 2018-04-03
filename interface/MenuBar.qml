@@ -50,6 +50,14 @@ MenuBarForm {
                 window.close()
             }
 
+            Rectangle{
+               id: quitBackground
+               anchors.fill: parent
+               color: white
+               opacity : 0
+             }
+             onHoveredChanged: hovered ? quitBackground.opacity = 1 : quitBackground.opacity = 0;
+
             Image {
                 id: quitLogo
                 anchors.fill: parent
@@ -76,6 +84,14 @@ MenuBarForm {
                     window.visibility=Window.FullScreen;
             }
 
+            Rectangle{
+               id: fullBackground
+               anchors.fill: parent
+               color: white
+               opacity : 0
+             }
+             onHoveredChanged: hovered ? fullBackground.opacity = 1 : fullBackground.opacity = 0;
+
             Image {
                 id: fullLogo
                 anchors.fill: parent
@@ -98,6 +114,14 @@ MenuBarForm {
                     window.visibility=Window.Minimized;
             }
 
+            Rectangle{
+               id: lessBackground
+               anchors.fill: parent
+               color: white
+               opacity : 0
+             }
+             onHoveredChanged: hovered ? lessBackground.opacity = 1 : lessBackground.opacity = 0;
+
             Image {
                 id: lessLogo
                 anchors.fill: parent
@@ -114,6 +138,23 @@ MenuBarForm {
             anchors.rightMargin: 168
             anchors.verticalCenter: parent.verticalCenter
             background: rgba(0,0,0,0)
+
+            onClicked: {
+                var component = Qt.createComponent("Settings.qml")
+                var windows    = component.createObject(window)
+                windows.show()
+            }
+
+            Rectangle{
+               id: optionBackground
+               x: parent.width/4
+               y: parent.height/4
+               width: parent.width/2
+               height: parent.height/2
+               color: white
+               opacity : 0
+             }
+             onHoveredChanged: hovered ? optionBackground.opacity = 1 : optionBackground.opacity = 0;
 
             Image {
                 id: optionLogo

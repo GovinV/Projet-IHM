@@ -30,6 +30,23 @@ MainMenuForm {
             source: "qrc:/resources/img/card.png"
         }
 
+        Text {
+            id: textProfil
+            x: 29
+            y: 120
+            width: 147
+            height: 71
+            text: qsTr("Profil")
+            font.bold: true
+            font.family: "Tahoma"
+            rotation: -55
+            horizontalAlignment: Text.AlignHCenter
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+            font.pixelSize: 50
+            color: "#272727"
+        }
+
     }
     Button {
         id: play
@@ -54,7 +71,22 @@ MainMenuForm {
             anchors.fill: parent
             source: "qrc:/resources/img/card.png"
         }
-
+        Text {
+            id: textPlay
+            x: 29
+            y: 120
+            width: 147
+            height: 71
+            text: qsTr("Play")
+            font.bold: true
+            font.family: "Tahoma"
+            rotation: -55
+            horizontalAlignment: Text.AlignHCenter
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+            font.pixelSize: 50
+            color: "#272727"
+        }
     }
 
     Button {
@@ -80,6 +112,22 @@ MainMenuForm {
             source: "qrc:/resources/img/card.png"
         }
 
+        Text {
+            id: textCustom
+            x: 29
+            y: 120
+            width: 147
+            height: 71
+            text: qsTr("Editor")
+            font.bold: true
+            font.family: "Tahoma"
+            font.pixelSize: 50
+            color: "#272727"
+            rotation: -55
+            horizontalAlignment: Text.AlignHCenter
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+        }
     }
 
 }
