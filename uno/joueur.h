@@ -5,7 +5,6 @@
 #include<vector>
 #include<string>
 #include"carte.h"
-#include"cartenombre.h"
 #include"pioche.h"
 #include"partie.h"
 

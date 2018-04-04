@@ -10,7 +10,7 @@ Joueur::Joueur(int n)
 
     if(n==1)
     {
-        nom = "Constan";
+        nom = "Const";
     }
 }
 

@@ -4,6 +4,14 @@
 #include<iostream>
 #include<string.h>
 
+/*
+ * Changement de sens : 10
+ * Ta gueule : 11
+ * Plus 2 : 12
+ * Changement de couleur : 13
+ * Plus 4 : 14
+ * */
+
 
 enum Couleur {ROUGE, VERT, BLEU, JAUNE, NOIR};
 
@@ -11,9 +19,13 @@ class Carte
 {
 public:
     Carte();
+    Carte(int n, Couleur c);
+
     Couleur couleur;
     int numero;
     std::string type;
+
+    std::string ChoisirType();
 };
 
 inline std::string couleur_to_string(Couleur c)
@@ -38,9 +50,9 @@ inline std::string couleur_to_string(Couleur c)
             nom_couleur = "jaune";
             break;
 
-        case NOIR:
+        /*case NOIR:
             nom_couleur = "noire";
-            break;
+            break;*/
     }
 
     return nom_couleur;

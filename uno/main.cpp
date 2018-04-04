@@ -2,7 +2,6 @@
 #include"partie.h"
 #include"pioche.h"
 #include"carte.h"
-#include"cartenombre.h"
 #include"joueur.h"
 
 
