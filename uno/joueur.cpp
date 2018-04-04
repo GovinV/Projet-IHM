@@ -44,6 +44,51 @@ bool Joueur::gagne()
     return uno == true && cmain.empty();
 }
 
+/*
+ * Changement de sens : 10
+ * Ta gueule : 11
+ * Plus 2 : 12
+ * Changement de couleur : 13
+ * Plus 4 : 14
+ * */
+
+//Nicoh : ce sont les vrais regles tg et change pas
+int Joueur::cartes_restantes()
+{
+    int somme = 0;
+
+    for(int i=0;i<cmain.size();i++)
+    {
+        switch(cmain[i].numero)
+        {
+            case 10: somme += 10;
+                break;
+
+            case 11 : somme += 10;
+                break;
+
+            case 12 : somme += 25;//wlh j'hesitais entre 20 et 30 dsl
+                break;
+
+            case 13 : somme += 40;
+                break;
+
+            case 14 : somme += 50;
+                break;
+
+            default: somme += cmain[i].numero;
+                break;
+        }
+    }
+
+    return somme;
+}
+
+void Joueur::ajouter_points(int p)
+{
+    points = p;
+}
+
 bool Joueur::decide_piocher()
 {
     return false;

@@ -68,6 +68,7 @@ void Partie::debut()
 void Partie::jouer()
 {
     int sens = 1;
+    int gagne = 0;
     plus2_actif = false;
     plus4_actif = false;
     prends_toi_ca = 1;
@@ -91,6 +92,8 @@ void Partie::jouer()
             pioche->ajouter(active);
             active = carte_jouee;
             couleur_active = active.couleur;
+
+            std::cout << joueur_courant << " " << joueurs[joueur_courant].nom << " a joué : " << carte_jouee << std::endl;
 
             if(joueurs[joueur_courant].gagne())
             {
@@ -138,7 +141,6 @@ void Partie::jouer()
                     couleur_active = joueurs[joueur_courant].choisir_couleur(); 
                     break;
             }
-            std::cout << joueur_courant << " " << joueurs[joueur_courant].nom << " a joué : " << carte_jouee << std::endl;
         }
         else// joueur pioche.
         {
@@ -153,6 +155,8 @@ void Partie::jouer()
                     pioche->ajouter(active);
                     active = carte_jouee;
                     couleur_active = active.couleur;
+
+                    std::cout << joueur_courant << " " << joueurs[joueur_courant].nom << " a joué : " << carte_jouee << std::endl;
 
                     switch(carte_jouee.numero)
                     {
@@ -187,8 +191,6 @@ void Partie::jouer()
                             break;
                     }
                 }
-
-
             }
 
             prends_toi_ca = 1;
@@ -203,8 +205,18 @@ void Partie::jouer()
                 joueur_courant += nb_joueur;
             }
         }
+        else
+        {
+            for(int i=0;i<nb_joueur;i++)
+            {
+                gagne += joueurs[i].cartes_restantes();
+            }
+        }
 
     }
 
-    std::cout << joueurs[joueur_courant].nom << " a gagne !!!!!!!!!!!!!!";
+    joueurs[joueur_courant].ajouter_points(gagne);
+
+    std::cout << joueurs[joueur_courant].nom << " a gagne " << std::to_string(joueurs[joueur_courant].points) << std::endl;
+
 }

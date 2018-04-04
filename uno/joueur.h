@@ -25,6 +25,8 @@ public:
     void piocher(Pioche *pioche, int nb_cartes);
     void trier_main();
     bool gagne();
+    void ajouter_points(int p);
+    int cartes_restantes();
     bool decide_piocher();
     int action(std::vector<int> cartes_jouables);
     Couleur choisir_couleur();

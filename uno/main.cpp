@@ -7,7 +7,7 @@
 
 int main()
 {
-   Partie jeu(2);
+   Partie jeu(2,1522872052);
 
    jeu.debut();
 
