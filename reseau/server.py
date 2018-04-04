@@ -1,4 +1,4 @@
-#!/home/constan/Documents/logiciels/Python-3.6.4/python
+#!/usr/bin/python3
 # -*-coding:Utf-8 -*
 
 import socket
@@ -57,7 +57,7 @@ def client_thread(connection, ip, port, max_buffer_size = 5120):
             print("Connection " + ip + ":" + port + " closed")
             is_active = False
         else:
-            print("Processed result: {}".format(client_input))
+            print("Processed result from" + port +" : {}".format(client_input))
             connection.sendall("-".encode("utf8"))
 
 

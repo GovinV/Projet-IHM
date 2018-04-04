@@ -1,4 +1,4 @@
-#!/home/constan/Documents/logiciels/Python-3.6.4/python
+#!/usr/bin/python3
 # -*-coding:Utf-8 -*
 
 import socket
@@ -16,14 +16,14 @@ def main():
         sys.exit()
 
     print("Enter 'quit' to exit")
-    message = raw_input(" -> ")
+    message = input(" -> ")
 
     while message != 'quit':
         soc.sendall(message.encode("utf8"))
         if soc.recv(5120).decode("utf8") == "-":
             pass        # continue
 
-        message = raw_input(" -> ")
+        message = input(" -> ")
 
     soc.send(b'--quit--')
     #soc.close()

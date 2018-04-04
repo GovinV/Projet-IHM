@@ -18,7 +18,7 @@ class Pioche
 
         void premiere_carte();
 
-        void melanger();
+        void melanger(unsigned int seed);
 
         void afficher();
 
