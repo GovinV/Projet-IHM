@@ -39,20 +39,20 @@ inline std::string couleur_to_string(Couleur c)
             break;
 
         case VERT:
-            nom_couleur = "verte";
+            nom_couleur = "vert";
             break;
 
         case BLEU:
-            nom_couleur = "bleue";
+            nom_couleur = "bleu";
             break;
 
         case JAUNE:
             nom_couleur = "jaune";
             break;
 
-        /*case NOIR:
-            nom_couleur = "noire";
-            break;*/
+        case NOIR:
+            //nom_couleur = "noire";
+            break;
     }
 
     return nom_couleur;

@@ -12,8 +12,15 @@ Joueur::Joueur(int n)
     {
         nom = "Const";
     }
+
+    points = 0;
 }
 
+
+void Joueur::appuie_uno()
+{
+    uno = true;
+}
 
 void Joueur::piocher(Pioche* pioche, int nb_cartes)
 {
@@ -26,7 +33,6 @@ void Joueur::piocher(Pioche* pioche, int nb_cartes)
     trier_main();
 }
 
-
 void Joueur::trier_main()
 {
     std::sort(cmain.begin(),cmain.end());
@@ -35,7 +41,7 @@ void Joueur::trier_main()
 
 bool Joueur::gagne()
 {
-    return cmain.empty();
+    return uno == true && cmain.empty();
 }
 
 bool Joueur::decide_piocher()
