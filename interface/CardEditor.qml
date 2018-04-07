@@ -80,6 +80,7 @@ CardEditorForm {
         anchors.verticalCenter: parent.verticalCenter
         anchors.horizontalCenter: parent.horizontalCenter
         couleur: "b"
-        type: "+8"
+        type: "8"
+        style: "s5"
     }
 }

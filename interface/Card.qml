@@ -4,6 +4,7 @@ CardForm {
 
     property string couleur: "r"
     property string type: "+2"
+    property string style: "none"
 
     Image {
         id: fond
@@ -11,6 +12,12 @@ CardForm {
         source: "qrc:/cartes/cartes/"+ couleur+"/bg.png"
     }
 
+    Image {
+        id: texture
+        anchors.fill: parent
+        source: "qrc:/cartes/cartes/style/"+ style +".png"
+        visible: style==="none"?false:true
+    }
 
     Image {
         id: contour

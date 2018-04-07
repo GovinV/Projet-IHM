@@ -70,5 +70,10 @@
         <file>cartes/n/bg.png</file>
         <file>cartes/n/c.png</file>
         <file>cartes/n/+4.png</file>
+        <file>cartes/style/s5.png</file>
+        <file>cartes/style/s1.png</file>
+        <file>cartes/style/s2.png</file>
+        <file>cartes/style/s3.png</file>
+        <file>cartes/style/s4.png</file>
     </qresource>
 </RCC>

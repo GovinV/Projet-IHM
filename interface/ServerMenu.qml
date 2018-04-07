@@ -31,8 +31,7 @@ ServerMenuForm {
             background: rgba(0,0,0,0)
 
             onClicked: {
-                swipeHorizontalServeur.setCurrentIndex(1);
-                room.host=true;
+
             }
 
             Rectangle{
@@ -77,7 +76,8 @@ ServerMenuForm {
             background: rgba(0,0,0,0)
 
             onClicked: {
-              //  window.close()
+                swipeHorizontalServeur.setCurrentIndex(1);
+                room.host=true;
             }
 
             Rectangle{
