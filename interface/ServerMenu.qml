@@ -91,7 +91,7 @@ ServerMenuForm {
                  id: serverText
                  color: "white"
                  anchors.fill: parent
-                 text: qsTr("Create Server")
+                 text: qsTr("Create Room")
                  verticalAlignment: Text.AlignVCenter
                  horizontalAlignment: Text.AlignHCenter
                  font.bold: true
