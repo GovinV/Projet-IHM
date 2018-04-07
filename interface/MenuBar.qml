@@ -21,7 +21,7 @@ MenuBarForm {
             id: titleBarMouseRegion
             anchors.fill: parent
 
-            property string clickPos: "1,1"
+            property var clickPos: "1,1"
 
             onPressed: {
                 clickPos  = Qt.point(mouse.x,mouse.y)

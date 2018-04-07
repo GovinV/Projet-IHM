@@ -31,7 +31,8 @@ ServerMenuForm {
             background: rgba(0,0,0,0)
 
             onClicked: {
-               // window.close()
+                swipeHorizontalServeur.setCurrentIndex(1);
+                room.host=true;
             }
 
             Rectangle{
@@ -184,10 +185,83 @@ ServerMenuForm {
         transformOrigin: Item.Center
         border.width: (parent.width / 2048) * 24
         border.color: "#ffffff"
+
+        ScrollView {
+            id: scrollView
+            width: parent.width-(parent.parent.width / 2048) * 48
+            height: parent.height-60-(parent.parent.width / 2048) * 24
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.top: parent.top
+            anchors.topMargin: 60
+
+
+            Flickable {
+                clip: true
+                Column {
+                    id: column
+                    width: scrollView.width
+
+                    Server{
+                        width: parent.width
+                        name: "Govin's server"
+                        player: 2
+                        playerMax: 3
+                    }
+                    Server{
+                        width: parent.width
+                        name: "Govin's server"
+                        player: 3
+                        playerMax: 4
+                    }
+                    Server{
+                        width: parent.width
+                        name: "Govin's server"
+                        player: 2
+                        playerMax: 2
+                    }
+                    Server{
+                        width: parent.width
+                        name: "Govin's server"
+                        player: 4
+                        playerMax: 4
+                    }
+                    Server{
+                        width: parent.width
+                        name: "Govin's server"
+                        player: 1
+                        playerMax: 4
+                    }
+                    Server{
+                        width: parent.width
+                        name: "Govin's server"
+                        player: 1
+                        playerMax: 2
+                    }
+                    Server{
+                        width: parent.width
+                        name: "Govin's server"
+                        player: 3
+                        playerMax: 3
+                    }
+                    Server{
+                        width: parent.width
+                        name: "Govin's server"
+                        player: 1
+                        playerMax: 4
+                    }
+
+                }
+            }
+
+        }
+
+        Rectangle {
+            id: whiteBar
+            width: parent.width
+            height: 1
+            color: "#ffffff"
+            anchors.top: parent.top
+            anchors.topMargin: 60
+        }
     }
-
-
-
-
-
 }

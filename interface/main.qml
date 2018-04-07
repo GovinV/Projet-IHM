@@ -36,36 +36,31 @@ Window {
 
             anchors.fill: parent
 
-            onCurrentIndexChanged: {
-                if(currentIndex==1)
-                {
-                    backLogo.rotation=0;
-                    returnButton.visible=false;
-                }
-                else
-                {
-                    backLogo.rotation=-90;
-                    returnButton.visible=true;
-                }
-            }
+            onCurrentIndexChanged: changedReturnButton()
 
-            ServerMenu{
+            SwipeView {
+                id: swipeHorizontalServeur
+                currentIndex: 0
+                interactive: false
+
+                onCurrentIndexChanged: changedReturnButton()
+
+                ServerMenu{
+                }
+                RoomMenu{
+                    id:room
+                }
             }
 
             SwipeView {
-                id: swipeHorizontal
+                id: swipeHorizontalMenu
                 currentIndex: 0
                 interactive: false
     /*
                 width: parent.width
                 height: parent.height
     */
-                onCurrentIndexChanged: {
-                    if(currentIndex==0)
-                        returnButton.visible=false;
-                    else
-                        returnButton.visible=true;
-                }
+                onCurrentIndexChanged: changedReturnButton()
 
                 MainMenu{
                 }
@@ -99,6 +94,27 @@ Window {
         height: 300
     }
 
+    function changedReturnButton()
+    {
+        if(swipeVertical.currentIndex==1)
+        {
+            backLogo.rotation=0;
+            if(swipeHorizontalMenu.currentIndex==0)
+                returnButton.visible=false;
+            else
+                returnButton.visible=true;
+        }
+        else
+        {
+            returnButton.visible=true;
+            if(swipeHorizontalServeur.currentIndex==0)
+                backLogo.rotation=-90;
+            else
+                backLogo.rotation=0;
+        }
+
+    }
+
     Button {
         id: returnButton
         visible: false
@@ -112,11 +128,16 @@ Window {
         anchors.bottomMargin: 30
         background: rgba(0,0,0,0)
 
-        onClicked: {
+        onClicked:{
             if(swipeVertical.currentIndex==0)
-                swipeVertical.setCurrentIndex(1);
+            {
+                if(swipeHorizontalServeur.currentIndex==0)
+                    swipeVertical.currentIndex=1;
+                else
+                    swipeHorizontalServeur.currentIndex=0;
+            }
             else
-                swipeHorizontal.setCurrentIndex(0);
+                swipeHorizontalMenu.currentIndex=0;
         }
 
         Image {

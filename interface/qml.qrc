@@ -11,5 +11,11 @@
         <file>CardEditorForm.ui.qml</file>
         <file>Settings.qml</file>
         <file>SettingsForm.ui.qml</file>
+        <file>RoomMenu.qml</file>
+        <file>RoomMenuForm.ui.qml</file>
+        <file>Server.qml</file>
+        <file>ServerForm.ui.qml</file>
+        <file>Player.qml</file>
+        <file>PlayerForm.ui.qml</file>
     </qresource>
 </RCC>

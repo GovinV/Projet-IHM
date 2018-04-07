@@ -103,7 +103,7 @@ MainMenuForm {
         background: rgba(0,0,0,0)
 
         onClicked: {
-            swipeHorizontal.setCurrentIndex(1);
+            swipeHorizontalMenu.setCurrentIndex(1);
         }
 
         Image {
