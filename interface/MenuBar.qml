@@ -21,7 +21,7 @@ MenuBarForm {
             id: titleBarMouseRegion
             anchors.fill: parent
 
-            property variant clickPos: "1,1"
+            property string clickPos: "1,1"
 
             onPressed: {
                 clickPos  = Qt.point(mouse.x,mouse.y)
@@ -140,9 +140,10 @@ MenuBarForm {
             background: rgba(0,0,0,0)
 
             onClicked: {
-                var component = Qt.createComponent("Settings.qml")
-                var windows    = component.createObject(window)
-                windows.show()
+                if(settingsForm.isActive)
+                    settingsForm.isActive=false;
+                else
+                    settingsForm.isActive=true;
             }
 
             Rectangle{

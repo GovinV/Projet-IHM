@@ -18,58 +18,78 @@ Window {
         source: "qrc:/resources/img/bg.jpg"
     }
 
-    SwipeView
-    {
-        id: swipeVertical
-        currentIndex: 1
-
-        width: parent.width
+    Rectangle {
+        id: conteneurCentral
+        width: parent.width - settingsForm.width
         height: parent.height-97
-        orientation: Qt.Vertical
-        interactive: false
-
         anchors.top: parent.top
         anchors.topMargin: 97
+        color: "#00000000"
 
-        onCurrentIndexChanged: {
-            if(currentIndex==1)
-            {
-                backLogo.rotation=0;
-                returnButton.visible=false;
-            }
-            else
-            {
-                backLogo.rotation=-90;
-                returnButton.visible=true;
-            }
-        }
+        SwipeView
+        {
+            id: swipeVertical
+            currentIndex: 1
 
-        ServerMenu{
-        }
+            orientation: Qt.Vertical
+            interactive: false
 
-        SwipeView {
-            id: swipeHorizontal
-            currentIndex: 0
-/*
-            width: parent.width
-            height: parent.height
-*/
+            anchors.fill: parent
+
             onCurrentIndexChanged: {
-                if(currentIndex==0)
+                if(currentIndex==1)
+                {
+                    backLogo.rotation=0;
                     returnButton.visible=false;
+                }
                 else
+                {
+                    backLogo.rotation=-90;
                     returnButton.visible=true;
+                }
             }
 
-            MainMenu{
+            ServerMenu{
             }
-            CardEditor{
+
+            SwipeView {
+                id: swipeHorizontal
+                currentIndex: 0
+                interactive: false
+    /*
+                width: parent.width
+                height: parent.height
+    */
+                onCurrentIndexChanged: {
+                    if(currentIndex==0)
+                        returnButton.visible=false;
+                    else
+                        returnButton.visible=true;
+                }
+
+                MainMenu{
+                }
+                CardEditor{
+                }
             }
+
         }
-
     }
 
+    Settings
+    {
+        id: settingsForm
+        width: isActive?300:0
+        height: parent.height-90
+        anchors.top: parent.top
+        anchors.topMargin: 90
+        anchors.right: parent.right
+        anchors.rightMargin: 0
+        visible: isActive
 
+        property bool isActive: false
+
+    }
 
     MenuBar {
         id: menuBarForm

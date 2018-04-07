@@ -10,5 +10,6 @@
         <file>CardEditor.qml</file>
         <file>CardEditorForm.ui.qml</file>
         <file>Settings.qml</file>
+        <file>SettingsForm.ui.qml</file>
     </qresource>
 </RCC>
