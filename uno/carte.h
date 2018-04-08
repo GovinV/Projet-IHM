@@ -15,6 +15,9 @@
 
 enum Couleur {ROUGE, VERT, BLEU, JAUNE, NOIR};
 
+/*enum TypeCarte {N0, N1, N2, N3, N4, N5, N6, N7, N8, N9,
+                CHANGEMENT_SENS, TA_GUEULE, PLUS_2, CHANGEMENT_COULEUR, PLUS_4};*/
+
 class Carte
 {
 public:
@@ -25,7 +28,7 @@ public:
     int numero;
     std::string type;
 
-    std::string ChoisirType();
+    std::string choisir_type();
 };
 
 inline std::string couleur_to_string(Couleur c)

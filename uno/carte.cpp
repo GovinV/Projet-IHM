@@ -5,22 +5,14 @@ Carte::Carte()
 
 }
 
-/*
- * Changement de sens : 10
- * Ta gueule : 11
- * Plus 2 : 12
- * Changement de couleur : 13
- * Plus 4 : 14
- * */
-
 Carte::Carte(int n, Couleur c)
 {
     numero = n;
     couleur = c;
-    type=ChoisirType();
+    type = choisir_type();
 }
 
-std::string Carte::ChoisirType()
+std::string Carte::choisir_type()
 {
     std::string t;
 

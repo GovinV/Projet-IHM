@@ -5,12 +5,22 @@ Joueur::Joueur(int n)
     n_joueur = n;
     if(n==0)
     {
-        nom = "Govin";
+        nom = "Consta";
     }
 
     if(n==1)
     {
-        nom = "Const";
+        nom = "Nikola";
+    }
+
+    if(n==2)
+    {
+        nom = "Govind";
+    }
+
+    if(n==3)
+    {
+        nom = "Adrien";
     }
 
     points = 0;

@@ -80,7 +80,7 @@ void Partie::jouer()
 
     for(int i=0;i<nb_joueur;i++)
     {
-        joueurs[i].uno = true;//mis a vrai au debut comme ca la partie s'arrete pour les tests
+        joueurs[i].uno = true; //mis a vrai au debut comme ca la partie s'arrete pour les tests
     }
 
     std::cout << "Debut partie" << std::endl;
@@ -93,7 +93,7 @@ void Partie::jouer()
             active = carte_jouee;
             couleur_active = active.couleur;
 
-            std::cout << joueur_courant << " " << joueurs[joueur_courant].nom << " a joué : " << carte_jouee << std::endl;
+            std::cout << joueurs[joueur_courant].nom << " a joué : " << carte_jouee << std::endl;
 
             if(joueurs[joueur_courant].gagne())
             {
@@ -156,7 +156,7 @@ void Partie::jouer()
                     active = carte_jouee;
                     couleur_active = active.couleur;
 
-                    std::cout << joueur_courant << " " << joueurs[joueur_courant].nom << " a joué : " << carte_jouee << std::endl;
+                    std::cout << joueurs[joueur_courant].nom << " a joué : " << carte_jouee << std::endl;
 
                     switch(carte_jouee.numero)
                     {
