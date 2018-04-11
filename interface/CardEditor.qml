@@ -67,6 +67,7 @@ CardEditorForm {
         anchors.horizontalCenter: parent.horizontalCenter
         couleur: "r"
         type: "+2"
+        style: "s5"
     }
     Card {
         id: card2

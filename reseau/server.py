@@ -1,83 +1,55 @@
 #!/usr/bin/python3
 # -*-coding:Utf-8 -*
 
-import socket
-import sys
-import traceback
-from threading import Thread
+import signal
+import select, socket, sys
+from lobby import Lobby, Room
+from player import Player
+import player
 
 
-def main():
-    start_server()
 
+def signal_handler(signal, frame):
+        print('You pressed Ctrl+C!')
+        sys.exit(0)
 
-def start_server():
-    host = "127.0.0.1"
-    port = 8888         # arbitrary non-privileged port
+signal.signal(signal.SIGINT, signal_handler)
 
-    soc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    soc.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)   
-    # SO_REUSEADDR flag tells the kernel to reuse a local socket in TIME_WAIT state,
-    # without waiting for its natural timeout to expire
-    print("Socket created")
+READ_BUFFER = 4096
 
-    try:
-        soc.bind((host, port))
-    except:
-        print("Bind failed. Error : " + str(sys.exc_info()))
-        sys.exit()
+host = "127.0.0.1"
+port = 8888 
+MAX_CLIENTS = 30
 
-    soc.listen(10)       # 10 request
-    print("Socket now listening")
+listen_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+listen_sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+listen_sock.setblocking(0)
+listen_sock.bind((host,port))
+listen_sock.listen(MAX_CLIENTS)
+print("Now listening at ", (host, port))
+lobby = Lobby()
+connection_list = []
+connection_list.append(listen_sock)
 
-    # infinite loop - do not reset for every requests
-    while True:
-        connection, address = soc.accept()
-        ip, port = str(address[0]), str(address[1])
-        print("Connected with " + ip + ":" + port)
+while True:
+    # Player.fileno()
+    read_players, write_players, error_sockets = select.select(connection_list, [], [])
+    for player in read_players:
+        if player is listen_sock: # new connection, player is a socket
+            new_socket, add = player.accept()
+            new_player = Player(new_socket)
+            connection_list.append(new_player)
+            lobby.welcome_new(new_player)
 
-        try:
-            Thread(target=client_thread, args=(connection, ip, port)).start()
-        except:
-            print("Thread did not start.")
-            traceback.print_exc()
+        else: # new message
+            msg = player.socket.recv(READ_BUFFER)
+            if msg:
+                msg = msg.decode().lower()
+                lobby.handle_msg(player, msg)
+            else:
+                player.socket.close()
+                connection_list.remove(player)
 
-    soc.close()
-
-
-def client_thread(connection, ip, port, max_buffer_size = 5120):
-    is_active = True
-
-    while is_active:
-        client_input = receive_input(connection, max_buffer_size)
-
-        if "--QUIT--" in client_input:
-            print("Client is requesting to quit")
-            connection.close()
-            print("Connection " + ip + ":" + port + " closed")
-            is_active = False
-        else:
-            print("Processed result from" + port +" : {}".format(client_input))
-            connection.sendall("-".encode("utf8"))
-
-
-def receive_input(connection, max_buffer_size):
-    client_input = connection.recv(max_buffer_size)
-    client_input_size = sys.getsizeof(client_input)
-
-    if client_input_size > max_buffer_size:
-        print("The input size is greater than expected {}".format(client_input_size))
-
-    decoded_input = client_input.decode("utf8").rstrip()  # decode and strip end of line
-    result = process_input(decoded_input)
-
-    return result
-
-
-def process_input(input_str):
-    print("Processing the input received from client")
-
-    return "> " + str(input_str).upper()
-
-if __name__ == "__main__":
-    main()
+    for sock in error_sockets: # close error sockets
+        sock.close()
+        connection_list.remove(sock)

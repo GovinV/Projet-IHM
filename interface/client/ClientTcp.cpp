@@ -22,11 +22,14 @@ void ClientTcp::connec_OK()
 }
 void ClientTcp::reading()
 {
-	QString line;
+    qDebug() << "read";
+    QString line="";
 	while(soc.canReadLine()) // while anything to read
 	{
-		line = soc.readLine();     // read a line
-        ui->insertPlainText(line);
+        line = soc.readLine();     // read a line
+        //ui->insertPlainText(line);
         //emit UI_text(line); // send to UI
-	}
+    }
+    qDebug() << "end read";
+    emit readingComplete(line);
 }

@@ -6,9 +6,14 @@ ServerForm {
     width: 600
     height: 60
 
-    property string name: "Je le serveur de test"
+    property string name: "test Server"
+    property string serverId: "123456789"
     property int player: 1
     property int playerMax: 4
+
+    /*onParentDestroy:{
+
+    }*/
 
     Rectangle {
         id: rectangle1
@@ -31,6 +36,7 @@ ServerForm {
         anchors.verticalCenter: parent.verticalCenter
 
         onClicked: {
+            //profil.cmdFromQml(2,id);
             swipeHorizontalServeur.setCurrentIndex(1);
             room.host=false;
         }
