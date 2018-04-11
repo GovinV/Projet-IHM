@@ -8,11 +8,13 @@ SOURCES += main.cpp \
     pioche.cpp \
     partie.cpp \
     joueur.cpp \
-    carte.cpp
+    carte.cpp \
+    manche.cpp
 
 HEADERS += \
     pioche.h \
     partie.h \
     joueur.h \
-    carte.h
+    carte.h \
+    manche.h
 

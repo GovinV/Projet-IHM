@@ -7,11 +7,7 @@
 
 int main()
 {
-   Partie jeu(4);
-
-   jeu.debut();
-
-   jeu.jouer();
+   Partie jeu(CLASSIQUE, 2);
 
    return 0;
 }

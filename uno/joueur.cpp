@@ -1,47 +1,75 @@
 #include "joueur.h"
 
-Joueur::Joueur(int n)
+Joueur::Joueur()
 {
-    n_joueur = n;
-    if(n==0)
-    {
-        nom = "Consta";
-    }
-
-    if(n==1)
-    {
-        nom = "Nikola";
-    }
-
-    if(n==2)
-    {
-        nom = "Govind";
-    }
-
-    if(n==3)
-    {
-        nom = "Adrien";
-    }
-
+    uno = UNOSTATE_FAUX;
     points = 0;
+    manche_courante = NULL;
+}
+
+
+int Joueur::finir_manche()
+{
+    Carte *c;
+    int somme_cartes = 0;
+    int nb_cartes_restantes = cmain.size();
+
+    uno = UNOSTATE_FAUX;
+
+    for(int i=0; i<nb_cartes_restantes; i++)
+    {
+        c = cmain.back();
+        somme_cartes += c->valeur;
+        cmain.pop_back();
+        manche_courante->pioche->ajouter(c);
+    }
+
+    manche_courante = NULL;
+
+    return somme_cartes;
 }
 
 
 void Joueur::appuie_uno()
 {
-    uno = true;
+    uno = UNOSTATE_EN_ATTENTE;
 }
 
-void Joueur::piocher(Pioche* pioche, int nb_cartes)
+
+bool Joueur::appuie_contre_uno()
+{
+    if(cmain.size() == 1 && uno != UNOSTATE_VRAI && uno != UNOSTATE_PENALITE)
+    {
+        piocher(2);
+        uno = UNOSTATE_PENALITE;
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+
+void Joueur::piocher()
+{
+    piocher(manche_courante->prends_toi_ca);
+    manche_courante->joueur_pioche();
+}
+
+
+void Joueur::piocher(int nb_cartes)
 {
     for(int i=0; i<nb_cartes; i++)
     {
-        cmain.push_back(pioche->tirer_carte());
-        std::cout << nom << " a pioché : " << cmain.back() << std::endl;
+        cmain.push_back(manche_courante->pioche->tirer_carte());
     }
+
+    uno = UNOSTATE_FAUX;
 
     trier_main();
 }
+
 
 void Joueur::trier_main()
 {
@@ -51,96 +79,63 @@ void Joueur::trier_main()
 
 bool Joueur::gagne()
 {
-    return uno == true && cmain.empty();
+    return cmain.empty();
 }
 
-/*
- * Changement de sens : 10
- * Ta gueule : 11
- * Plus 2 : 12
- * Changement de couleur : 13
- * Plus 4 : 14
- * */
 
-//Nicoh : ce sont les vrais regles tg et change pas
-int Joueur::cartes_restantes()
+void Joueur::choisir_couleur(Couleur c)
 {
-    int somme = 0;
-
-    for(int i=0;i<cmain.size();i++)
+    if(c < ROUGE || c > JAUNE)
     {
-        switch(cmain[i].numero)
-        {
-            case 10: somme += 10;
-                break;
-
-            case 11 : somme += 10;
-                break;
-
-            case 12 : somme += 25;//wlh j'hesitais entre 20 et 30 dsl
-                break;
-
-            case 13 : somme += 40;
-                break;
-
-            case 14 : somme += 50;
-                break;
-
-            default: somme += cmain[i].numero;
-                break;
-        }
+        std::cerr << "Couleur non valide. La couleur active reste le "
+                  << couleur_to_string(manche_courante->couleur_active)
+                  << "."
+                  << std::endl;
     }
-
-    return somme;
-}
-
-void Joueur::ajouter_points(int p)
-{
-    points = p;
-}
-
-bool Joueur::decide_piocher()
-{
-    return false;
-}
-
-
-int Joueur::action(std::vector<int> cartes_jouables)
-{
-    if(decide_piocher())
-        return -1;
     else
-        return cartes_jouables.front();
-}
-
-Couleur Joueur::choisir_couleur()
-{
-    return ROUGE;
+    {
+        manche_courante->couleur_active = c;
+    }
 }
 
 
-std::vector<int> Joueur::recherche_cartes_jouables(Partie* p, Couleur couleur_active)
+Couleur Joueur::choisir_couleur_defaut()
 {
-    int taille = cmain.size();
+    Couleur l_couleurs_candidates[4] = {ROUGE, VERT, BLEU, JAUNE};
+    Couleur choix;
+    if(cmain.empty() || cmain[0]->couleur == NOIR)
+    {
+        choix = l_couleurs_candidates[rand()%4];
+    }
+    else
+    {
+        choix = cmain[0]->couleur;
+    }
+    manche_courante->couleur_active = choix;
+    return choix;
+}
 
-    int i;
+
+std::vector<int> Joueur::recherche_cartes_jouables()
+{
     std::vector<int> cartes_jouables;
+    int nb_cartes = cmain.size();
 
-    if(p->plus2_actif)
+    if(manche_courante->plus2_actif)
     {
-        for(i=0; i<taille; i++)
+        for(int i=0; i<nb_cartes; i++)
         {
-            if(cmain[i].numero == p->active.numero)
+            if(cmain[i]->type == PLUS_DEUX)
             {
                 cartes_jouables.push_back(i);
             }
         }
     }
-    else if(p->plus4_actif)
+    else if(manche_courante->plus4_actif)
     {
-        for(i=0; i<taille; i++)
+        for(int i=0; i<nb_cartes; i++)
         {
-            if(cmain[i].numero == p->active.numero)
+            if(cmain[i]->type == PLUS_QUATRE)
             {
                 cartes_jouables.push_back(i);
             }
@@ -148,57 +143,81 @@ std::vector<int> Joueur::recherche_cartes_jouables(Partie* p, Couleur couleur_ac
     }
     else
     {
-        for(i=0; i<taille; i++)
+        // TODO : Refactoriser ces conditions.
+        for(int i=0; i<nb_cartes; i++)
         {
-            if(cmain[i].couleur == couleur_active || cmain[i].couleur == NOIR)
+            if(cmain[i]->couleur == manche_courante->couleur_active
+                    || cmain[i]->couleur == NOIR)
+            {
                 cartes_jouables.push_back(i);
-
-            else if(cmain[i].numero == p->active.numero)
-                cartes_jouables.push_back(i);
+            }
+            else if(cmain[i]->couleur != NOIR && cmain[i]->type == manche_courante->active->type)
+            {
+                if(cmain[i]->type != NUMERO || cmain[i]->valeur == manche_courante->active->valeur)
+                {
+                    cartes_jouables.push_back(i);
+                }
+            }
         }
     }
 
     return cartes_jouables;
 }
 
-//si false alors le joueur pioche, si vrai le joueur a joue une carte
-bool Joueur::jouer(Partie* p, Couleur couleur_active, Carte* carte_jouee)
+
+bool Joueur::jouer(int indice_carte)
 {
-    int icarte_jouee;
-    std::vector<int> cartes_jouables;
+    std::vector<int> cartes_jouables = recherche_cartes_jouables();
+    bool indice_valide = false;
+    int nb_cartes_jouables = cartes_jouables.size();
 
-    cartes_jouables = recherche_cartes_jouables(p, couleur_active);
+    for(int i=0; i<nb_cartes_jouables; i++)
+    {
+        if(cartes_jouables[i] == indice_carte)
+        {
+            indice_valide = true;
+            break;
+        }
+    }
 
+    if(indice_valide)
+    {
+        manche_courante->joueur_joue(cmain[indice_carte]);
+        cmain.erase(cmain.begin()+indice_carte);
+        if(cmain.size()==1 && uno == UNOSTATE_EN_ATTENTE)
+        {
+            uno = UNOSTATE_VRAI;
+        }
+    }
+
+    return indice_valide;
+}
+
+
+void Joueur::action_par_defaut()
+{
+    std::vector<int> cartes_jouables = recherche_cartes_jouables();
     if(cartes_jouables.empty())
     {
-        return false;
+        piocher();
     }
     else
     {
-        icarte_jouee = action(cartes_jouables);
-
-        if(icarte_jouee == -1)//si le joueur ne veut pas poser de cartes
-        {
-            return false;
-        }
-        else
-        {
-            *carte_jouee = cmain[icarte_jouee];
-            cmain.erase(cmain.begin()+icarte_jouee);
-            return true;
-        }
+        jouer(cartes_jouables[0]);
     }
 }
 
 
 void Joueur::afficher_main()
 {
-    int taille = cmain.size();
+    int nb_cartes = cmain.size();
 
-    std::cout << "\n" << "Cartes en main :"  << std::endl;
+    std::cerr << "Cartes en main :"  << std::endl;
 
-    for(int i=0; i<taille; i++)
+    for(int i=0; i<nb_cartes; i++)
     {
-       std::cout << cmain[i] << std::endl;
+       std::cerr << cmain[i] << std::endl;
     }
+
+    std::cerr << std::endl;
 }

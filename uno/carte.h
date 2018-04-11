@@ -4,85 +4,70 @@
 #include<iostream>
 #include<string.h>
 
-/*
- * Changement de sens : 10
- * Ta gueule : 11
- * Plus 2 : 12
- * Changement de couleur : 13
- * Plus 4 : 14
- * */
+
+#define VALEUR_INVERSION 10
+#define VALEUR_TA_GUEULE 10
+#define VALEUR_PLUS_DEUX 25
+#define VALEUR_JOKER 40
+#define VALEUR_PLUS_QUATRE 50
 
 
-enum Couleur {ROUGE, VERT, BLEU, JAUNE, NOIR};
+/**
+ * @brief Définition d'une énumération pour identifier la couleur des cartes.
+ *
+ * La Couleur NOIR correspond aux cartes 'PLUS 4' et 'JOKER'.
+ */
+enum Couleur { ROUGE, VERT, BLEU, JAUNE, NOIR };
 
-/*enum TypeCarte {N0, N1, N2, N3, N4, N5, N6, N7, N8, N9,
-                CHANGEMENT_SENS, TA_GUEULE, PLUS_2, CHANGEMENT_COULEUR, PLUS_4};*/
+
+/**
+ * @brief Définition d'une énumération pour identifier les différents types de cartes.
+ *
+ * NUMERO est le type des cartes numérotées de 0 à 9.
+ * PLUS_DEUX est le type des cartes spéciales faisant piocher 2 cartes au joueur suivant.
+ * INVERSION est le type des cartes spéciales faisant changer le sens du jeu.
+ * TA_GUEULE est le type des cartes spéciales faisant passer son tour au joueur suivant.
+ * JOKER est le type des cartes spéciales donnant la possibilitée de changer la couleur du jeu.
+ * PLUS_QUATRE est le type des cartes spéciales donnant la possibilitée de changer la
+ *  couleur du jeu et faisant piocher 4 cartes au joueur suivant.
+ */
+enum TypeCarte { NUMERO, INVERSION, TA_GUEULE, PLUS_DEUX, JOKER, PLUS_QUATRE };
+
 
 class Carte
 {
 public:
+    /// Constructeurs.
     Carte();
-    Carte(int n, Couleur c);
+    Carte(Couleur c, TypeCarte t);
+    Carte(Couleur c, TypeCarte t, int v);
 
+    /// Initialisation de la chaine de caractères décrivant la Carte.
+    std::string init_description();
+
+
+public:
+    /// Couleur de la carte.
     Couleur couleur;
-    int numero;
-    std::string type;
-
-    std::string choisir_type();
+    /// Description de la carte.
+    std::string description;
+    /// Type de la carte.
+    TypeCarte type;
+    /// Valeur de la carte pour le comptage des points.
+    int valeur;
 };
 
-inline std::string couleur_to_string(Couleur c)
-{
-    std::string nom_couleur;
 
-    switch(c)
-    {
-        case ROUGE:
-            nom_couleur = "rouge";
-            break;
+/// Renvoie sous forme d'une chaine de caractère la couleur de la carte
+/// (si elle n'est pas noire).
+std::string couleur_to_string(Couleur c);
 
-        case VERT:
-            nom_couleur = "vert";
-            break;
 
-        case BLEU:
-            nom_couleur = "bleu";
-            break;
+/// Redéfinition de l'opérateur << pour l'affichage d'une carte.
+std::ostream &operator << (std::ostream &out, const Carte *c);
 
-        case JAUNE:
-            nom_couleur = "jaune";
-            break;
 
-        case NOIR:
-            //nom_couleur = "noire";
-            break;
-    }
-
-    return nom_couleur;
-}
-
-// Redefinition de l'operateur << pour l'affichage du type
-inline std::ostream &operator << (std::ostream &out, const Carte c)
-{
-    out << c.type;
-    return out;
-}
-
-// Redefinition de l'operateur < (inferieur) pour la comparaison de cartes
-inline bool operator < (const Carte c1, const Carte c2)
-{
-    if(c1.couleur < c2.couleur)
-    {
-        return true;
-    }
-    else if(c1.couleur == c2.couleur)
-    {
-        return c1.numero < c2.numero;
-    }
-    else
-    {
-        return false;
-    }
-}
+/// Redéfinition de l'opérateur < (inférieur) pour la comparaison des cartes.
+bool operator < (const Carte c1, const Carte c2);
 
 #endif // CARTE_H

@@ -11,20 +11,25 @@
 
 class Pioche
 {
-    public:
-        std::vector<Carte> pile;
+public:
+    /// Constructeur.
+    Pioche();
 
-        Pioche();
+    /// Mélange la pile.
+    void melanger(unsigned int s);
 
-        void premiere_carte();
+    /// Retire la carte à la fin de la pile.
+    Carte* tirer_carte();
 
-        void melanger(unsigned int seed);
+    /// Ajoute une carte au début de la pile.
+    void ajouter(Carte *c);
 
-        void afficher();
+    /// Affiche la pile sur la sortie standard.
+    void afficher();
 
-        Carte tirer_carte();
-
-        void ajouter(Carte c);
+public:
+    /// Vector représentant la pile des cartes.
+    std::vector<Carte*> pile;
 };
 
 #endif // PIOCHE_H
