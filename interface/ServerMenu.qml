@@ -31,7 +31,7 @@ ServerMenuForm {
             background: rgba(0,0,0,0)
 
             onClicked: {
-
+                clearRooms();
             }
 
             Rectangle{
@@ -76,6 +76,7 @@ ServerMenuForm {
             background: rgba(0,0,0,0)
 
             onClicked: {
+                profil.cmdFromQml(3);
                 swipeHorizontalServeur.setCurrentIndex(1);
                 room.host=true;
             }
@@ -123,6 +124,7 @@ ServerMenuForm {
 
             onClicked: {
               //  window.close()
+              createRoom();
             }
 
             Rectangle{
@@ -196,9 +198,10 @@ ServerMenuForm {
 
 
             Flickable {
+                id: flickableObject
                 clip: true
                 Column {
-                    id: column
+                    id: roomColumn
                     width: scrollView.width
 
                     Server{
@@ -206,7 +209,7 @@ ServerMenuForm {
                         name: "Govin's server"
                         player: 2
                         playerMax: 3
-                    }
+                    }/*
                     Server{
                         width: parent.width
                         name: "Govin's server"
@@ -248,7 +251,7 @@ ServerMenuForm {
                         name: "Govin's server"
                         player: 1
                         playerMax: 4
-                    }
+                    }*/
 
                 }
             }

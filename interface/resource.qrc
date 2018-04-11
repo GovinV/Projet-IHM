@@ -75,5 +75,6 @@
         <file>cartes/style/s2.png</file>
         <file>cartes/style/s3.png</file>
         <file>cartes/style/s4.png</file>
+        <file>cartes/style/none.png</file>
     </qresource>
 </RCC>
