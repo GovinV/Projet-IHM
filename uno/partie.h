@@ -23,6 +23,10 @@ public:
     /// Renvoie la liste des gagnants (dépend du type de partie).
     bool partie_finie(std::vector<Joueur*> *gagnants);
 
+    /// Indique si la manche en cours est finie.
+    /// Renvoie la liste des gagants.
+    bool manche_finie(std::vector<Joueur *> *gagnants);
+
     /// Créé une nouvelle manche
     Manche* nouvelle_manche();
 

@@ -16,7 +16,6 @@ typedef struct {
     Carte *carte;
 } tour_joueur;
 
-
 class Manche
 {
 public:
@@ -27,6 +26,8 @@ public:
     void joueur_joue(Carte *c);
 
     int gagnant();
+
+    int joueur_suivant();
 
 public:
     /// Pioche pour la manche.

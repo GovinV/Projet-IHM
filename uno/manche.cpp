@@ -94,3 +94,9 @@ int Manche::gagnant()
 {
     return 0;
 }
+
+
+int Manche::joueur_suivant()
+{
+    return joueur_courant;
+}
