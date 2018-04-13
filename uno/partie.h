@@ -37,7 +37,7 @@ public:
     void distribution(int nb_cartes);
 
     /// Renvoie le joueur à l'indice spécifié.
-    Joueur get_joueur(int indice);
+    Joueur *get_joueur(int indice);
 
     /// Modifie le nombre de cartes a distribuer en debut de manche.
     void set_nb_cartes_debut(int nb_cartes);

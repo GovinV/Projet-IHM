@@ -111,15 +111,15 @@ std::ostream &operator << (std::ostream &out, const Carte *c)
     return out;
 }
 
-bool operator < (const Carte c1, const Carte c2)
+bool tri_cartes(const Carte *c1, const Carte *c2)
 {
-    if(c1.couleur < c2.couleur)
+    if(c1->couleur < c2->couleur)
     {
         return true;
     }
-    else if(c1.couleur == c2.couleur)
+    else if(c1->couleur == c2->couleur)
     {
-        return c1.valeur < c2.valeur;
+        return c1->valeur < c2->valeur;
     }
     else
     {

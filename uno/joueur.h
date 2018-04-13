@@ -26,7 +26,7 @@ class Joueur
 {
 public:
     /// Constructeur.
-    Joueur();
+    Joueur(int num);
 
     /// Finit la manche courante en comptant les points de sa main et en
     /// remettant dans la pioche les cartes restantes.
@@ -83,6 +83,8 @@ public:
     UnoState uno;
     /// Nombre de points du joueur dans la partie.
     int points;
+    /// Place du joueur dans le jeu (son indice).
+    int num_joueur;
 };
 
 #endif // JOUEUR_H

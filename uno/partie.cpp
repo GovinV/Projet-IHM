@@ -14,7 +14,7 @@ Partie::Partie(TypePartie t, int nb_j, int limite)
 
     for(int i=0; i<nb_joueur; i++)
     {
-        joueurs.push_back(Joueur());
+        joueurs.push_back(Joueur(i));
     }
 }
 
@@ -120,11 +120,14 @@ Manche* Partie::nouvelle_manche()
     }
 
     pioche->melanger(seed);
-    distribution(nb_cartes_debut);
     manche_courante = new Manche(pioche, nb_joueur);
     for(int i=0; i<nb_joueur; i++)
     {
         joueurs[i].manche_courante = manche_courante;
+    }
+    distribution(nb_cartes_debut);
+    for(int i=0; i<nb_joueur; i++)
+    {
         joueurs[i].trier_main();
     }
     return manche_courante;
@@ -169,7 +172,7 @@ int Partie::finir_manche(bool force)
                 case MANCHE_UNIQUE:
                     for(int i=0; i<nb_joueur; i++)
                     {
-                        joueurs[i].points = joueurs[i].finir_manche();
+                        joueurs[id_gagnant_manche].points += joueurs[i].finir_manche();
                     }
                     break;
 
@@ -189,7 +192,7 @@ int Partie::finir_manche(bool force)
 }
 
 
-Joueur Partie::get_joueur(int indice)
+Joueur* Partie::get_joueur(int indice)
 {
     if(indice >= nb_joueur)
     {
@@ -199,7 +202,7 @@ Joueur Partie::get_joueur(int indice)
     }
     else
     {
-        return joueurs[indice];
+        return &joueurs[indice];
     }
 }
 

@@ -10,6 +10,9 @@ Manche::Manche(Pioche *p, int nb_j)
     prends_toi_ca = 1;
     joueur_courant = rand() % nb_joueur;
 
+    std::cerr << "Le joueur " << joueur_courant << " commmence"
+              << std::endl;
+
     active = pioche->tirer_carte();
 
     // La première carte ne peux pas être un '+4'
@@ -27,6 +30,14 @@ void Manche::joueur_pioche()
     plus4_actif = false;
     prends_toi_ca = 1;
     //tours.push_back(tour_joueur());
+
+    joueur_courant = (joueur_courant + sens) % nb_joueur;
+
+    if(joueur_courant < 0)
+    {
+        joueur_courant += nb_joueur;
+    }
+
 }
 
 

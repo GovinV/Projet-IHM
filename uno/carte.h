@@ -68,6 +68,6 @@ std::ostream &operator << (std::ostream &out, const Carte *c);
 
 
 /// Redéfinition de l'opérateur < (inférieur) pour la comparaison des cartes.
-bool operator < (const Carte c1, const Carte c2);
+bool tri_cartes(const Carte *c1, const Carte *c2);
 
 #endif // CARTE_H
