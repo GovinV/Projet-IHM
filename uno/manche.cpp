@@ -8,6 +8,7 @@ Manche::Manche(Pioche *p, int nb_j)
     plus2_actif = false;
     plus4_actif = false;
     prends_toi_ca = 1;
+    joueur_gagnant = -1;
     joueur_courant = rand() % nb_joueur;
 
     std::cerr << "Le joueur " << joueur_courant << " commmence"
@@ -29,7 +30,7 @@ void Manche::joueur_pioche()
     plus2_actif = false;
     plus4_actif = false;
     prends_toi_ca = 1;
-    //tours.push_back(tour_joueur());
+    tours.push_back(tour_joueur({0, PIOCHE, -1, NULL}));
 
     joueur_courant = (joueur_courant + sens) % nb_joueur;
 
@@ -98,12 +99,6 @@ void Manche::joueur_joue(Carte *c)
     {
         joueur_courant += nb_joueur;
     }
-}
-
-
-int Manche::gagnant()
-{
-    return 0;
 }
 
 

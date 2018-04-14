@@ -64,12 +64,10 @@ bool Partie::partie_finie(std::vector<Joueur *> *gagnants)
 }
 
 
-bool Partie::manche_finie(std::vector<Joueur *> *gagnants)
+bool Partie::manche_finie(Joueur **gagnant)
 {
-    gagnants->clear();
-
-    // Vérifie qu'il n'y ai pas une manche a finir. Si finir_manche ne s'est
-    // pas terminé normalement, la partie n'est pas considérée comme finie.
+    *gagnant = NULL;
+    // On verifie qu'une manche est en cours.
     if(manche_courante == NULL)
     {
         std::cerr << "Aucune manche en cours." << std::endl;
@@ -80,27 +78,25 @@ bool Partie::manche_finie(std::vector<Joueur *> *gagnants)
     {
         switch(type)
         {
+            case MANCHE_UNIQUE:
             case CLASSIQUE:
                 if(joueurs[i].cmain.empty())
                 {
-                    gagnants->push_back(&joueurs[i]);
-                }
-                break;
-
-            case MANCHE_UNIQUE:
-                if(joueurs[i].cmain.empty())
-                {
-                    gagnants->push_back(&joueurs[i]);
+                    *gagnant = &joueurs[i];
+                    break;
                 }
                 break;
 
             default:
-                std::cerr << "Type de partie (" << type << ") inconnue." << std::endl;
+                std::cerr << "Type de partie (" << type << ") inconnue."
+                          << std::endl;
         }
     }
 
-    if(!gagnants->empty())
+    if(*gagnant != NULL)
     {
+
+        manche_courante->joueur_gagnant = (*gagnant)->num_joueur;
         return true;
     }
     else
@@ -140,7 +136,7 @@ int Partie::finir_manche(bool force)
     int valeur_retour = 0;
     if(manche_courante != NULL)
     {
-        id_gagnant_manche = manche_courante->gagnant();
+        id_gagnant_manche = manche_courante->joueur_gagnant;
         if(id_gagnant_manche < 0)
         {
             if(force)

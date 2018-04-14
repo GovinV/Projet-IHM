@@ -25,7 +25,7 @@ public:
 
     /// Indique si la manche en cours est finie.
     /// Renvoie la liste des gagants.
-    bool manche_finie(std::vector<Joueur *> *gagnants);
+    bool manche_finie(Joueur **gagnant);
 
     /// Créé une nouvelle manche
     Manche* nouvelle_manche();

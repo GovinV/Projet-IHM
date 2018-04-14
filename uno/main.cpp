@@ -10,7 +10,7 @@ int main()
    Partie jeu(MANCHE_UNIQUE, 4);
 
    std::vector<Joueur*> gagnants_partie;
-   std::vector<Joueur*> gagnants_manche;
+   Joueur *gagnant_manche;
    int joueur_suivant;
 
    jeu.set_seed(42);
@@ -19,7 +19,7 @@ int main()
    {
        Manche *m = jeu.nouvelle_manche();
 
-       while(!jeu.manche_finie(&gagnants_manche))
+       while(!jeu.manche_finie(&gagnant_manche))
        {
             //jeu.get_joueur(0)->afficher_main();
             //jeu.get_joueur(1)->afficher_main();
@@ -47,12 +47,13 @@ int main()
                 jeu.get_joueur(joueur_suivant).choisir_couleur_defaut();
             }*/
        }
+       std::cout << "gagnant manche : " << gagnant_manche->num_joueur << std::endl;
    }
 
    std::cout << jeu.get_joueur(0)->points << "\t" << jeu.get_joueur(1)->points << "\t"
              << jeu.get_joueur(2)->points << "\t" << jeu.get_joueur(3)->points << "\t" << std::endl;
 
-   std::cout << "Gagnant manche : " << gagnants_manche[0]->num_joueur << std::endl;
+   std::cout << "Gagnant manche : " << gagnant_manche->num_joueur << std::endl;
    std::cout << "Gagnant partie : " << gagnants_partie[0]->num_joueur << std::endl;
 
    return 0;

@@ -25,8 +25,6 @@ public:
 
     void joueur_joue(Carte *c);
 
-    int gagnant();
-
     int joueur_suivant();
 
 public:
@@ -49,6 +47,8 @@ public:
     Couleur couleur_active;
     /// Enregistre tout les tours des joueurs.
     std::vector<tour_joueur> tours;
+    /// Indice du Joueur ayant remporté la manche;
+    int joueur_gagnant;
 };
 
 #endif // MANCHE_H
