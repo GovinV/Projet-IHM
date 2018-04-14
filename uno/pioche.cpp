@@ -72,3 +72,12 @@ void Pioche::afficher()
         std::cout << pile[i] << std::endl;
     }
 }
+
+Pioche::~Pioche()
+{
+    int nb_cartes = pile.size();
+    for(int i=0; i<nb_cartes; i++)
+    {
+        delete(pile[i]);
+    }
+}

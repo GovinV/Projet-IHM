@@ -22,6 +22,8 @@ Manche::Manche(Pioche *p, int nb_j)
         pioche->ajouter(active);
         active = pioche->tirer_carte();
     }
+
+    couleur_active = active->couleur;
 }
 
 

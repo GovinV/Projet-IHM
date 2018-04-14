@@ -134,6 +134,7 @@ int Partie::finir_manche(bool force)
 {
     int id_gagnant_manche;
     int valeur_retour = 0;
+
     if(manche_courante != NULL)
     {
         id_gagnant_manche = manche_courante->joueur_gagnant;
@@ -145,6 +146,7 @@ int Partie::finir_manche(bool force)
                 {
                     joueurs[i].finir_manche();
                 }
+                pioche->ajouter(manche_courante->active);
             }
             else
             {
@@ -163,6 +165,7 @@ int Partie::finir_manche(bool force)
                     {
                         joueurs[id_gagnant_manche].points += joueurs[i].finir_manche();
                     }
+                    pioche->ajouter(manche_courante->active);
                     break;
 
                 case MANCHE_UNIQUE:
@@ -170,18 +173,21 @@ int Partie::finir_manche(bool force)
                     {
                         joueurs[id_gagnant_manche].points += joueurs[i].finir_manche();
                     }
+                    pioche->ajouter(manche_courante->active);
                     break;
 
                 default:
                     std::cerr << "Type de partie (" << type << ") inconnue." << std::endl;
+                    valeur_retour = 2;
                     break;
             }
         }
-    }
 
-    if(valeur_retour == 0)
-    {
-        manche_courante = NULL;
+        if(valeur_retour == 0)
+        {
+            delete(manche_courante);
+            manche_courante = NULL;
+        }
     }
 
     return valeur_retour;
@@ -256,3 +262,8 @@ int Partie::get_seed()
     return seed;
 }
 
+
+Partie::~Partie()
+{
+    delete(pioche);
+}

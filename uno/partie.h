@@ -19,6 +19,8 @@ public:
     /// Constructeur.
     Partie(TypePartie t, int nb_j, int limite=500);
 
+    ~Partie();
+
     /// Indique si la partie est finie (en fonction du type de la partie).
     /// Renvoie la liste des gagnants (dépend du type de partie).
     bool partie_finie(std::vector<Joueur*> *gagnants);
@@ -48,10 +50,10 @@ public:
     /// Renvoie le seed de la partie.
     int get_seed();
 
-
-private:
     /// Pioche de la partie.
     Pioche* pioche;
+private:
+
     /// Liste des joueurs dans la partie.
     std::vector<Joueur> joueurs;
     /// Type de la partie.

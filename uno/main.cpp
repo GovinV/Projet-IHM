@@ -15,6 +15,8 @@ int main()
 
    jeu.set_seed(42);
 
+   std::cout << "nb cartes : " << jeu.pioche->pile.size() << std::endl;
+
    while(!jeu.partie_finie(&gagnants_partie))
    {
        Manche *m = jeu.nouvelle_manche();
@@ -49,7 +51,7 @@ int main()
        }
        std::cout << "gagnant manche : " << gagnant_manche->num_joueur << std::endl;
    }
-
+std::cout << "nb cartes : " << jeu.pioche->pile.size() << std::endl;
    std::cout << jeu.get_joueur(0)->points << "\t" << jeu.get_joueur(1)->points << "\t"
              << jeu.get_joueur(2)->points << "\t" << jeu.get_joueur(3)->points << "\t" << std::endl;
 
