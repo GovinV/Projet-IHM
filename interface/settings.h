@@ -11,7 +11,6 @@ class Settings : public QObject
 
     public:
         explicit Settings(QObject *parent = nullptr);
-        void  loadSettings();
 
     signals:
         void loadSize(int width, int height);
@@ -21,9 +20,11 @@ class Settings : public QObject
 
     public slots:
         void changeSize(int width, int height);
+        void changeSize(QString width, QString height);
         void changeNickname(QString mess);
         void changeLangage(QString mess);
         void changeCardStyle(QString mess);
+        void loadSettings();
 
     private:
         //void saveSettings();
