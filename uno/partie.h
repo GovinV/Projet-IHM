@@ -12,7 +12,32 @@
 enum TypePartie { CLASSIQUE, MANCHE_UNIQUE, DEUX_VS_DEUX_CLASSIQUE,
                   DEUX_VS_DEUX_MANCHE_UNIQUE, ELIMINATION };
 
-class Joueur;
+
+enum TypeMessage { PARTIE_DEBUT, PARTIE_FIN, MANCHE_DEBUT, MANCHE_FIN,
+                   JOUEUR_ACTION, JOUEUR_CHOIX_COULEUR };
+
+
+struct Message{
+    TypeMessage type;
+    int num_joueur;
+};
+
+struct InfoPartie{
+    std::vector<Message> messages;
+    int nb_messages;
+    int num_next_message;
+    Message *get_next_message()
+    {
+        if(num_next_message >= nb_messages)
+        {
+            return NULL;
+        }
+        else
+        {
+            return &messages[num_next_message++];
+        }
+    }
+};
 
 class Partie
 {
@@ -63,6 +88,7 @@ private:
     TypePartie type;
     /// Manche en cours dans la partie.
     Manche *manche_courante;
+
     /// Nombre de cartes pour commencer une manche.
     int nb_cartes_debut;
     /// Valeur paramétrant l'aléatoire du jeu.

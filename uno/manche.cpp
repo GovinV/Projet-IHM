@@ -2,6 +2,7 @@
 
 Manche::Manche(Pioche *p, int nb_j)
 {
+    // Initialisation des paramètres et objets de la manche.
     pioche = p;
     nb_joueur = nb_j;
     sens = 1;
@@ -9,14 +10,14 @@ Manche::Manche(Pioche *p, int nb_j)
     plus4_actif = false;
     prends_toi_ca = 1;
     joueur_gagnant = -1;
-    joueur_courant = rand() % nb_joueur;
 
-    std::cerr << "Le joueur " << joueur_courant << " commmence"
-              << std::endl;
+    // Le joueur qui commence est déterminé aléatoirement.
+    joueur_courant = rand() % nb_joueur;
 
     active = pioche->tirer_carte();
 
-    // La première carte ne peux pas être un '+4'
+    // La première carte ne peux pas être un '+4', alors on la remet dans le
+    // paquet jusqu'à avoir une Carte n'étant pas un +4.
     while(active->type == PLUS_QUATRE)
     {
         pioche->ajouter(active);
@@ -24,6 +25,8 @@ Manche::Manche(Pioche *p, int nb_j)
     }
 
     couleur_active = active->couleur;
+
+    std::cerr << "Le joueur " << joueur_courant << " commmence." << std::endl;
 }
 
 

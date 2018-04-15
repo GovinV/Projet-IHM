@@ -17,7 +17,6 @@ int main()
 
    jeu.set_seed(42);
 
-
    while(!jeu.partie_finie(&gagnants_partie))
    {
        Manche *m = jeu.nouvelle_manche();
