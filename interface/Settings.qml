@@ -5,6 +5,26 @@ SettingsForm {
     width: 300
     height: 710
 
+    Connections{
+        target: settings
+
+        onLoadSize: //(int width, int height);
+        {
+            window.width=width;
+            window.height=height;
+        }
+
+        onLoadNickname: //(QString mess);
+        {
+
+        }
+
+        onLoadLangage: //(QString mess);
+        {
+
+        }
+    }
+
     Rectangle {
         id: rectangle
         anchors.fill: parent

@@ -6,6 +6,34 @@ ServerMenuForm {
     width: 1280
     height: 800
 
+    Connections{
+        target: network
+        onLoadRoom:     //(QString mess,int id, int player, int maxPlayer)
+        {
+
+        }
+
+        onPlayerJoin:   //(QString mess)
+        {
+
+        }
+
+        onPlayerQuit:   //(QString mess)
+        {
+
+        }
+
+        onPlayerStatut: //(QString mess)
+        {
+
+        }
+
+        onServerStatut: //(bool online)
+        {
+
+        }
+    }
+
     Rectangle {
         id: gameMode
         x: 538
@@ -31,7 +59,6 @@ ServerMenuForm {
             background: rgba(0,0,0,0)
 
             onClicked: {
-                clearRooms();
             }
 
             Rectangle{
@@ -76,7 +103,6 @@ ServerMenuForm {
             background: rgba(0,0,0,0)
 
             onClicked: {
-                profil.cmdFromQml(3);
                 swipeHorizontalServeur.setCurrentIndex(1);
                 room.host=true;
             }
@@ -123,8 +149,6 @@ ServerMenuForm {
             background: rgba(0,0,0,0)
 
             onClicked: {
-              //  window.close()
-              createRoom();
             }
 
             Rectangle{
