@@ -50,6 +50,8 @@ void Manche::joueur_joue(Carte *c)
     active = c;
     couleur_active = active->couleur;
 
+    tours.push_back(tour_joueur({0, JOUE_CARTE, -1, c}));
+
     switch(active->type)
     {
         case INVERSION:

@@ -9,7 +9,8 @@
 
 #define DEFAUT_CARTES_MAIN 7
 
-enum TypePartie { CLASSIQUE, MANCHE_UNIQUE };
+enum TypePartie { CLASSIQUE, MANCHE_UNIQUE, DEUX_VS_DEUX_CLASSIQUE,
+                  DEUX_VS_DEUX_MANCHE_UNIQUE, ELIMINATION };
 
 class Joueur;
 
@@ -52,10 +53,12 @@ public:
 
     /// Pioche de la partie.
     Pioche* pioche;
-private:
-
     /// Liste des joueurs dans la partie.
     std::vector<Joueur> joueurs;
+
+private:
+
+
     /// Type de la partie.
     TypePartie type;
     /// Manche en cours dans la partie.

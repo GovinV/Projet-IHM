@@ -76,7 +76,7 @@ void Joueur::piocher(int nb_cartes)
 
 void Joueur::trier_main()
 {
-    std::sort(cmain.begin(), cmain.end(), tri_cartes);
+    std::sort(cmain.begin(), cmain.end(), comparaison_cartes);
 }
 
 
