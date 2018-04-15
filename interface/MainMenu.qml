@@ -63,6 +63,7 @@ MainMenuForm {
         background: rgba(0,0,0,0)
 
         onClicked: {
+            network.roomList();
             swipeVertical.setCurrentIndex(0);
         }
 

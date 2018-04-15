@@ -11,14 +11,6 @@ Window {
 
     flags: Qt.FramelessWindowHint
 
-    Connections{
-        target: profil
-        onSendToQML: {
-            console.log("Message from c++: " + mess);
-            profil.receiveFromQML("ok");
-        }
-    }
-
     Image {
         id: background
         anchors.fill: parent
@@ -117,7 +109,6 @@ Window {
             returnButton.visible=true;
             if(swipeHorizontalServeur.currentIndex==0)
             {
-                profil.cmdFromQml(1);
                 backLogo.rotation=-90;
             }
             else
@@ -148,7 +139,8 @@ Window {
                     swipeVertical.currentIndex=1;
                 else
                 {
-                    profil.cmdFromQml(4);
+                    network.quitRoom();
+                    network.roomList();
                     swipeHorizontalServeur.currentIndex=0;
                 }
             }

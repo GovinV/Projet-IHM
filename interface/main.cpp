@@ -2,7 +2,8 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 
-#include "profil.h"
+#include "network.h"
+#include "settings.h"
 
 int main(int argc, char *argv[])
 {
@@ -11,17 +12,20 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
-    Profil profil;
+    Network network;
+    Settings settings;
 
     QQmlContext *ctx=engine.rootContext();
-    ctx->setContextProperty("profil", &profil);
+    ctx->setContextProperty("network", &network);
+    ctx->setContextProperty("settings", &settings);
+
+    ctx->setContextProperty("serverListModel", QVariant::fromValue(network.serverList));
 
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     if (engine.rootObjects().isEmpty())
         return -1;
 
-    profil.sendToQML("dbuervbqlifdzbvuleizfbqui");
-    profil.sendToQML("dbuervbqlifdzbvuleizfbqui");
+    settings.loadSettings();
 
     return app.exec();
 }

@@ -4,11 +4,15 @@ import QtQuick 2.4
 import QtQuick.Controls 2.3
 
 RoomMenuForm {
-    id: roomMenuForm
+    id: roomMenu
     width: 1280
     height: 800
 
     property bool host: true
+    property string name: "test Server"
+    property string serverId: "123456789"
+    property int player: 1
+    property int playerMax: 4
 
     Rectangle {
         id: gameMode

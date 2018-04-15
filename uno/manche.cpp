@@ -8,7 +8,11 @@ Manche::Manche(Pioche *p, int nb_j)
     plus2_actif = false;
     plus4_actif = false;
     prends_toi_ca = 1;
+    joueur_gagnant = -1;
     joueur_courant = rand() % nb_joueur;
+
+    std::cerr << "Le joueur " << joueur_courant << " commmence"
+              << std::endl;
 
     active = pioche->tirer_carte();
 
@@ -18,6 +22,8 @@ Manche::Manche(Pioche *p, int nb_j)
         pioche->ajouter(active);
         active = pioche->tirer_carte();
     }
+
+    couleur_active = active->couleur;
 }
 
 
@@ -26,7 +32,15 @@ void Manche::joueur_pioche()
     plus2_actif = false;
     plus4_actif = false;
     prends_toi_ca = 1;
-    //tours.push_back(tour_joueur());
+    tours.push_back(tour_joueur({0, PIOCHE, -1, NULL}));
+
+    joueur_courant = (joueur_courant + sens) % nb_joueur;
+
+    if(joueur_courant < 0)
+    {
+        joueur_courant += nb_joueur;
+    }
+
 }
 
 
@@ -35,6 +49,8 @@ void Manche::joueur_joue(Carte *c)
     pioche->ajouter(active);
     active = c;
     couleur_active = active->couleur;
+
+    tours.push_back(tour_joueur({0, JOUE_CARTE, -1, c}));
 
     switch(active->type)
     {
@@ -90,7 +106,7 @@ void Manche::joueur_joue(Carte *c)
 }
 
 
-int Manche::gagnant()
+int Manche::joueur_suivant()
 {
-    return 0;
+    return joueur_courant;
 }

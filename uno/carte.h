@@ -37,37 +37,69 @@ enum TypeCarte { NUMERO, INVERSION, TA_GUEULE, PLUS_DEUX, JOKER, PLUS_QUATRE };
 class Carte
 {
 public:
-    /// Constructeurs.
-    Carte();
-    Carte(Couleur c, TypeCarte t);
+    /**
+     * @brief Constructeur de la classe Carte.
+     * @param c la Couleur de la Carte (voir enum Couleur).
+     * @param t le Type de la Carte (voir enum TypeCarte).
+     * @param v la valeur de la Carte (les points qu'elle rapporte).
+     */
     Carte(Couleur c, TypeCarte t, int v);
 
-    /// Initialisation de la chaine de caractères décrivant la Carte.
-    std::string init_description();
+    /**
+     * @brief Initialisation de la chaine de caractères décrivant la Carte.
+     */
+    void init_description();
 
 
 public:
     /// Couleur de la carte.
     Couleur couleur;
-    /// Description de la carte.
-    std::string description;
     /// Type de la carte.
     TypeCarte type;
+    /// Description de la carte.
+    std::string description;
     /// Valeur de la carte pour le comptage des points.
     int valeur;
 };
 
-
-/// Renvoie sous forme d'une chaine de caractère la couleur de la carte
-/// (si elle n'est pas noire).
+/**
+ * @brief Converti une Couleur en une chaine de charactère.
+ *
+ * La Couleur NOIR n'est pas convertie.
+ *
+ * @param c la Couleur a convertir.
+ * @return la Couleur sous forme de chaine de charactère.
+ */
 std::string couleur_to_string(Couleur c);
 
-
-/// Redéfinition de l'opérateur << pour l'affichage d'une carte.
+/**
+ * @brief Redéfinition de l'operateur << pour l'affichage des cartes.
+ */
 std::ostream &operator << (std::ostream &out, const Carte *c);
 
 
-/// Redéfinition de l'opérateur < (inférieur) pour la comparaison des cartes.
-bool operator < (const Carte c1, const Carte c2);
+/**
+ * @brief Fonction utilisée pour la comparaison de deux cartes afin de les trier.
+ *
+ * L'ordre des cartes est définit en fonction de leurs couleurs. Si elles ont
+ * la même couleur, leurs ordre est définit en fonction de leurs type, et si elles
+ * ont le même type, alors l'ordre est définit en fonction de leurs valeurs.
+ *
+ * Pour les Couleur :
+ *  ROUGE < VERT < BLEU < JAUNE < NOIR
+ *  (ordre de déclaration des Couleur dans l'enum Couleur)
+ *
+ * Pour les TypeCarte :
+ *  NUMERO < INVERSION < TA_GUEULE < PLUS_DEUX < JOKER < PLUS_QUATRE
+ *  (ordre de déclaration des TypeCarte dans l'enum TypeCarte)
+ *
+ * Pour les valeurs :
+ *  Tri par ordre croissant.
+ *
+ * @param c1 un pointeur vers la première Carte.
+ * @param c2 un pointeur vers la deuxième Carte.
+ * @return vrai si la Carte c1 est strictement inférieure à la Carte c2, faux sinon.
+ */
+bool comparaison_cartes(const Carte *c1, const Carte *c2);
 
 #endif // CARTE_H

@@ -15,6 +15,8 @@ public:
     /// Constructeur.
     Pioche();
 
+    ~Pioche();
+
     /// Mélange la pile.
     void melanger(unsigned int s);
 

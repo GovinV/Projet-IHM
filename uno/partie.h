@@ -9,7 +9,8 @@
 
 #define DEFAUT_CARTES_MAIN 7
 
-enum TypePartie { CLASSIQUE, MANCHE_UNIQUE };
+enum TypePartie { CLASSIQUE, MANCHE_UNIQUE, DEUX_VS_DEUX_CLASSIQUE,
+                  DEUX_VS_DEUX_MANCHE_UNIQUE, ELIMINATION };
 
 class Joueur;
 
@@ -19,9 +20,15 @@ public:
     /// Constructeur.
     Partie(TypePartie t, int nb_j, int limite=500);
 
+    ~Partie();
+
     /// Indique si la partie est finie (en fonction du type de la partie).
     /// Renvoie la liste des gagnants (dépend du type de partie).
     bool partie_finie(std::vector<Joueur*> *gagnants);
+
+    /// Indique si la manche en cours est finie.
+    /// Renvoie la liste des gagants.
+    bool manche_finie(Joueur **gagnant);
 
     /// Créé une nouvelle manche
     Manche* nouvelle_manche();
@@ -33,7 +40,7 @@ public:
     void distribution(int nb_cartes);
 
     /// Renvoie le joueur à l'indice spécifié.
-    Joueur get_joueur(int indice);
+    Joueur *get_joueur(int indice);
 
     /// Modifie le nombre de cartes a distribuer en debut de manche.
     void set_nb_cartes_debut(int nb_cartes);
@@ -44,12 +51,14 @@ public:
     /// Renvoie le seed de la partie.
     int get_seed();
 
-
-private:
     /// Pioche de la partie.
     Pioche* pioche;
     /// Liste des joueurs dans la partie.
     std::vector<Joueur> joueurs;
+
+private:
+
+
     /// Type de la partie.
     TypePartie type;
     /// Manche en cours dans la partie.

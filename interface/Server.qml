@@ -7,13 +7,9 @@ ServerForm {
     height: 60
 
     property string name: "test Server"
-    property string serverId: "123456789"
+    property string serverId: "ecbc993c-5de5-4602-9a3e-61ee0247b142"
     property int player: 1
     property int playerMax: 4
-
-    /*onParentDestroy:{
-
-    }*/
 
     Rectangle {
         id: rectangle1
@@ -36,9 +32,13 @@ ServerForm {
         anchors.verticalCenter: parent.verticalCenter
 
         onClicked: {
-            //profil.cmdFromQml(2,id);
+            network.joinRoom(room.serverId);
             swipeHorizontalServeur.setCurrentIndex(1);
             room.host=false;
+            room.name=name;
+            room.serverId=serverId;
+            room.player=player;
+            room.playerMax=playerMax;
         }
 
     }

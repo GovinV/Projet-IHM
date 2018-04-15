@@ -1,10 +1,11 @@
 #include "joueur.h"
 
-Joueur::Joueur()
+Joueur::Joueur(int num)
 {
     uno = UNOSTATE_FAUX;
     points = 0;
     manche_courante = NULL;
+    num_joueur = num;
 }
 
 
@@ -63,6 +64,8 @@ void Joueur::piocher(int nb_cartes)
     for(int i=0; i<nb_cartes; i++)
     {
         cmain.push_back(manche_courante->pioche->tirer_carte());
+        std::cerr << "Le joueur " << num_joueur
+                  << " a pioché : " << cmain.back() << std::endl;
     }
 
     uno = UNOSTATE_FAUX;
@@ -73,7 +76,7 @@ void Joueur::piocher(int nb_cartes)
 
 void Joueur::trier_main()
 {
-    std::sort(cmain.begin(),cmain.end());
+    std::sort(cmain.begin(), cmain.end(), comparaison_cartes);
 }
 
 
@@ -182,6 +185,8 @@ bool Joueur::jouer(int indice_carte)
 
     if(indice_valide)
     {
+        std::cerr << "Le joueur " << num_joueur << " a joué : "
+                  << cmain[indice_carte] << std::endl;
         manche_courante->joueur_joue(cmain[indice_carte]);
         cmain.erase(cmain.begin()+indice_carte);
         if(cmain.size()==1 && uno == UNOSTATE_EN_ATTENTE)
@@ -212,7 +217,8 @@ void Joueur::afficher_main()
 {
     int nb_cartes = cmain.size();
 
-    std::cerr << "Cartes en main :"  << std::endl;
+    std::cerr << "Cartes en main du joueur " << num_joueur
+              << " :" << std::endl;
 
     for(int i=0; i<nb_cartes; i++)
     {

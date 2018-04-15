@@ -79,9 +79,17 @@ MenuBarForm {
 
             onClicked: {
                 if(window.visibility===Window.FullScreen)
+                {
+                   // settingsForm.fullscreenCheckBox.checked=false;
+                    settingsForm.changeFullScreen();
                     window.visibility=Window.Windowed;
+                }
                 else
+                {
+                  //  settingsForm.fullscreenCheckBox.checked=true;
+                    settingsForm.changeFullScreen();
                     window.visibility=Window.FullScreen;
+                }
             }
 
             Rectangle{

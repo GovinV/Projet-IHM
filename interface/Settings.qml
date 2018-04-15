@@ -1,9 +1,47 @@
-import QtQuick 2.4
+import QtQuick 2.7
 import QtQuick.Controls 2.3
+import QtQuick.Window 2.3
 
 SettingsForm {
+    id: settingsForm
     width: 300
     height: 710
+
+    Connections{
+        target: settings
+
+        onLoadSize: //(int width, int height);
+        {
+            window.visibility=Window.Windowed;
+            fullscreenCheckBox.checked=false;
+
+            window.width=width;
+            window.height=height;
+
+            widthEdit.text=width;
+            heightEdit.text=height;
+
+
+        }
+
+        onLoadNickname: //(QString mess);
+        {
+            nicknameInput.text=mess;
+        }
+
+        onLoadLangage: //(QString mess);
+        {
+
+        }
+    }
+
+    function changeFullScreen()
+    {
+        if(fullscreenCheckBox.checked)
+            fullscreenCheckBox.checked=false;
+        else
+            fullscreenCheckBox.checked=true;
+    }
 
     Rectangle {
         id: rectangle
@@ -32,13 +70,13 @@ SettingsForm {
             height: 1
             color: "#ffffff"
             anchors.top: parent.top
-            anchors.topMargin: 86
+            anchors.topMargin: 204
         }
 
         Text {
-            id: text2
+            id: fullsscreenText
             x: 15
-            y: 208
+            y: 326
             color: "#ffffff"
             text: qsTr("Fullsscreen")
             font.bold: false
@@ -49,7 +87,7 @@ SettingsForm {
         Text {
             id: text3
             x: 15
-            y: 261
+            y: 379
             color: "#ffffff"
             text: qsTr("Résolution")
             font.family: "Tahoma"
@@ -58,24 +96,32 @@ SettingsForm {
         }
 
         CheckBox {
-            id: checkBox
+            id: fullscreenCheckBox
             x: 128
-            y: 200
-            text: qsTr("Check Box")
+            y: 318
+            onCheckedChanged:
+            {
+                if(fullscreenCheckBox.checked)
+                    window.visibility=Window.FullScreen;
+                else
+                    window.visibility=Window.Windowed;
+            }
         }
 
         ComboBox {
             id: comboBox
             x: 135
-            y: 253
+            y: 371
         }
 
         Text {
             id: text4
             x: 55
-            y: 322
+            y: 440
             color: "#ffffff"
             text: qsTr("Width")
+            anchors.horizontalCenterOffset: -67
+            anchors.horizontalCenter: parent.horizontalCenter
             font.bold: false
             font.family: "Tahoma"
             font.pixelSize: 20
@@ -84,36 +130,20 @@ SettingsForm {
         Text {
             id: text5
             x: 194
-            y: 322
+            y: 440
             color: "#ffffff"
             text: qsTr("Height")
+            anchors.horizontalCenterOffset: 67
+            anchors.horizontalCenter: parent.horizontalCenter
             font.family: "Tahoma"
             font.bold: false
             font.pixelSize: 20
         }
 
-        TextField {
-            id: textField
-            x: 46
-            y: 359
-            width: 71
-            height: 40
-            text: qsTr("1280")
-        }
-
-        TextField {
-            id: textField1
-            x: 188
-            y: 359
-            width: 71
-            height: 40
-            text: qsTr("1080")
-        }
-
         Text {
             id: text6
             x: 15
-            y: 118
+            y: 236
             color: "#ffffff"
             text: qsTr("Langue")
             font.family: "Tahoma"
@@ -124,7 +154,8 @@ SettingsForm {
         ComboBox {
             id: comboBox1
             x: 135
-            y: 110
+            y: 228
+            textRole: ""
         }
 
         Rectangle {
@@ -134,7 +165,7 @@ SettingsForm {
             width: 300
             height: 1
             color: "#ffffff"
-            anchors.topMargin: 173
+            anchors.topMargin: 291
             anchors.top: parent.top
         }
 
@@ -145,32 +176,165 @@ SettingsForm {
             width: 300
             height: 1
             color: "#ffffff"
-            anchors.topMargin: 426
+            anchors.topMargin: 544
+            anchors.top: parent.top
+        }
+
+
+
+        Rectangle {
+            id: rectangle4
+            x: 0
+            y: 7
+            width: 300
+            height: 1
+            color: "#ffffff"
+            anchors.topMargin: 106
+            anchors.top: parent.top
+        }
+
+        Text {
+            id: text7
+            x: 15
+            y: 145
+            width: 92
+            height: 29
+            color: "#ffffff"
+            text: qsTr("Nickname")
+            verticalAlignment: Text.AlignTop
+            font.pixelSize: 20
+            font.bold: false
+            font.family: "Tahoma"
+        }
+        Button {
+            id: button
+            x: 100
+            y: 652
+            text: qsTr("Réinitialiser")
+            onClicked:
+            {
+                settings.loadSettings();
+            }
+            font.pointSize: 15
+            anchors.horizontalCenterOffset: 67
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 18
+            anchors.horizontalCenter: parent.horizontalCenter
+        }
+        Button {
+            id: button1
+            x: 105
+            y: 652
+            onClicked:
+            {
+                settingsForm.isActive=false;
+            }
+            text: qsTr("Quitter")
+            font.pointSize: 15
+            anchors.horizontalCenterOffset: -77
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 18
+        }
+
+        TextInput {
+            id: nicknameInput
+            x: 135
+            y: 146
+            width: 140
+            height: 24
+            selectByMouse: true;
+            color: "#e98515"
+            text: qsTr("Semperfegrhtj")
+            selectionColor: "#ffffff"
+            selectedTextColor: "#e98515"
+            clip:true
+            validator: RegExpValidator { regExp: /[0-9a-zA-Z]{1,13}/ }
+            horizontalAlignment: Text.AlignLeft
+            font.family: "Tahoma"
+            font.pixelSize: 20
+        }
+
+        Rectangle {
+            id: nicknameBorder
+            x: 135
+            y: 8
+            width: 140
+            height: 1
+            color: "#e98515"
+            anchors.topMargin: 171
             anchors.top: parent.top
         }
 
         Button {
-            id: button
-            x: 100
-            y: 643
+            id: button2
+            x: 31
+            y: 571
+            width: 254
+            height: 34
             text: qsTr("Sauvegarder")
-            font.pointSize: 15
-            anchors.horizontalCenterOffset: 75
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 27
+            onClicked:
+            {
+                settings.changeNickname(nicknameInput.text);
+                //settings.changeLangage();
+                settings.changeSize(widthEdit.text,heightEdit.text);
+                settings.loadSettings();
+            }
+            anchors.horizontalCenterOffset: 0
             anchors.horizontalCenter: parent.horizontalCenter
+            font.pointSize: 15
         }
+    }
 
-        Button {
-            id: button1
-            x: 105
-            y: 643
-            text: qsTr("Quitter")
-            font.pointSize: 15
-            anchors.horizontalCenterOffset: -69
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 27
+    Rectangle {
+        id: widthBackground
+        x: 47
+        y: 478
+        width: 70
+        height: 40
+        color: "#ffffff"
+        anchors.horizontalCenterOffset: -67
+        anchors.horizontalCenter: parent.horizontalCenter
+
+        TextInput {
+            id: widthEdit
+            x: 4
+            y: 13
+            width: 62
+            height: 14
+            text: qsTr("1280")
+            selectByMouse: true;
+            selectionColor: "#e98515"
+            selectedTextColor: "#ffffff"
+            horizontalAlignment: Text.AlignHCenter
+            validator:IntValidator{bottom: 1000; top: 10000;}
+            font.pixelSize: 15
+        }
+    }
+
+    Rectangle {
+        id: heightBackground
+        x: 189
+        y: 478
+        width: 70
+        height: 40
+        color: "#ffffff"
+        anchors.horizontalCenterOffset: 67
+        anchors.horizontalCenter: parent.horizontalCenter
+
+        TextInput {
+            id: heightEdit
+            x: 4
+            y: 13
+            width: 62
+            height: 14
+            text: qsTr("800")
+            font.pixelSize: 15
+            selectByMouse: true;
+            selectionColor: "#e98515"
+            selectedTextColor: "#ffffff"
+            validator:IntValidator{bottom: 800; top: 10000;}
+            horizontalAlignment: Text.AlignHCenter
         }
     }
 }
