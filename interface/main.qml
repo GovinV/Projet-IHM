@@ -139,6 +139,8 @@ Window {
                     swipeVertical.currentIndex=1;
                 else
                 {
+                    network.quitRoom();
+                    network.roomList();
                     swipeHorizontalServeur.currentIndex=0;
                 }
             }

@@ -54,24 +54,28 @@ void Network::roomList()
 {
     client.UI_to_Soc("<list>");
     this->state=1;
+    qDebug() << "roomList";
 }
 
 void Network::createRoom()
 {
     client.UI_to_Soc("<join>");
     this->state=2;
+    qDebug() << "createRoom";
 }
 
 void Network::joinRoom()
 {
     client.UI_to_Soc("<join>");
     this->state=2;
+    qDebug() << "joinRoom";
 }
 
 void Network::quitRoom()
 {
     client.UI_to_Soc("<quit>");
     this->state=0;
+    qDebug() << "quitRoom";
 }
 
 void Network::parseRoomList(QString list)
@@ -79,6 +83,9 @@ void Network::parseRoomList(QString list)
     /*          TO-DO
      *
      * For each room:
+     *      serverList.append(new Server("Govin's Room", "9f4gdrh9s4d9ft",3,3));
+     *
+     *      sinon
      *      emit loadRoom(QString mess,int id, int player, int maxPlayer);
      *
      */
