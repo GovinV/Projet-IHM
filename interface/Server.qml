@@ -32,6 +32,7 @@ ServerForm {
         anchors.verticalCenter: parent.verticalCenter
 
         onClicked: {
+            network.joinRoom();
             swipeHorizontalServeur.setCurrentIndex(1);
             room.host=false;
             room.name=name;

@@ -103,6 +103,7 @@ ServerMenuForm {
             background: rgba(0,0,0,0)
 
             onClicked: {
+                network.createRoom();
                 swipeHorizontalServeur.setCurrentIndex(1);
                 room.host=true;
             }
