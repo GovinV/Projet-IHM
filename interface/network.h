@@ -4,12 +4,16 @@
 #include <QObject>
 #include <QDebug>
 #include "client/ClientTcp.h"
+#include "server.h"
 
 class Network : public QObject
 {
     Q_OBJECT
     public:
         explicit Network(QObject *parent = nullptr);
+
+        QList<QObject*> serverList;
+        QList<QObject*> playersInfos;
 
     signals:
         void loadRoom(QString mess,int id, int player, int maxPlayer);

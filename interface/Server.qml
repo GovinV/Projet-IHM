@@ -11,10 +11,6 @@ ServerForm {
     property int player: 1
     property int playerMax: 4
 
-    /*onParentDestroy:{
-
-    }*/
-
     Rectangle {
         id: rectangle1
         x: 0
@@ -36,9 +32,12 @@ ServerForm {
         anchors.verticalCenter: parent.verticalCenter
 
         onClicked: {
-            //profil.cmdFromQml(2,id);
             swipeHorizontalServeur.setCurrentIndex(1);
             room.host=false;
+            room.name=name;
+            room.serverId=serverId;
+            room.player=player;
+            room.playerMax=playerMax;
         }
 
     }

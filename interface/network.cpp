@@ -3,6 +3,11 @@
 Network::Network(QObject *parent) : QObject(parent)
 {
     this->state=0;
+
+    serverList.append(new Server("Nico's Room", "9f4gdrh9s4d9ft",1,4));
+    serverList.append(new Server("Govin's Room", "9f4gdrh9s4d9ft",3,3));
+    serverList.append(new Server("Nico's Room", "9f4gdrh9s4d9ft",1,4));
+
     connect(&client,SIGNAL(readingComplete(QString)),this,SLOT(receiveFromServer(QString)));
 }
 

@@ -15,12 +15,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 HEADERS += client/ClientTcp.h\
     settings.h \
-    network.h
+    network.h \
+    server.h
 
 SOURCES += main.cpp \
     client/ClientTcp.cpp \
     settings.cpp \
-    network.cpp
+    network.cpp \
+    server.cpp
 
 RESOURCES += qml.qrc \
     resource.qrc

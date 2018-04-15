@@ -212,74 +212,26 @@ ServerMenuForm {
         border.width: (parent.width / 2048) * 24
         border.color: "#ffffff"
 
-        ScrollView {
-            id: scrollView
+        ListView {
             width: parent.width-(parent.parent.width / 2048) * 48
             height: parent.height-60-(parent.parent.width / 2048) * 24
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.top: parent.top
             anchors.topMargin: 60
 
+            clip:true
 
-            Flickable {
-                id: flickableObject
-                clip: true
-                Column {
-                    id: roomColumn
-                    width: scrollView.width
-
-                    Server{
-                        width: parent.width
-                        name: "Govin's server"
-                        player: 2
-                        playerMax: 3
-                    }/*
-                    Server{
-                        width: parent.width
-                        name: "Govin's server"
-                        player: 3
-                        playerMax: 4
-                    }
-                    Server{
-                        width: parent.width
-                        name: "Govin's server"
-                        player: 2
-                        playerMax: 2
-                    }
-                    Server{
-                        width: parent.width
-                        name: "Govin's server"
-                        player: 4
-                        playerMax: 4
-                    }
-                    Server{
-                        width: parent.width
-                        name: "Govin's server"
-                        player: 1
-                        playerMax: 4
-                    }
-                    Server{
-                        width: parent.width
-                        name: "Govin's server"
-                        player: 1
-                        playerMax: 2
-                    }
-                    Server{
-                        width: parent.width
-                        name: "Govin's server"
-                        player: 3
-                        playerMax: 3
-                    }
-                    Server{
-                        width: parent.width
-                        name: "Govin's server"
-                        player: 1
-                        playerMax: 4
-                    }*/
-
+            model: serverListModel
+            delegate: Rectangle {
+                height: 60
+                Server{
+                    width: serverList.width-(serverList.parent.width / 2048) * 48
+                    name: model.name
+                    serverId: model.id
+                    player: model.player
+                    playerMax: model.max
                 }
             }
-
         }
 
         Rectangle {
