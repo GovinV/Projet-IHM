@@ -32,6 +32,12 @@ void Settings::changeSize(int width, int height)
     qDebug() << "Size Changed";
 }
 
+void Settings::changeSize(QString width, QString height)
+{
+    changeSize(width.toInt(), height.toInt());
+}
+
+
 void Settings::changeNickname(QString mess)
 {
     QSettings setting("Uno","Settings");

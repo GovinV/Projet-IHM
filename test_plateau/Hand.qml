@@ -22,14 +22,6 @@ import Hand 1.0
         }
 
         delegate: RowLayout{
-            /*Rectangle{
-                width: 70
-                height: 100
-                Image{
-                    anchors.fill:parent
-                    source: model.sourceImg
-                }
-            }*/
             Card{
                 property bool flipped: cardsFlipped
                 front: Image{

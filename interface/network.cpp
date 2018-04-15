@@ -59,14 +59,14 @@ void Network::roomList()
 
 void Network::createRoom()
 {
-    client.UI_to_Soc("<join>");
+    client.UI_to_Soc("<create>");
     this->state=2;
     qDebug() << "createRoom";
 }
 
-void Network::joinRoom()
+void Network::joinRoom(QString room_name)
 {
-    client.UI_to_Soc("<join>");
+    client.UI_to_Soc("<join> " + room_name);
     this->state=2;
     qDebug() << "joinRoom";
 }

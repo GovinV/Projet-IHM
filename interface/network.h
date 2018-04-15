@@ -32,7 +32,7 @@ class Network : public QObject
         void changeMaxPlayer(int n);
         void roomList();
         void createRoom();
-        void joinRoom();
+        void joinRoom(QString room_name);
         void quitRoom();
 
     private:

@@ -17,17 +17,17 @@ Flipable {
     }
 
     transform: Rotation{
-        id: rotation
+        id: flipRotation
         origin.x: card.width/2
         origin.y: card.height/2
-        axis.x: 0; axis.y: 1; axis.z: 0
+        //axis.x: 0; axis.y: 1; axis.z: 0
         angle: 0
     }
 
     states: State{
         name: "back"
         PropertyChanges {
-            target: rotation
+            target: flipRotation
             angle: 180
         }
         when: card.flipped
