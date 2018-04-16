@@ -8,8 +8,8 @@ from player import Player
 import player
 
 READ_BUFFER = 4096
-host = "130.79.49.198"
-port = 2213
+host = "127.0.0.1"
+port = 8888
 
 
 server_connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
