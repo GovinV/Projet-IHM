@@ -2,6 +2,7 @@ import QtQuick 2.4
 import QtQuick.Controls 2.3
 import QtQml 2.2
 import QtQuick.Controls.Styles 1.4
+
 MainMenuForm {
     id: mainMenuForm
     width: 1280
@@ -18,7 +19,8 @@ MainMenuForm {
         anchors.horizontalCenter: parent.horizontalCenter
         transformOrigin: Item.Center
         anchors.verticalCenter: parent.verticalCenter
-        background: rgba(0,0,0,0)
+
+        background: Rectangle { color: Qt.rgba(0,0,0,0)}
 
         onClicked: {
             swipeHorizontal.setCurrentIndex(1);
@@ -60,7 +62,7 @@ MainMenuForm {
         anchors.verticalCenterOffset: 0
         anchors.verticalCenter: parent.verticalCenter
         transformOrigin: Item.Center
-        background: rgba(0,0,0,0)
+        background: Rectangle { color: Qt.rgba(0,0,0,0)}
 
         onClicked: {
             network.roomList();
@@ -101,7 +103,7 @@ MainMenuForm {
         anchors.horizontalCenter: parent.horizontalCenter
         transformOrigin: Item.Center
         anchors.verticalCenter: parent.verticalCenter
-        background: rgba(0,0,0,0)
+        background: Rectangle { color: Qt.rgba(0,0,0,0)}
 
         onClicked: {
             swipeHorizontalMenu.setCurrentIndex(1);

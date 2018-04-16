@@ -56,7 +56,7 @@ ServerMenuForm {
             y: (parent.parent.width / 2048) * 24
             width: parent.width-((parent.parent.width / 2048) * 24*2)
             height: (parent.height-((parent.parent.width / 2048) * 24*2))/3
-            background: rgba(0,0,0,0)
+            background: Rectangle { color: Qt.rgba(0,0,0,0)}
 
             onClicked: {
             }
@@ -100,7 +100,7 @@ ServerMenuForm {
             y: (parent.parent.width / 2048) * 24+(parent.height-((parent.parent.width / 2048) * 24*2))/3
             width: parent.width-((parent.parent.width / 2048) * 24*2)
             height: (parent.height-((parent.parent.width / 2048) * 24*2))/3
-            background: rgba(0,0,0,0)
+            background: Rectangle { color: Qt.rgba(0,0,0,0)}
 
             onClicked: {
                 network.createRoom();
@@ -147,7 +147,7 @@ ServerMenuForm {
             y: (parent.parent.width / 2048) * 24 + (parent.height-((parent.parent.width / 2048) * 24*2))/3*2
             width: parent.width-((parent.parent.width / 2048) * 24*2)
             height: (parent.height-((parent.parent.width / 2048) * 24*2))/3
-            background: rgba(0,0,0,0)
+            background: Rectangle { color: Qt.rgba(0,0,0,0)}
 
             onClicked: {
             }
