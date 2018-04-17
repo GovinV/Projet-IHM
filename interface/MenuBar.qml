@@ -43,7 +43,7 @@ MenuBarForm {
             anchors.rightMargin: 0
             anchors.top: parent.top
             anchors.topMargin: 0
-            background: rgba(0,0,0,0)
+            background: Rectangle { color: Qt.rgba(0,0,0,0)}
 
             onClicked: {
 
@@ -53,7 +53,7 @@ MenuBarForm {
             Rectangle{
                id: quitBackground
                anchors.fill: parent
-               color: white
+               color: "white"
                opacity : 0
              }
              onHoveredChanged: hovered ? quitBackground.opacity = 1 : quitBackground.opacity = 0;
@@ -74,7 +74,7 @@ MenuBarForm {
             anchors.rightMargin: 42
             anchors.top: parent.top
             anchors.topMargin: 0
-            background: rgba(0,0,0,0)
+            background: Rectangle { color: Qt.rgba(0,0,0,0)}
 
 
             onClicked: {
@@ -95,7 +95,7 @@ MenuBarForm {
             Rectangle{
                id: fullBackground
                anchors.fill: parent
-               color: white
+               color: "white"
                opacity : 0
              }
              onHoveredChanged: hovered ? fullBackground.opacity = 1 : fullBackground.opacity = 0;
@@ -116,7 +116,7 @@ MenuBarForm {
             anchors.rightMargin: 84
             anchors.top: parent.top
             anchors.topMargin: 0
-            background: rgba(0,0,0,0)
+            background: Rectangle { color: Qt.rgba(0,0,0,0)}
 
             onClicked: {
                     window.visibility=Window.Minimized;
@@ -125,7 +125,7 @@ MenuBarForm {
             Rectangle{
                id: lessBackground
                anchors.fill: parent
-               color: white
+               color: "white"
                opacity : 0
              }
              onHoveredChanged: hovered ? lessBackground.opacity = 1 : lessBackground.opacity = 0;
@@ -145,7 +145,7 @@ MenuBarForm {
             anchors.right: parent.right
             anchors.rightMargin: 168
             anchors.verticalCenter: parent.verticalCenter
-            background: rgba(0,0,0,0)
+            background: Rectangle { color: Qt.rgba(0,0,0,0)}
 
             onClicked: {
                 if(settingsForm.isActive)
@@ -160,7 +160,7 @@ MenuBarForm {
                y: parent.height/4
                width: parent.width/2
                height: parent.height/2
-               color: white
+               color: "white"
                opacity : 0
              }
              onHoveredChanged: hovered ? optionBackground.opacity = 1 : optionBackground.opacity = 0;

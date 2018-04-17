@@ -57,9 +57,9 @@ void Network::roomList()
     qDebug() << "roomList";
 }
 
-void Network::createRoom()
+void Network::createRoom(QString room_name)
 {
-    client.UI_to_Soc("<create>");
+    client.UI_to_Soc("<create> "+ room_name);
     this->state=2;
     qDebug() << "createRoom";
 }

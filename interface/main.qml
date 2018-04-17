@@ -130,7 +130,7 @@ Window {
         anchors.leftMargin: 30
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 30
-        background: rgba(0,0,0,0)
+        background: Rectangle { color: Qt.rgba(0,0,0,0)}
 
         onClicked:{
             if(swipeVertical.currentIndex==0)

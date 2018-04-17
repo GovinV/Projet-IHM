@@ -25,12 +25,11 @@ PlayerForm {
         height: 43
         color: "#ffffff"
         text: name
+        anchors.horizontalCenter: parent.horizontalCenter
         font.bold: true
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignHCenter
         anchors.verticalCenterOffset: 1
-        anchors.left: parent.left
-        anchors.leftMargin: 8
         anchors.verticalCenter: parent.verticalCenter
         font.pixelSize: 20
     }
