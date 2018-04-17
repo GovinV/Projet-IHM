@@ -103,7 +103,7 @@ ServerMenuForm {
             background: Rectangle { color: Qt.rgba(0,0,0,0)}
 
             onClicked: {
-                network.createRoom();
+                network.createRoom("Test");
                 swipeHorizontalServeur.setCurrentIndex(1);
                 room.host=true;
             }

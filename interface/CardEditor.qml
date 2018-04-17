@@ -1,5 +1,6 @@
 import QtQuick 2.4
 import QtQuick.Controls 2.3
+import QtQuick.Layouts 1.0
 
 CardEditorForm {
     id: cardEditorForm
@@ -25,33 +26,101 @@ CardEditorForm {
         ScrollView {
             id: scrollView
             width: parent.width-(parent.parent.width / 2048) * 48
-            height: parent.height-60-(parent.parent.width / 2048) * 24
+            height: parent.height-(parent.parent.width / 2048) * 48
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.top: parent.top
-            anchors.topMargin: 60
+            anchors.topMargin:(parent.width / 2048) * 62
 
+            clip: true
 
-            Flickable {
-                clip: true
-                Column {
-                    id: column
-                    width: scrollView.width
+                ListModel {
+                    id: fruitModel
 
-                    Server{
-                        width: parent.width
-                        name: "Govin's server"
-                        player: 2
-                        playerMax: 3
+                    ListElement {
+                        style: "none"
                     }
-                    Server{
-                        width: parent.width
-                        name: "Govin's server"
-                        player: 3
-                        playerMax: 4
+                    ListElement {
+                        style: "s1"
+                    }
+                    ListElement {
+                        style: "s2"
+                    }
+                    ListElement {
+                        style: "s3"
+                    }
+                    ListElement {
+                        style: "s4"
+                    }
+                    ListElement {
+                        style: "s5"
                     }
                 }
+
+                GridLayout {
+                    columnSpacing: 0
+                    rowSpacing: 20
+                    width: scrollView.width
+                    height: scrollView.height
+                    rows: 2
+                    columns: 2
+
+                    onWidthChanged:
+                    {
+                        if(this.width>500)
+                            columns=3;
+                        else
+                            columns=2;
+
+                    }
+
+
+                    Repeater {
+                        model: fruitModel
+                        delegate:
+                            Rectangle
+                            {
+                                id: rectangle1
+                                width: scrollView.width/2-1
+                                height: scrollView.width/2
+
+                                color: Qt.rgba(0,0,0,0)
+
+                                Button {
+                                    id: button1
+                                    width: ((rectangle1.height-24) / 200) * 130
+                                    height: rectangle1.height -24
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                    background:
+                                        Rectangle{
+                                            anchors.fill: parent
+                                            color: Qt.rgba(0,0,0,0)
+                                            Image {
+                                                id: button1name
+                                                anchors.fill: parent
+                                                source: "qrc:/cartes/cartes/b/bg.png"
+                                                }
+                                            Rectangle {
+                                                id: rectangle
+                                                anchors.fill: parent
+                                                radius: 20
+                                                color: "#00000000"
+                                                border.color:  button1.hovered?"#e98515":"#ffffff"
+                                                border.width: (width / 325) * 24
+                                            }
+                                        }
+
+                                    Image {
+                                        id: name
+                                        anchors.fill: parent
+                                        source: "qrc:/cartes/cartes/style/"+ model.style +".png"
+                                    }
+                                }
+                            } // Rectangle end
+                    }
+                }
+
             }
-        }
     }
 
     Card {
