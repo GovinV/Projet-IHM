@@ -81,10 +81,10 @@ void Network::quitRoom()
 void Network::parseRoomList(QString list)
 {
     QStringList Rooms = list.split(">");
-    for each (Qstring room in Rooms)
+    foreach (QString room , Rooms)
     {
         QStringList infos = room.split(":");
-        serverList.append(new Server(infos.at(1),infos.at(0),infos.at(2),infos.at(3)));
+        serverList.append(new Server(infos.at(1),infos.at(0),infos.at(2).toInt(),infos.at(3).toInt()));
     }
     qDebug() << "parseRoomList: " << list;
 
@@ -103,11 +103,11 @@ void Network::parseRoomInfos(QString infos)
             emit playerJoin(option.at(1));
             break;
         case 1:
-            emit playerQuit(QString mess);
+            emit playerQuit(infos);
             break;
         /* add every others options possible*/
         default:
-             qDebug() << "Unknown message receive from Server: " << mess;
+             qDebug() << "Unknown message receive from Server: " << infos;
              break;
     }
     /*          TO-DO

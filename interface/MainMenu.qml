@@ -20,7 +20,15 @@ MainMenuForm {
         transformOrigin: Item.Center
         anchors.verticalCenter: parent.verticalCenter
 
-        background: Rectangle { color: Qt.rgba(0,0,0,0)}
+        background: Rectangle {
+            width: parent.width - parent.width/327*48
+            height: parent.height - parent.height/502*48
+            anchors.left: parent.left
+            anchors.leftMargin:  parent.width/327*24
+            anchors.top: parent.top
+            anchors.topMargin:  parent.width/327*24
+            color: profil.hovered?"#e98515":"#272727"
+        }
 
         onHoveredChanged:
         {
@@ -36,7 +44,7 @@ MainMenuForm {
         Image {
             id: profilBackground
             anchors.fill: parent
-            source: "qrc:/resources/img/card.png"
+            source: "qrc:/cartes/cartes/bg.png"
         }
 
         Text {
@@ -70,7 +78,17 @@ MainMenuForm {
         anchors.verticalCenterOffset: 0
         anchors.verticalCenter: parent.verticalCenter
         transformOrigin: Item.Center
-        background: Rectangle { color: Qt.rgba(0,0,0,0)}
+
+        background: Rectangle {
+            width: parent.width - parent.width/327*48
+            height: parent.height - parent.height/502*48
+            anchors.left: parent.left
+            anchors.leftMargin:  parent.width/327*24
+            anchors.top: parent.top
+            anchors.topMargin:  parent.width/327*24
+            color: play.hovered?"#e98515":"#272727"
+        }
+
 
         onHoveredChanged:
         {
@@ -87,7 +105,7 @@ MainMenuForm {
         Image {
             id: playBackground
             anchors.fill: parent
-            source: "qrc:/resources/img/card.png"
+            source: "qrc:/cartes/cartes/bg.png"
         }
         Text {
             id: textPlay
@@ -119,7 +137,16 @@ MainMenuForm {
         anchors.horizontalCenter: parent.horizontalCenter
         transformOrigin: Item.Center
         anchors.verticalCenter: parent.verticalCenter
-        background: Rectangle { color: Qt.rgba(0,0,0,0)}
+
+        background: Rectangle {
+            width: parent.width - parent.width/327*48
+            height: parent.height - parent.height/502*48
+            anchors.left: parent.left
+            anchors.leftMargin:  parent.width/327*24
+            anchors.top: parent.top
+            anchors.topMargin:  parent.width/327*24
+            color: custom.hovered?"#e98515":"#272727"
+        }
 
         onHoveredChanged:
         {
@@ -135,7 +162,7 @@ MainMenuForm {
         Image {
             id: customBackground
             anchors.fill: parent
-            source: "qrc:/resources/img/card.png"
+            source: "qrc:/cartes/cartes/bg.png"
         }
 
         Text {

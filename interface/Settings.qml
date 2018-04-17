@@ -350,6 +350,7 @@ SettingsForm {
             width: 152
             height: 39
             value: 0.5
+
         }
 
         Rectangle {
