@@ -167,12 +167,12 @@ class Room:
     def remove_player(self, player):
         self.players.remove(player)
         self.length-=1
-        leave_msg = b"playerquit: "+ player.id.encode() + b": "+ player.name.encode() + b"\n"
+        leave_msg = b"playerquit:"+ player.id.encode() + b": "+ player.name.encode() + b"\n"
         self.broadcast(player, leave_msg)
 
     def send_players_list(self, player):
         msg =""
         for player in self.players:
-            msg += "" + player.name +">"
+            msg += player.id + ":" + player.name +">"
         msg+="\n"
         player.socket.sendall(msg.encode())
