@@ -26,6 +26,7 @@ SettingsForm {
 
         onLoadVolume:
         {
+            volumeSlider.value=mess;
             playClick.volume=mess;
             playSnap.volume=mess;
         }
@@ -251,7 +252,7 @@ SettingsForm {
             onClicked:
             {
                 playClick.play();
-                settingsForm.isActive=false;
+                settingsRect.isActive=false;
             }
             text: qsTr("Quitter")
             font.pointSize: 15

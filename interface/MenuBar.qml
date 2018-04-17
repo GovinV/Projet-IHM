@@ -193,10 +193,10 @@ MenuBarForm {
 
             onClicked: {
                 playClick.play();
-                if(settingsForm.isActive)
-                    settingsForm.isActive=false;
+                if(settingsRect.isActive)
+                    settingsRect.isActive=false;
                 else
-                    settingsForm.isActive=true;
+                    settingsRect.isActive=true;
             }
 
             Rectangle{
