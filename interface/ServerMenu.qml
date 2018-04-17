@@ -56,9 +56,10 @@ ServerMenuForm {
             y: (parent.parent.width / 2048) * 24
             width: parent.width-((parent.parent.width / 2048) * 24*2)
             height: (parent.height-((parent.parent.width / 2048) * 24*2))/3
-            background: rgba(0,0,0,0)
+            background: Rectangle { color: Qt.rgba(0,0,0,0)}
 
             onClicked: {
+                playClick.play();
             }
 
             Rectangle{
@@ -81,6 +82,7 @@ ServerMenuForm {
              }
 
              onHoveredChanged: function(){
+                 playSnap.play();
                 if(this.hovered)
                 {
                     soloBackground.opacity = 1;
@@ -100,10 +102,11 @@ ServerMenuForm {
             y: (parent.parent.width / 2048) * 24+(parent.height-((parent.parent.width / 2048) * 24*2))/3
             width: parent.width-((parent.parent.width / 2048) * 24*2)
             height: (parent.height-((parent.parent.width / 2048) * 24*2))/3
-            background: rgba(0,0,0,0)
+            background: Rectangle { color: Qt.rgba(0,0,0,0)}
 
             onClicked: {
-                network.createRoom();
+                playClick.play();
+                network.createRoom("Test");
                 swipeHorizontalServeur.setCurrentIndex(1);
                 room.host=true;
             }
@@ -128,6 +131,7 @@ ServerMenuForm {
              }
 
              onHoveredChanged: function(){
+                 playSnap.play();
                 if(this.hovered)
                 {
                     serverBackground.opacity = 1;
@@ -147,9 +151,10 @@ ServerMenuForm {
             y: (parent.parent.width / 2048) * 24 + (parent.height-((parent.parent.width / 2048) * 24*2))/3*2
             width: parent.width-((parent.parent.width / 2048) * 24*2)
             height: (parent.height-((parent.parent.width / 2048) * 24*2))/3
-            background: rgba(0,0,0,0)
+            background: Rectangle { color: Qt.rgba(0,0,0,0)}
 
             onClicked: {
+                playClick.play();
             }
 
             Rectangle{
@@ -172,6 +177,7 @@ ServerMenuForm {
              }
 
              onHoveredChanged: function(){
+                 playSnap.play();
                 if(this.hovered)
                 {
                     tutoBackground.opacity = 1;

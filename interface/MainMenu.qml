@@ -2,6 +2,7 @@ import QtQuick 2.4
 import QtQuick.Controls 2.3
 import QtQml 2.2
 import QtQuick.Controls.Styles 1.4
+
 MainMenuForm {
     id: mainMenuForm
     width: 1280
@@ -18,10 +19,18 @@ MainMenuForm {
         anchors.horizontalCenter: parent.horizontalCenter
         transformOrigin: Item.Center
         anchors.verticalCenter: parent.verticalCenter
-        background: rgba(0,0,0,0)
+
+        background: Rectangle { color: Qt.rgba(0,0,0,0)}
+
+        onHoveredChanged:
+        {
+            if(hovered)
+                playSnap.play();
+        }
 
         onClicked: {
-            swipeHorizontal.setCurrentIndex(1);
+            playClick.play();
+            //swipeHorizontal.setCurrentIndex(1);
         }
 
         Image {
@@ -36,14 +45,15 @@ MainMenuForm {
             y: 120
             width: 147
             height: 71
-            text: qsTr("Profil")
+            text: qsTr("Coming Soon")
+            verticalAlignment: Text.AlignVCenter
             font.bold: true
             font.family: "Tahoma"
-            rotation: -55
+            font.pixelSize: 30
+            rotation: -50
             horizontalAlignment: Text.AlignHCenter
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
-            font.pixelSize: 50
             color: "#272727"
         }
 
@@ -60,9 +70,16 @@ MainMenuForm {
         anchors.verticalCenterOffset: 0
         anchors.verticalCenter: parent.verticalCenter
         transformOrigin: Item.Center
-        background: rgba(0,0,0,0)
+        background: Rectangle { color: Qt.rgba(0,0,0,0)}
+
+        onHoveredChanged:
+        {
+            if(hovered)
+                playSnap.play();
+        }
 
         onClicked: {
+            playClick.play();
             network.roomList();
             swipeVertical.setCurrentIndex(0);
         }
@@ -79,9 +96,10 @@ MainMenuForm {
             width: 147
             height: 71
             text: qsTr("Play")
+            verticalAlignment: Text.AlignVCenter
             font.bold: true
             font.family: "Tahoma"
-            rotation: -55
+            rotation: -50
             horizontalAlignment: Text.AlignHCenter
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
@@ -101,9 +119,16 @@ MainMenuForm {
         anchors.horizontalCenter: parent.horizontalCenter
         transformOrigin: Item.Center
         anchors.verticalCenter: parent.verticalCenter
-        background: rgba(0,0,0,0)
+        background: Rectangle { color: Qt.rgba(0,0,0,0)}
+
+        onHoveredChanged:
+        {
+            if(hovered)
+                playSnap.play();
+        }
 
         onClicked: {
+            playClick.play();
             swipeHorizontalMenu.setCurrentIndex(1);
         }
 
@@ -120,11 +145,12 @@ MainMenuForm {
             width: 147
             height: 71
             text: qsTr("Editor")
+            verticalAlignment: Text.AlignVCenter
             font.bold: true
             font.family: "Tahoma"
             font.pixelSize: 50
             color: "#272727"
-            rotation: -55
+            rotation: -50
             horizontalAlignment: Text.AlignHCenter
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter

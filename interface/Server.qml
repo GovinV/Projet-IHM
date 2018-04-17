@@ -31,7 +31,14 @@ ServerForm {
         anchors.rightMargin: 8
         anchors.verticalCenter: parent.verticalCenter
 
+        onHoveredChanged:
+        {
+            if(hovered)
+                playSnap.play();
+        }
+
         onClicked: {
+            playClick.play();
             network.joinRoom(room.serverId);
             swipeHorizontalServeur.setCurrentIndex(1);
             room.host=false;

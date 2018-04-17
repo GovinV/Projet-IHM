@@ -3,6 +3,8 @@
 
 #include "joueur.h"
 
+// TODO : Rendre intelligent l'IA.
+
 class JoueurIA : public Joueur
 {
 public:

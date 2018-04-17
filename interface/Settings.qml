@@ -24,6 +24,12 @@ SettingsForm {
 
         }
 
+        onLoadVolume:
+        {
+            volumeSlider.value=mess;
+            playClick.volume=mess;
+            playSnap.volume=mess;
+        }
         onLoadNickname: //(QString mess);
         {
             nicknameInput.text=mess;
@@ -33,6 +39,7 @@ SettingsForm {
         {
 
         }
+
     }
 
     function changeFullScreen()
@@ -54,10 +61,11 @@ SettingsForm {
             height: 13
             color: "#e98515"
             text: qsTr("Settings")
+            anchors.horizontalCenterOffset: 0
             font.bold: true
             font.family: "Tahoma"
             anchors.top: parent.top
-            anchors.topMargin: 18
+            anchors.topMargin: 28
             anchors.horizontalCenter: parent.horizontalCenter
             font.pixelSize: 35
 
@@ -70,13 +78,13 @@ SettingsForm {
             height: 1
             color: "#ffffff"
             anchors.top: parent.top
-            anchors.topMargin: 204
+            anchors.topMargin: 190
         }
 
         Text {
             id: fullsscreenText
             x: 15
-            y: 326
+            y: 293
             color: "#ffffff"
             text: qsTr("Fullsscreen")
             font.bold: false
@@ -87,7 +95,7 @@ SettingsForm {
         Text {
             id: text3
             x: 15
-            y: 379
+            y: 338
             color: "#ffffff"
             text: qsTr("Résolution")
             font.family: "Tahoma"
@@ -97,10 +105,11 @@ SettingsForm {
 
         CheckBox {
             id: fullscreenCheckBox
-            x: 128
-            y: 318
+            x: 127
+            y: 285
             onCheckedChanged:
             {
+                playClick.play();
                 if(fullscreenCheckBox.checked)
                     window.visibility=Window.FullScreen;
                 else
@@ -111,13 +120,13 @@ SettingsForm {
         ComboBox {
             id: comboBox
             x: 135
-            y: 371
+            y: 330
         }
 
         Text {
             id: text4
             x: 55
-            y: 440
+            y: 392
             color: "#ffffff"
             text: qsTr("Width")
             anchors.horizontalCenterOffset: -67
@@ -130,7 +139,7 @@ SettingsForm {
         Text {
             id: text5
             x: 194
-            y: 440
+            y: 392
             color: "#ffffff"
             text: qsTr("Height")
             anchors.horizontalCenterOffset: 67
@@ -143,7 +152,7 @@ SettingsForm {
         Text {
             id: text6
             x: 15
-            y: 236
+            y: 217
             color: "#ffffff"
             text: qsTr("Langue")
             font.family: "Tahoma"
@@ -154,7 +163,7 @@ SettingsForm {
         ComboBox {
             id: comboBox1
             x: 135
-            y: 228
+            y: 209
             textRole: ""
         }
 
@@ -165,7 +174,7 @@ SettingsForm {
             width: 300
             height: 1
             color: "#ffffff"
-            anchors.topMargin: 291
+            anchors.topMargin: 269
             anchors.top: parent.top
         }
 
@@ -176,7 +185,7 @@ SettingsForm {
             width: 300
             height: 1
             color: "#ffffff"
-            anchors.topMargin: 544
+            anchors.topMargin: 560
             anchors.top: parent.top
         }
 
@@ -189,14 +198,14 @@ SettingsForm {
             width: 300
             height: 1
             color: "#ffffff"
-            anchors.topMargin: 106
+            anchors.topMargin: 109
             anchors.top: parent.top
         }
 
         Text {
             id: text7
             x: 15
-            y: 145
+            y: 136
             width: 92
             height: 29
             color: "#ffffff"
@@ -211,8 +220,16 @@ SettingsForm {
             x: 100
             y: 652
             text: qsTr("Réinitialiser")
+
+            onHoveredChanged:
+            {
+                if(hovered)
+                    playSnap.play();
+            }
+
             onClicked:
             {
+                playClick.play();
                 settings.loadSettings();
             }
             font.pointSize: 15
@@ -225,9 +242,17 @@ SettingsForm {
             id: button1
             x: 105
             y: 652
+
+            onHoveredChanged:
+            {
+                if(hovered)
+                    playSnap.play();
+            }
+
             onClicked:
             {
-                settingsForm.isActive=false;
+                playClick.play();
+                settingsRect.isActive=false;
             }
             text: qsTr("Quitter")
             font.pointSize: 15
@@ -240,7 +265,7 @@ SettingsForm {
         TextInput {
             id: nicknameInput
             x: 135
-            y: 146
+            y: 139
             width: 140
             height: 24
             selectByMouse: true;
@@ -262,79 +287,122 @@ SettingsForm {
             width: 140
             height: 1
             color: "#e98515"
-            anchors.topMargin: 171
+            anchors.topMargin: 166
             anchors.top: parent.top
         }
 
         Button {
             id: button2
             x: 31
-            y: 571
+            y: 589
             width: 254
             height: 34
             text: qsTr("Sauvegarder")
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 87
+
+            onHoveredChanged:
+            {
+                if(hovered)
+                    playSnap.play();
+            }
+
             onClicked:
             {
+                playClick.play();
                 settings.changeNickname(nicknameInput.text);
                 //settings.changeLangage();
                 settings.changeSize(widthEdit.text,heightEdit.text);
+                settings.changeVolume(volumeSlider.value);
                 settings.loadSettings();
             }
             anchors.horizontalCenterOffset: 0
             anchors.horizontalCenter: parent.horizontalCenter
             font.pointSize: 15
         }
-    }
 
-    Rectangle {
-        id: widthBackground
-        x: 47
-        y: 478
-        width: 70
-        height: 40
-        color: "#ffffff"
-        anchors.horizontalCenterOffset: -67
-        anchors.horizontalCenter: parent.horizontalCenter
-
-        TextInput {
-            id: widthEdit
-            x: 4
-            y: 13
-            width: 62
-            height: 14
-            text: qsTr("1280")
-            selectByMouse: true;
-            selectionColor: "#e98515"
-            selectedTextColor: "#ffffff"
-            horizontalAlignment: Text.AlignHCenter
-            validator:IntValidator{bottom: 1000; top: 10000;}
-            font.pixelSize: 15
+        Rectangle {
+            id: rectangle5
+            x: 0
+            y: 3
+            width: 300
+            height: 1
+            color: "#ffffff"
+            anchors.top: parent.top
+            anchors.topMargin: 487
         }
-    }
 
-    Rectangle {
-        id: heightBackground
-        x: 189
-        y: 478
-        width: 70
-        height: 40
-        color: "#ffffff"
-        anchors.horizontalCenterOffset: 67
-        anchors.horizontalCenter: parent.horizontalCenter
-
-        TextInput {
-            id: heightEdit
-            x: 4
-            y: 13
-            width: 62
-            height: 14
-            text: qsTr("800")
-            font.pixelSize: 15
-            selectByMouse: true;
-            selectionColor: "#e98515"
-            selectedTextColor: "#ffffff"
-            validator:IntValidator{bottom: 800; top: 10000;}
-            horizontalAlignment: Text.AlignHCenter
+        Text {
+            id: text8
+            x: 15
+            y: 512
+            color: "#ffffff"
+            text: qsTr("Volume")
+            font.pixelSize: 20
+            font.family: "Tahoma"
+            font.bold: false
         }
+
+        Slider {
+            id: volumeSlider
+            x: 129
+            y: 505
+            width: 152
+            height: 39
+            value: 0.5
+        }
+
+        Rectangle {
+            id: widthBackground
+            x: 48
+            y: 426
+            width: 70
+            height: 40
+            color: "#ffffff"
+            anchors.horizontalCenterOffset: -67
+            anchors.horizontalCenter: parent.horizontalCenter
+
+            TextInput {
+                id: widthEdit
+                x: 4
+                y: 13
+                width: 62
+                height: 14
+                text: qsTr("1280")
+                selectByMouse: true;
+                selectionColor: "#e98515"
+                selectedTextColor: "#ffffff"
+                horizontalAlignment: Text.AlignHCenter
+                validator:IntValidator{bottom: 1000; top: 10000;}
+                font.pixelSize: 15
+            }
+        }
+
+        Rectangle {
+            id: heightBackground
+            x: 182
+            y: 426
+            width: 70
+            height: 40
+            color: "#ffffff"
+            anchors.horizontalCenterOffset: 67
+            anchors.horizontalCenter: parent.horizontalCenter
+
+            TextInput {
+                id: heightEdit
+                x: 4
+                y: 13
+                width: 62
+                height: 14
+                text: qsTr("800")
+                font.pixelSize: 15
+                selectByMouse: true;
+                selectionColor: "#e98515"
+                selectedTextColor: "#ffffff"
+                validator:IntValidator{bottom: 800; top: 10000;}
+                horizontalAlignment: Text.AlignHCenter
+            }
+        }
+
     }
 }

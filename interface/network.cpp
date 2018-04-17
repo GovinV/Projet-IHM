@@ -40,13 +40,13 @@ void Network::changeNickname(QString pseudo)
 
 void Network::changeRoomName(QString name)
 {
-    // TO-DO
+    client.UI_to_Soc("<changeroomname> " + name);
     qDebug() << "changeRoomName: " << name;
 }
 
 void Network::changeMaxPlayer(int n)
 {
-    // TO-DO
+    client.UI_to_Soc("<changemaxplayer> " + n);
     qDebug() << "changeMaxPlayer: " << n;
 }
 
@@ -57,16 +57,16 @@ void Network::roomList()
     qDebug() << "roomList";
 }
 
-void Network::createRoom()
+void Network::createRoom(QString room_name)
 {
-    client.UI_to_Soc("<create>");
+    client.UI_to_Soc("<create> "+ room_name);
     this->state=2;
     qDebug() << "createRoom";
 }
 
-void Network::joinRoom(QString room_name)
+void Network::joinRoom(QString room_id)
 {
-    client.UI_to_Soc("<join> " + room_name);
+    client.UI_to_Soc("<join> " + room_id);
     this->state=2;
     qDebug() << "joinRoom";
 }
@@ -80,21 +80,36 @@ void Network::quitRoom()
 
 void Network::parseRoomList(QString list)
 {
-    /*          TO-DO
-     *
-     * For each room:
-     *      serverList.append(new Server("Govin's Room", "9f4gdrh9s4d9ft",3,3));
-     *
-     *      sinon
-     *      emit loadRoom(QString mess,int id, int player, int maxPlayer);
-     *
-     */
+    QStringList Rooms = list.split(">");
+    for each (Qstring room in Rooms)
+    {
+        QStringList infos = room.split(":");
+        serverList.append(new Server(infos.at(1),infos.at(0),infos.at(2),infos.at(3)));
+    }
     qDebug() << "parseRoomList: " << list;
 
 }
 
 void Network::parseRoomInfos(QString infos)
 {
+    QStringList myOptions;
+    myOptions << "playerjoin" << "playerquit";
+    
+    QStringList option = infos.split(":");
+
+    switch(myOptions.indexOf(option.at(0)))
+    {
+        case 0:
+            emit playerJoin(option.at(1));
+            break;
+        case 1:
+            emit playerQuit(QString mess);
+            break;
+        /* add every others options possible*/
+        default:
+             qDebug() << "Unknown message receive from Server: " << mess;
+             break;
+    }
     /*          TO-DO
      *
      * For each info:

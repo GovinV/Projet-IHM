@@ -1,6 +1,8 @@
 import QtQuick.Window 2.10
 import QtQuick.Controls 2.2
+import QtMultimedia 5.9
 import QtQuick 2.9
+import QtGraphicalEffects 1.0
 
 Window {
     id: window
@@ -11,6 +13,15 @@ Window {
 
     flags: Qt.FramelessWindowHint
 
+    Connections{
+        target: settings
+        onLoadVolume:
+        {
+            playClick.volume=mess;
+            playSnap.volume=mess;
+        }
+    }
+
     Image {
         id: background
         anchors.fill: parent
@@ -20,7 +31,7 @@ Window {
 
     Rectangle {
         id: conteneurCentral
-        width: parent.width - settingsForm.width
+        width: parent.width
         height: parent.height-97
         anchors.top: parent.top
         anchors.topMargin: 97
@@ -71,29 +82,6 @@ Window {
         }
     }
 
-    Settings
-    {
-        id: settingsForm
-        width: isActive?300:0
-        height: parent.height-90
-        anchors.top: parent.top
-        anchors.topMargin: 90
-        anchors.right: parent.right
-        anchors.rightMargin: 0
-        visible: isActive
-
-        property bool isActive: false
-
-    }
-
-    MenuBar {
-        id: menuBarForm
-        x: 0
-        y: 0
-        width: parent.width
-        height: 300
-    }
-
     function changedReturnButton()
     {
         if(swipeVertical.currentIndex==1)
@@ -130,9 +118,16 @@ Window {
         anchors.leftMargin: 30
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 30
-        background: rgba(0,0,0,0)
+        background: Rectangle { color: Qt.rgba(0,0,0,0)}
+
+        onHoveredChanged:
+        {
+            if(hovered)
+                playSnap.play();
+        }
 
         onClicked:{
+            playClick.play();
             if(swipeVertical.currentIndex==0)
             {
                 if(swipeHorizontalServeur.currentIndex==0)
@@ -171,5 +166,76 @@ Window {
         }
     }
 
+    FastBlur {
+        anchors.fill: background
+        source: background
+        radius: 32
+        visible: settingsRect.isActive
+    }
+
+    FastBlur {
+        anchors.fill: returnButton
+        source: returnButton
+        radius: 15
+        visible: (returnButton.visible)?settingsRect.isActive:false
+    }
+
+    FastBlur {
+        anchors.fill: conteneurCentral
+        source: conteneurCentral
+        radius: 35
+        visible: settingsRect.isActive
+    }
+
+    Rectangle
+    {
+        id: settingsRect
+        visible: isActive
+        width: parent.width
+        height: parent.height-90
+        anchors.top: parent.top
+        anchors.topMargin: 90
+        color: Qt.rgba(0,0,0,0)
+
+        property bool isActive: false
+
+        MouseArea
+        {
+            width: parent.width-300
+            height: parent.height
+            anchors.left: parent.left
+            anchors.leftMargin: 0
+        }
+
+        Settings
+        {
+            id: settingsForm
+            width: 300
+            height: parent.height
+            anchors.right: parent.right
+            anchors.rightMargin: 0
+
+
+        }
+    }
+
+    MenuBar {
+        id: menuBarForm
+        x: 0
+        y: 0
+        width: parent.width
+        height: 300
+    }
+
+
+    SoundEffect {
+        id: playClick
+        volume: 1
+        source: "qrc:/sons/sons/click.wav"
+    }
+    SoundEffect {
+        id: playSnap
+        source: "qrc:/sons/sons/snap.wav"
+    }
 
 }

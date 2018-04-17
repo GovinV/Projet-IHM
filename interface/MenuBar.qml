@@ -43,9 +43,21 @@ MenuBarForm {
             anchors.rightMargin: 0
             anchors.top: parent.top
             anchors.topMargin: 0
-            background: rgba(0,0,0,0)
+            background: Rectangle { color: Qt.rgba(0,0,0,0)}
+
+            onHoveredChanged:
+            {
+                if(hovered)
+                {
+                    quitBackground.opacity = 1;
+                    playSnap.play();
+                }
+                else
+                    quitBackground.opacity = 0;
+            }
 
             onClicked: {
+                playClick.play();
 
                 window.close()
             }
@@ -53,10 +65,9 @@ MenuBarForm {
             Rectangle{
                id: quitBackground
                anchors.fill: parent
-               color: white
+               color: "white"
                opacity : 0
              }
-             onHoveredChanged: hovered ? quitBackground.opacity = 1 : quitBackground.opacity = 0;
 
             Image {
                 id: quitLogo
@@ -74,10 +85,22 @@ MenuBarForm {
             anchors.rightMargin: 42
             anchors.top: parent.top
             anchors.topMargin: 0
-            background: rgba(0,0,0,0)
+            background: Rectangle { color: Qt.rgba(0,0,0,0)}
+
+            onHoveredChanged:
+            {
+                if(hovered)
+                {
+                    fullBackground.opacity = 1;
+                    playSnap.play();
+                }
+                else
+                    fullBackground.opacity = 0;
+            }
 
 
             onClicked: {
+                playClick.play();
                 if(window.visibility===Window.FullScreen)
                 {
                    // settingsForm.fullscreenCheckBox.checked=false;
@@ -95,10 +118,9 @@ MenuBarForm {
             Rectangle{
                id: fullBackground
                anchors.fill: parent
-               color: white
+               color: "white"
                opacity : 0
              }
-             onHoveredChanged: hovered ? fullBackground.opacity = 1 : fullBackground.opacity = 0;
 
             Image {
                 id: fullLogo
@@ -116,19 +138,30 @@ MenuBarForm {
             anchors.rightMargin: 84
             anchors.top: parent.top
             anchors.topMargin: 0
-            background: rgba(0,0,0,0)
+            background: Rectangle { color: Qt.rgba(0,0,0,0)}
+
+            onHoveredChanged:
+            {
+                if(hovered)
+                {
+                    lessBackground.opacity = 1;
+                    playSnap.play();
+                }
+                else
+                    lessBackground.opacity = 0;
+            }
 
             onClicked: {
+                playClick.play();
                     window.visibility=Window.Minimized;
             }
 
             Rectangle{
                id: lessBackground
                anchors.fill: parent
-               color: white
+               color: "white"
                opacity : 0
              }
-             onHoveredChanged: hovered ? lessBackground.opacity = 1 : lessBackground.opacity = 0;
 
             Image {
                 id: lessLogo
@@ -145,13 +178,25 @@ MenuBarForm {
             anchors.right: parent.right
             anchors.rightMargin: 168
             anchors.verticalCenter: parent.verticalCenter
-            background: rgba(0,0,0,0)
+            background: Rectangle { color: Qt.rgba(0,0,0,0)}
+
+            onHoveredChanged:
+            {
+                if(hovered)
+                {
+                    optionBackground.opacity = 1;
+                    playSnap.play();
+                }
+                else
+                    optionBackground.opacity = 0;
+            }
 
             onClicked: {
-                if(settingsForm.isActive)
-                    settingsForm.isActive=false;
+                playClick.play();
+                if(settingsRect.isActive)
+                    settingsRect.isActive=false;
                 else
-                    settingsForm.isActive=true;
+                    settingsRect.isActive=true;
             }
 
             Rectangle{
@@ -160,10 +205,9 @@ MenuBarForm {
                y: parent.height/4
                width: parent.width/2
                height: parent.height/2
-               color: white
+               color: "white"
                opacity : 0
              }
-             onHoveredChanged: hovered ? optionBackground.opacity = 1 : optionBackground.opacity = 0;
 
             Image {
                 id: optionLogo

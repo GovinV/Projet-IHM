@@ -27,6 +27,12 @@ SOURCES += main.cpp \
 RESOURCES += qml.qrc \
     resource.qrc
 
+TRANSLATIONS = translation/uno_en.ts
+
+lupdate_only{
+#    SOURCES = *.qml \
+}
+
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
 

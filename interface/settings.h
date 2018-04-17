@@ -17,6 +17,7 @@ class Settings : public QObject
         void loadNickname(QString mess);
         void loadLangage(QString mess);
         void loadCardStyle(QString mess);
+        void loadVolume(double mess);
 
     public slots:
         void changeSize(int width, int height);
@@ -24,6 +25,7 @@ class Settings : public QObject
         void changeNickname(QString mess);
         void changeLangage(QString mess);
         void changeCardStyle(QString mess);
+        void changeVolume(QString mess);
         void loadSettings();
 
     private:
