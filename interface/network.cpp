@@ -40,13 +40,13 @@ void Network::changeNickname(QString pseudo)
 
 void Network::changeRoomName(QString name)
 {
-    // TO-DO
+    client.UI_to_Soc("<changeroomname> " + name);
     qDebug() << "changeRoomName: " << name;
 }
 
 void Network::changeMaxPlayer(int n)
 {
-    // TO-DO
+    client.UI_to_Soc("<changemaxplayer> " + n);
     qDebug() << "changeMaxPlayer: " << n;
 }
 
@@ -64,9 +64,9 @@ void Network::createRoom(QString room_name)
     qDebug() << "createRoom";
 }
 
-void Network::joinRoom(QString room_name)
+void Network::joinRoom(QString room_id)
 {
-    client.UI_to_Soc("<join> " + room_name);
+    client.UI_to_Soc("<join> " + room_id);
     this->state=2;
     qDebug() << "joinRoom";
 }
