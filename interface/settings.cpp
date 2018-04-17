@@ -16,6 +16,7 @@ void Settings::loadSettings()
     emit loadNickname(setting.value("nickname").toString());
     emit loadLangage(setting.value("langage").toString());
     emit loadCardStyle(setting.value("card").toString());
+    emit loadVolume(setting.value("volume").toDouble());
     setting.endGroup();
 
     qDebug() << "Settings Loaded";
@@ -68,5 +69,15 @@ void Settings::changeCardStyle(QString mess)
 
     qDebug() << "Card Style Changed";
 
+}
+
+void Settings::changeVolume(QString mess)
+{
+    QSettings setting("Uno","Settings");
+    setting.beginGroup("Infos");
+    setting.setValue("volume", mess.toDouble());
+    setting.endGroup();
+
+    qDebug() << "Card Style Changed";
 }
 

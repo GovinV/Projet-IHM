@@ -1,5 +1,6 @@
 import QtQuick.Window 2.10
 import QtQuick.Controls 2.2
+import QtMultimedia 5.9
 import QtQuick 2.9
 
 Window {
@@ -10,6 +11,15 @@ Window {
     title: qsTr("Uno")
 
     flags: Qt.FramelessWindowHint
+
+    Connections{
+        target: settings
+        onLoadVolume:
+        {
+            playClick.volume=mess;
+            playSnap.volume=mess;
+        }
+    }
 
     Image {
         id: background
@@ -132,7 +142,14 @@ Window {
         anchors.bottomMargin: 30
         background: Rectangle { color: Qt.rgba(0,0,0,0)}
 
+        onHoveredChanged:
+        {
+            if(hovered)
+                playSnap.play();
+        }
+
         onClicked:{
+            playClick.play();
             if(swipeVertical.currentIndex==0)
             {
                 if(swipeHorizontalServeur.currentIndex==0)
@@ -171,5 +188,14 @@ Window {
         }
     }
 
+    SoundEffect {
+        id: playClick
+        volume: 1
+        source: "qrc:/sons/sons/click.wav"
+    }
+    SoundEffect {
+        id: playSnap
+        source: "qrc:/sons/sons/snap.wav"
+    }
 
 }

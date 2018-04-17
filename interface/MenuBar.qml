@@ -45,7 +45,19 @@ MenuBarForm {
             anchors.topMargin: 0
             background: Rectangle { color: Qt.rgba(0,0,0,0)}
 
+            onHoveredChanged:
+            {
+                if(hovered)
+                {
+                    quitBackground.opacity = 1;
+                    playSnap.play();
+                }
+                else
+                    quitBackground.opacity = 0;
+            }
+
             onClicked: {
+                playClick.play();
 
                 window.close()
             }
@@ -56,7 +68,6 @@ MenuBarForm {
                color: "white"
                opacity : 0
              }
-             onHoveredChanged: hovered ? quitBackground.opacity = 1 : quitBackground.opacity = 0;
 
             Image {
                 id: quitLogo
@@ -76,8 +87,20 @@ MenuBarForm {
             anchors.topMargin: 0
             background: Rectangle { color: Qt.rgba(0,0,0,0)}
 
+            onHoveredChanged:
+            {
+                if(hovered)
+                {
+                    fullBackground.opacity = 1;
+                    playSnap.play();
+                }
+                else
+                    fullBackground.opacity = 0;
+            }
+
 
             onClicked: {
+                playClick.play();
                 if(window.visibility===Window.FullScreen)
                 {
                    // settingsForm.fullscreenCheckBox.checked=false;
@@ -98,7 +121,6 @@ MenuBarForm {
                color: "white"
                opacity : 0
              }
-             onHoveredChanged: hovered ? fullBackground.opacity = 1 : fullBackground.opacity = 0;
 
             Image {
                 id: fullLogo
@@ -118,7 +140,19 @@ MenuBarForm {
             anchors.topMargin: 0
             background: Rectangle { color: Qt.rgba(0,0,0,0)}
 
+            onHoveredChanged:
+            {
+                if(hovered)
+                {
+                    lessBackground.opacity = 1;
+                    playSnap.play();
+                }
+                else
+                    lessBackground.opacity = 0;
+            }
+
             onClicked: {
+                playClick.play();
                     window.visibility=Window.Minimized;
             }
 
@@ -128,7 +162,6 @@ MenuBarForm {
                color: "white"
                opacity : 0
              }
-             onHoveredChanged: hovered ? lessBackground.opacity = 1 : lessBackground.opacity = 0;
 
             Image {
                 id: lessLogo
@@ -147,7 +180,19 @@ MenuBarForm {
             anchors.verticalCenter: parent.verticalCenter
             background: Rectangle { color: Qt.rgba(0,0,0,0)}
 
+            onHoveredChanged:
+            {
+                if(hovered)
+                {
+                    optionBackground.opacity = 1;
+                    playSnap.play();
+                }
+                else
+                    optionBackground.opacity = 0;
+            }
+
             onClicked: {
+                playClick.play();
                 if(settingsForm.isActive)
                     settingsForm.isActive=false;
                 else
@@ -163,7 +208,6 @@ MenuBarForm {
                color: "white"
                opacity : 0
              }
-             onHoveredChanged: hovered ? optionBackground.opacity = 1 : optionBackground.opacity = 0;
 
             Image {
                 id: optionLogo

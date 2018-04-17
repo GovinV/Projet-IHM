@@ -77,4 +77,10 @@
         <file>cartes/style/s4.png</file>
         <file>cartes/style/none.png</file>
     </qresource>
+    <qresource prefix="/sons">
+        <file>sons/click.mp3</file>
+        <file>sons/snap.mp3</file>
+        <file>sons/click.wav</file>
+        <file>sons/snap.wav</file>
+    </qresource>
 </RCC>

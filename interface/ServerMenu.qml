@@ -59,6 +59,7 @@ ServerMenuForm {
             background: Rectangle { color: Qt.rgba(0,0,0,0)}
 
             onClicked: {
+                playClick.play();
             }
 
             Rectangle{
@@ -81,6 +82,7 @@ ServerMenuForm {
              }
 
              onHoveredChanged: function(){
+                 playSnap.play();
                 if(this.hovered)
                 {
                     soloBackground.opacity = 1;
@@ -103,6 +105,7 @@ ServerMenuForm {
             background: Rectangle { color: Qt.rgba(0,0,0,0)}
 
             onClicked: {
+                playClick.play();
                 network.createRoom("Test");
                 swipeHorizontalServeur.setCurrentIndex(1);
                 room.host=true;
@@ -128,6 +131,7 @@ ServerMenuForm {
              }
 
              onHoveredChanged: function(){
+                 playSnap.play();
                 if(this.hovered)
                 {
                     serverBackground.opacity = 1;
@@ -150,6 +154,7 @@ ServerMenuForm {
             background: Rectangle { color: Qt.rgba(0,0,0,0)}
 
             onClicked: {
+                playClick.play();
             }
 
             Rectangle{
@@ -172,6 +177,7 @@ ServerMenuForm {
              }
 
              onHoveredChanged: function(){
+                 playSnap.play();
                 if(this.hovered)
                 {
                     tutoBackground.opacity = 1;

@@ -100,7 +100,14 @@ CardEditorForm {
                                     anchors.verticalCenter: parent.verticalCenter
                                     anchors.horizontalCenter: parent.horizontalCenter
 
+                                    onHoveredChanged:
+                                    {
+                                        if(hovered)
+                                            playSnap.play();
+                                    }
+
                                     onClicked: {
+                                        playClick.play();
                                         cardOnBack.style=model.style;
                                         cardOnFront.style=model.style;
                                     }
@@ -186,7 +193,14 @@ CardEditorForm {
             font.pixelSize: 20
         }
 
+        onHoveredChanged:
+        {
+            if(hovered)
+                playSnap.play();
+        }
+
         onClicked: {
+            playClick.play();
             settings.changeCardStyle(cardOnFront.style);
         }
 
