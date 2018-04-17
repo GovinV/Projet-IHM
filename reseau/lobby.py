@@ -21,9 +21,10 @@ class Lobby:
             msg = '<no room>\n' 
             player.socket.sendall(msg.encode())
         else:
-            msg = 'List:\n'
+            msg = 'List::'
             for room in self.rooms:
-                msg += "<" + self.rooms[room].id + ":"+ self.rooms[room].name +":" + str(    self.rooms[room].length) + ">\n"
+                msg += "<" + self.rooms[room].id + ":"+ self.rooms[room].name +":" + str(    self.rooms[room].length) + ">"
+            msg+="\n"
             player.socket.sendall(msg.encode())
     
     def handle_msg(self, player, msg):
@@ -48,7 +49,7 @@ class Lobby:
         elif "<create>" in msg:
             if len(msg.split()) >= 2: # error check
                 room_name = msg.split()[1]
-                new_room = Room(room_name)
+                new_room = Room(room_name, 4)
                 room_id = new_room.id
                 self.rooms[room_id] = new_room
                 self.rooms[room_id].players.append(player)
@@ -114,7 +115,7 @@ class Lobby:
                 room_MP = msg.split()[1]
                 if player.id in self.room_player_map:
                     room = self.room_player_map[player.id]
-                    self.rooms[room].capacity = room_MP
+                    self.rooms[room].capacity = int(room_MP)
                 else:
                     player.socket.sendall(b'You are not currently in a room\n')
             else:
@@ -130,7 +131,7 @@ class Lobby:
                     + 'Use [<create>] to create a room! \n' \
                     + 'Use [<join> room_name] to join a room! \n'
                 player.socket.sendall(msg.encode())
-    #REDO
+    
     def remove_player(self, player):
         if player.id in self.room_player_map:
             self.rooms[self.room_player_map[player.id]].remove_player(player)
@@ -139,7 +140,7 @@ class Lobby:
 
     
 class Room:
-    def __init__(self, name, capacity = 4):
+    def __init__(self, name, capacity):
         self.players = [] # a list of sockets
         self.name = name
         self.length = 0
