@@ -14,11 +14,17 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-    card.cpp \
-    handmodel.cpp \
-    hand.cpp
+    jeu.cpp \
+    core/carte.cpp \
+    core/joueur.cpp \
+    core/joueuria.cpp \
+    core/manche.cpp \
+    core/partie.cpp \
+    core/pioche.cpp
 
-RESOURCES += qml.qrc
+RESOURCES += \
+    qml.qrc \
+    img.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
@@ -32,6 +38,12 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    card.h \
-    handmodel.h \
-    hand.h
+    jeu.h \
+    core/carte.h \
+    core/joueur.h \
+    core/joueuria.h \
+    core/manche.h \
+    core/partie.h \
+    core/pioche.h
+
+DISTFILES +=
