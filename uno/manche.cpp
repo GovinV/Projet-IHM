@@ -1,6 +1,6 @@
 #include "manche.h"
 
-Manche::Manche(Pioche *p, int nb_j)
+Manche::Manche(InfoPartie *i, Pioche *p, int nb_j)
 {
     // Initialisation des paramètres et objets de la manche.
     pioche = p;
@@ -10,6 +10,8 @@ Manche::Manche(Pioche *p, int nb_j)
     plus4_actif = false;
     prends_toi_ca = 1;
     joueur_gagnant = -1;
+    statut_manche = MANCHE_EN_COURS;
+    infos = i;
 
     // Le joueur qui commence est déterminé aléatoirement.
     joueur_courant = rand() % nb_joueur;
@@ -20,11 +22,14 @@ Manche::Manche(Pioche *p, int nb_j)
     // paquet jusqu'à avoir une Carte n'étant pas un +4.
     while(active->type == PLUS_QUATRE)
     {
-        pioche->ajouter(active);
+        pioche->poser(active);
         active = pioche->tirer_carte();
     }
 
     couleur_active = active->couleur;
+
+    infos->add_message({DEBUT_MANCHE, joueur_courant});
+    infos->add_message({JOUEUR_ACTION, joueur_courant});
 
     std::cerr << "Le joueur " << joueur_courant << " commmence." << std::endl;
 }
@@ -32,11 +37,15 @@ Manche::Manche(Pioche *p, int nb_j)
 
 void Manche::joueur_pioche()
 {
+    // Si il pioche et qu'il y avait des '+2' ou '+4' de posés, alors il a
+    // pioché en conséquence, donc les deux effets sont remis à faux.
     plus2_actif = false;
     plus4_actif = false;
-    prends_toi_ca = 1;
-    tours.push_back(tour_joueur({0, PIOCHE, -1, NULL}));
 
+    // Nombre de cartes à piocher par défault.
+    prends_toi_ca = 1;
+
+    // Calcul du joueur suivant.
     joueur_courant = (joueur_courant + sens) % nb_joueur;
 
     if(joueur_courant < 0)
@@ -44,17 +53,21 @@ void Manche::joueur_pioche()
         joueur_courant += nb_joueur;
     }
 
+    if(statut_manche == MANCHE_EN_COURS)
+    {
+        infos->add_message({JOUEUR_ACTION, joueur_courant});
+    }
 }
 
 
 void Manche::joueur_joue(Carte *c)
 {
-    pioche->ajouter(active);
+    // Pose la carte active sur le tas, la carte jouée devient la carte active.
+    pioche->poser(active);
     active = c;
     couleur_active = active->couleur;
 
-    tours.push_back(tour_joueur({0, JOUE_CARTE, -1, c}));
-
+    // Prise en compte de la carte jouée si elle a un effet particulier.
     switch(active->type)
     {
         case INVERSION:
@@ -82,7 +95,11 @@ void Manche::joueur_joue(Carte *c)
             break;
 
         case JOKER:
-            //couleur_active = joueurs[joueur_courant].choisir_couleur();
+            if(statut_manche == MANCHE_EN_COURS)
+            {
+                infos->add_message({JOUEUR_CHOIX_COULEUR, joueur_courant});
+            }
+
             break;
 
         case PLUS_QUATRE:
@@ -93,21 +110,29 @@ void Manche::joueur_joue(Carte *c)
 
             plus4_actif = true;
 
-            //couleur_active = joueurs[joueur_courant].choisir_couleur();
+            if(statut_manche == MANCHE_EN_COURS)
+            {
+                infos->add_message({JOUEUR_CHOIX_COULEUR, joueur_courant});
+            }
             break;
 
         default:
             break;
     }
 
+    // Calcul du joueur suivant.
     joueur_courant = (joueur_courant + sens) % nb_joueur;
 
     if(joueur_courant < 0)
     {
         joueur_courant += nb_joueur;
     }
-}
 
+    if(statut_manche == MANCHE_EN_COURS)
+    {
+        infos->add_message({JOUEUR_ACTION, joueur_courant});
+    }
+}
 
 int Manche::joueur_suivant()
 {

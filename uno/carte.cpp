@@ -85,7 +85,8 @@ bool comparaison_cartes(const Carte *c1, const Carte *c2)
     }
     else if(c1->couleur == c2->couleur)
     {
-        if(c1->type < c2->type)
+        return c1->valeur < c2->valeur;
+        /*if(c1->type < c2->type)
         {
             return true;
         }
@@ -96,7 +97,7 @@ bool comparaison_cartes(const Carte *c1, const Carte *c2)
         else
         {
             return false;
-        }
+        }*/
     }
     else
     {

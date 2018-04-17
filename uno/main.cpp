@@ -7,59 +7,78 @@
 
 int main()
 {
-   Partie jeu(MANCHE_UNIQUE, 2);
+    Partie jeu(MANCHE_UNIQUE, 2);
 
-   std::vector<Joueur*> gagnants_partie;
-   Joueur *gagnant_manche;
-   int joueur_suivant;
+    Message *message;
 
+    jeu.set_seed(42);
 
+    jeu.start();
 
-   jeu.set_seed(42);
+    message = jeu.update_and_get_next_message();
 
-   while(!jeu.partie_finie(&gagnants_partie))
-   {
-       Manche *m = jeu.nouvelle_manche();
+    while(message != NULL && message->type != FIN_PARTIE)
+    {
+        std::cout << message->type << "\t" << message->num_joueur << std::endl;
 
-       jeu.joueurs[0].afficher_main();
-       jeu.joueurs[1].afficher_main();
+        switch(message->type) {
+            case JOUEUR_ACTION:
+                jeu.get_joueur(message->num_joueur)->action_par_defaut();
+                break;
 
-       std::cout << "Première carte : " << m->active << std::endl;
+            case JOUEUR_CHOIX_COULEUR:
+                jeu.get_joueur(message->num_joueur)->choisir_couleur_defaut();
+                break;
 
-       while(!jeu.manche_finie(&gagnant_manche))
-       {
-            joueur_suivant = m->joueur_suivant();
+            case DEBUT_PARTIE:
+                std::cout << "\nLa partie commence !\n" << std::endl;
+                break;
 
-            // Si joueur_suivant c'est moi, alors interaction IHM
-            // Si c'est un autre joueur, attente de son action
-            jeu.get_joueur(joueur_suivant)->action_par_defaut();
+            case DEBUT_MANCHE:
+                std::cout << "\nUne manche vient de commencer !\n" << std::endl;
+                break;
 
-            /*if(m->couleur_active == NOIR)
-            {
-                jeu.get_joueur(joueur_suivant)->choisir_couleur_defaut();
-            }*/
+            case FIN_MANCHE:
+                std::cout << "\nUne manche s'est terminée !\n" << std::endl;
+                std::cout << "Le gagnant de la manche est le joueur "
+                          << message->num_joueur << "." << std::endl;
+                std::cout << "\nPoints des joueurs dans la manche :" << std::endl;
+                for(int i=0; i<jeu.nb_joueur; i++)
+                {
+                    std::cout << "Joueur " << i << " : " << jeu.get_joueur(i)->points
+                              << "." << std::endl;
+                }
+                break;
 
-            std::cerr << std::endl;
+            default:
+                break;
+        }
 
+        message = jeu.update_and_get_next_message();
+    }
 
+    std::cout << "\nLa partie est terminée !\n" << std::endl;
+    if(jeu.gagnants_partie.size()==1)
+    {
+        std::cout << "Le gagnant de la partie est le joueur "
+                  << jeu.gagnants_partie[0] << "." << std::endl;
+    }
+    else
+    {
+        std::cout << "Les gagnants sont les joueurs ";
+        for(int i=0; i<jeu.gagnants_partie.size(); i++)
+        {
+            std::cout << jeu.gagnants_partie[i] << " ";
+        }
+        std::cout << "." << std::endl;
+    }
+    std::cout << "\nPoints des joueurs dans la partie :" << std::endl;
+    for(int i=0; i<jeu.nb_joueur; i++)
+    {
+        std::cout << "Joueur " << i << " : " << jeu.get_joueur(i)->points
+                  << "." << std::endl;
+    }
 
-            if(m->tours.back().action == JOUE_CARTE
-                    && m->tours.back().carte->couleur == NOIR)
-            {
-                jeu.get_joueur(joueur_suivant)->choisir_couleur_defaut();
-            }
-
-
-       }
-       std::cout << "gagnant manche : " << gagnant_manche->num_joueur << std::endl;
-   }
-
-   std::cout << jeu.get_joueur(0)->points << "\t" << jeu.get_joueur(1)->points << "\t"
-             /*<< jeu.get_joueur(2)->points << "\t" << jeu.get_joueur(3)->points << "\t"*/ << std::endl;
-
-   std::cout << "Gagnant manche : " << gagnant_manche->num_joueur << std::endl;
-   std::cout << "Gagnant partie : " << gagnants_partie[0]->num_joueur << std::endl;
-
-   return 0;
+    return 0;
 }
 

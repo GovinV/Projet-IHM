@@ -4,7 +4,8 @@ Pioche::Pioche()
 {
     pile.reserve(108);
 
-    // Ajout des cartes numeros (1 à 9 deux fois par couleur et le 0 une fois par couleur)
+    // Ajout des cartes numeros
+    // (1 à 9 deux fois par couleur et le 0 une fois par couleur).
     for(int i=1; i<20; i++)
     {
         pile.push_back(new Carte(ROUGE, NUMERO, i/2));
@@ -39,14 +40,10 @@ Pioche::Pioche()
         pile.push_back(new Carte(NOIR, PLUS_QUATRE, VALEUR_PLUS_QUATRE));
         pile.push_back(new Carte(NOIR, JOKER, VALEUR_JOKER));
     }
-
-    // Aucune Carte n'est encore retournée.
-    active = NULL;
 }
 
-void Pioche::melanger(unsigned int s)
+void Pioche::melanger()
 {
-    std::srand(s);
     std::random_shuffle(pile.begin(), pile.end());
 }
 
@@ -83,9 +80,6 @@ void Pioche::ramasser()
     std::copy(tas.begin(), tas.end(), std::back_inserter(pile));
     // Vide le tas.
     tas.clear();
-    // Replace la carte active dans la pile.
-    pile.push_back(active);
-    active = NULL;
 }
 
 void Pioche::afficher()
@@ -102,15 +96,6 @@ void Pioche::afficher()
     for(int i=0; i<taille_tas; i++)
     {
         std::cout << tas[i] << std::endl;
-    }
-
-    if(active != NULL)
-    {
-        std::cout << "\nCarte active : " << active << std::endl;
-    }
-    else
-    {
-        std::cout << "\nIl n'y a pas de Carte active." << std::endl;
     }
 }
 

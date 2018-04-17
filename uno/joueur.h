@@ -6,6 +6,7 @@
 #include <string>
 #include "carte.h"
 #include "manche.h"
+#include "types.h"
 
 /**
  * @brief Permet la gestion des différents cas concernant la nécessité de dire 'uno'.
@@ -18,6 +19,8 @@
  */
 enum UnoState { UNOSTATE_FAUX, UNOSTATE_EN_ATTENTE, UNOSTATE_VRAI, UNOSTATE_PENALITE };
 
+class Partie;
+
 class Joueur
 {
 public:
@@ -25,7 +28,7 @@ public:
      * @brief Constructeur de la classe Joueur.
      * @param num le numeros du joueur dans la partie.
      */
-    Joueur(int num);
+    Joueur(int num, InfoPartie *i);
 
     /**
      * @brief Réalise les actions necessaire pour finir la manche courante.
@@ -37,60 +40,96 @@ public:
      */
     int finir_manche();
 
-    /// Indique que le joueur annonce 'uno', le uno n'est cependant pas validé
-    /// tout de suite.
     /**
-     * @brief appuie_uno
+     * @brief Prend en compte que le joueur annonce 'uno'.
+     *
+     * Le 'uno' n'est pris en compte que si c'est à son tour de jouer, et n'est
+     * validé que plus tard si il ne lui reste plus qu'une Carte à la fin de son
+     * tour.
      */
     void appuie_uno();
 
-    /// Indique qu'un joueur adverse a annoncé un 'contre-uno'.
-    /// Si le joueur adverse avait raison, il pioche deux cartes
-
+    /**
+     * @brief Prend en compte qu'un joueur a annoncé un 'contre-uno' contre lui.
+     *
+     * Le 'contre-uno' ne fait piocher le joueur que s'il ne lui reste qu'une
+     * Carte et qu'il n'as pas validé le uno.
+     *
+     * @return vrai si le joueur adverse avait raison de dire 'contre-uno', faux sinon.
+     */
     bool appuie_contre_uno();
 
-    /// Le joueur pioche (par défaut ou non) le nombre de carte indiqué
-    /// dans la manche courante (comprenant les éventuels malus).
+    /**
+     * @brief Fait piocher le joueur lorsque c'est son tour de jeu.
+     *
+     * Le joueur pioche (par défaut ou non) le nombre de Carte indiqué dans la
+     * manche courante (comprenant les éventuels malus).
+     * Cette fonction appelle piocher(int nb_cartes) pour faire piocher le joueur.s
+     */
+    int piocher();
 
-    void piocher();
+    /**
+     * @brief Fait piocher au joueur le nombre de Cartes spécifiées.
+     *
+     * Cette fonction est appelée quand le joueur pioche quand c'est son tour
+     * de jeu, mais également pour distribuer les Cartes en début de Manche,
+     * ainsi que pour lui infliger les malus du 'contre-uno'.
+     *
+     * @param nb_cartes le nombre de Carte que le Joueur doit piocher.
+     */
+    int piocher(int nb_cartes);
 
-    /// Le joueur pioche un nombre nb_cartes de cartes dans la pioche.
-
-    void piocher(int nb_cartes);
-
-    /// Trie les cartes du joueur en fonction de sa couleur et de son type.
-
+    /**
+     * @brief Trie les Cartes de la main du Joueur.
+     *
+     * Voir la fonction comparaison_cartes dans la classs Carte pour plus
+     * d'information sur le tri des Cartes.
+     */
     void trier_main();
 
-    /// Indique si le joueur a gagné la manche (si il n'a plus de cartes).
-
-    bool gagne();
-
-    /// Modifie la couleur active (après un '+4' ou un joker).
-
+    /**
+     * @brief Indique à la manche le choix de Couleur du Joueur.
+     * @param c la nouvelle couleur choisie par le Joueur.
+     */
     void choisir_couleur(Couleur c);
 
-    /// Choisit arbitrairement une couleur en tant que nouvelle couleur pour
-    /// le jeu et la renvoie.
-
+    /**
+     * @brief Choisit arbitrairement une nouvelle couleur pour la manche.
+     *
+     * Si le joueur n'as plus de Carte ou qu'il ne reste que des Carte NOIR,
+     * alors la couleur est choisie aléatoirement, sinon la couleur choisie est
+     * celle de la première carte de son jeu.
+     *
+     * @return renvoie la couleur choisie.
+     */
     Couleur choisir_couleur_defaut();
 
-    /// Renvoie les indices des cartes jouables dans la main du joueur.
-
+    /**
+     * @brief Cherche toutes les Carte du Joueur qu'il peux poser.
+     * @return la liste des indices des Cartes jouables.
+     */
     std::vector<int> recherche_cartes_jouables();
 
-    /// Le joueur joue la carte à la position indice_carte dans son jeu.
-
+    /**
+     * @brief Joue (si possible) la carte indiquée.
+     *
+     * La Carte que souhaite poser le joueur n'est jouée que si elle est jouable.
+     *
+     * @param indice_carte l'indice de la carte à jouer.
+     * @return vrai si la Carte a été jouée, faux sinon.
+     */
     bool jouer(int indice_carte);
 
-    /// L'action du joueur se fait arbitrairement.
-    /// L'action effectuee peut être récupérée dans l'historique des actions des
-    /// joueurs dans la manche courante.
-
+    /**
+     * @brief L'action du joueur se fait arbitrairement.
+     *
+     * Si une carte est jouable, il joue la première jouable, sinon il pioche.
+     */
     void action_par_defaut();
 
-    /// Affiche sur la sortie d'erreur les cartes dans la main du joueur.
-
+    /**
+     * @brief Affiche les Cartes du Joueur sur la sortie standard.
+     */
     void afficher_main();
 
 public:
@@ -104,6 +143,8 @@ public:
     int points;
     /// Numero du joueur dans la partie.
     int num_joueur;
+
+    InfoPartie *infos;
 };
 
 #endif // JOUEUR_H

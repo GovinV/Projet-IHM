@@ -47,7 +47,7 @@ public:
     void poser(Carte *c);
 
     /**
-     * @brief Ramasse le tas et la carte active et les remets dans la pile.
+     * @brief Ramasse le tas et le remet dans la pile.
      */
     void ramasser();
 
@@ -61,9 +61,6 @@ public:
     std::vector<Carte*> pile;
     /// Vector représentant le tas d'une partie (cartes jouées).
     std::vector<Carte*> tas;
-    /// Carte courante sur laquelle jouer.
-    Carte *active;
-    /// Pointeur vers la valeur servant a initialiser
 };
 
 #endif // PIOCHE_H
