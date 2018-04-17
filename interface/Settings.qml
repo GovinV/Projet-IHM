@@ -33,6 +33,7 @@ SettingsForm {
         {
 
         }
+
     }
 
     function changeFullScreen()
