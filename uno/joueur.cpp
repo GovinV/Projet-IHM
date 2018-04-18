@@ -1,11 +1,12 @@
 #include "joueur.h"
 
-Joueur::Joueur(int num, InfoPartie *i)
+Joueur::Joueur(u_int num, InfoPartie *i)
 {
     uno = UNOSTATE_FAUX;
     points = 0;
     manche_courante = NULL;
     num_joueur = num;
+    carte_piochee = NULL;
 
     infos = i;
 }
@@ -68,52 +69,81 @@ bool Joueur::appuie_contre_uno()
 }
 
 
-int Joueur::piocher()
+bool Joueur::piocher(bool possibilitee_poser)
 {
-    int retour;
+    bool posable;
+
     // Fait piocher au joueur le nombre de Cartes necessaire.
-    retour = piocher(manche_courante->prends_toi_ca);
-    // Indique à la manche que le joueur courant a pioché.
-    manche_courante->joueur_pioche();
-    return retour;
+    posable = piocher(manche_courante->prends_toi_ca, possibilitee_poser);
+
+    if(!posable)
+    {
+        // Indique à la manche que le joueur courant a pioché.
+        manche_courante->joueur_pioche();
+    }
+
+    return posable;
 }
 
 
-int Joueur::piocher(int nb_cartes)
+bool Joueur::piocher(int nb_cartes, bool possibilitee_poser)
 {
-    for(int i=0; i<nb_cartes; i++)
-    {
-        cmain.push_back(manche_courante->pioche->tirer_carte());
-        std::cerr << "Le joueur " << num_joueur
-                  << " a pioché : " << cmain.back() << std::endl;
-    }
-
-    std::vector<int> cartes_jouables = recherche_cartes_jouables();
-    int nb_cartes_jouables = cartes_jouables.size();
-    int piochee_jouable = -1;
-    int indice_piochee = cmain.size()-1;
-
-    if(nb_cartes == 1)
-    {
-
-        for(int i=0; i<nb_cartes_jouables; i++)
-        {
-            if(indice_piochee == cartes_jouables[i])
-            {
-                piochee_jouable = indice_piochee;
-                break;
-            }
-        }
-    }
-
+    Carte *tiree;
 
     uno = UNOSTATE_FAUX;
 
-    trier_main();
-
-    return piochee_jouable;
+    if(nb_cartes == 1)
+    {
+        tiree = manche_courante->pioche->tirer_carte();
+        if(possibilitee_poser && manche_courante->est_jouable(tiree))
+        {
+            carte_piochee = tiree;
+            return true;
+        }
+        else
+        {
+            cmain.push_back(tiree);
+            std::cerr << "Le joueur " << num_joueur
+                      << " a pioché : " << cmain.back() << std::endl;
+            trier_main();
+            return false;
+        }
+    }
+    else
+    {
+        for(int i=0; i<nb_cartes; i++)
+        {
+            cmain.push_back(manche_courante->pioche->tirer_carte());
+            std::cerr << "Le joueur " << num_joueur
+                      << " a pioché : " << cmain.back() << std::endl;
+        }
+        trier_main();
+        return false;
+    }
 }
 
+
+void Joueur::joue_carte_piochee(bool jouer_la_carte)
+{
+    if(carte_piochee == NULL)
+    {
+        std::cerr << "Erreur : la carte piochée n'était pas jouable." << std::endl;
+        return;
+    }
+
+    if(jouer_la_carte)
+    {
+        manche_courante->joueur_joue(carte_piochee);
+        carte_piochee = NULL;
+    }
+    else
+    {
+        cmain.push_back(carte_piochee);
+        manche_courante->joueur_pioche();
+        carte_piochee = NULL;
+        trier_main();
+    }
+}
 
 void Joueur::trier_main()
 {
@@ -167,47 +197,11 @@ std::vector<int> Joueur::recherche_cartes_jouables()
     std::vector<int> cartes_jouables;
     int nb_cartes = cmain.size();
 
-    // Si un '+2' est posé, il ne peux poser qu'un autre '+2'
-    if(manche_courante->plus2_actif)
+    for(int i=0; i<nb_cartes; i++)
     {
-        for(int i=0; i<nb_cartes; i++)
+        if(manche_courante->est_jouable(cmain[i]))
         {
-            if(cmain[i]->type == PLUS_DEUX)
-            {
-                cartes_jouables.push_back(i);
-            }
-        }
-    }
-    // Si un '+4' est posé, il ne peux poser qu'un autre '+4'
-    else if(manche_courante->plus4_actif)
-    {
-        for(int i=0; i<nb_cartes; i++)
-        {
-            if(cmain[i]->type == PLUS_QUATRE)
-            {
-                cartes_jouables.push_back(i);
-            }
-        }
-    }
-    // Sinon il peux poser toutes les Cartes de même couleur ou de même type
-    // que la Carte active, ainsi que les '+4' et 'JOKER'.
-    else
-    {
-        // TODO : Refactoriser ces conditions.
-        for(int i=0; i<nb_cartes; i++)
-        {
-            if(cmain[i]->couleur == manche_courante->couleur_active
-                    || cmain[i]->couleur == NOIR)
-            {
-                cartes_jouables.push_back(i);
-            }
-            else if(cmain[i]->couleur != NOIR && cmain[i]->type == manche_courante->active->type)
-            {
-                if(cmain[i]->type != NUMERO || cmain[i]->valeur == manche_courante->active->valeur)
-                {
-                    cartes_jouables.push_back(i);
-                }
-            }
+            cartes_jouables.push_back(i);
         }
     }
 
@@ -280,12 +274,12 @@ void Joueur::afficher_main()
 {
     int nb_cartes = cmain.size();
 
-    std::cout << "Cartes en main du joueur " << num_joueur
+    std::cout << "\nCartes en main du joueur " << num_joueur
               << " :" << std::endl;
 
     for(int i=0; i<nb_cartes; i++)
     {
-       std::cout << cmain[i] << std::endl;
+       std::cout << "Indice " << i << " : " << cmain[i] << std::endl;
     }
 
     std::cout << std::endl;

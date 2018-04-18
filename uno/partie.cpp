@@ -14,7 +14,7 @@ Partie::Partie(TypePartie t, unsigned int nb_j, unsigned int limite)
     infos.nb_messages = 0;
     infos.num_next_message = 0;
 
-    for(int i=0; i<nb_joueur; i++)
+    for(u_int i=0; i<nb_joueur; i++)
     {
         joueurs.push_back(Joueur(i, &infos));
     }
@@ -29,6 +29,9 @@ Partie::Partie(TypePartie t, unsigned int nb_j, unsigned int limite)
     {
         type = t;
     }
+
+    infos.add_message({DEBUT_PARTIE, nb_joueur});
+    infos.add_message({DEBUT_MANCHE, rand()%nb_joueur});
 }
 
 
@@ -36,8 +39,6 @@ void Partie::start()
 {
     statut_partie = PARTIE_EN_COURS;
     srand(seed);
-    infos.add_message({DEBUT_PARTIE, -1});
-    nouvelle_manche();
 }
 
 
@@ -56,7 +57,7 @@ bool Partie::finir_partie()
         return false;
     }
 
-    for(int i=0; i<nb_joueur; i++)
+    for(u_int i=0; i<nb_joueur; i++)
     {
         switch(type)
         {
@@ -90,7 +91,7 @@ bool Partie::finir_partie()
 }
 
 
-Manche* Partie::nouvelle_manche()
+Manche* Partie::nouvelle_manche(u_int joueur_debut)
 {
     // Vérifie qu'il n'y ai pas une manche a finir. Si finir_manche ne s'est
     // pas terminé normalement, alors aucune manche ne peut être commencée.
@@ -100,16 +101,17 @@ Manche* Partie::nouvelle_manche()
     }
 
     pioche->melanger();
-    manche_courante = new Manche(&infos, pioche, nb_joueur);
-    for(int i=0; i<nb_joueur; i++)
+    manche_courante = new Manche(&infos, pioche, nb_joueur, joueur_debut);
+    for(u_int i=0; i<nb_joueur; i++)
     {
         joueurs[i].manche_courante = manche_courante;
     }
     distribution(nb_cartes_debut);
-    for(int i=0; i<nb_joueur; i++)
+    for(u_int i=0; i<nb_joueur; i++)
     {
         joueurs[i].trier_main();
     }
+
     return manche_courante;
 }
 
@@ -126,7 +128,7 @@ int Partie::finir_manche(bool force)
         {
             if(force)
             {
-                for(int i=0; i<nb_joueur; i++)
+                for(u_int i=0; i<nb_joueur; i++)
                 {
                     joueurs[i].finir_manche();
                 }
@@ -145,7 +147,7 @@ int Partie::finir_manche(bool force)
         {
             switch(type) {
                 case CLASSIQUE:
-                    for(int i=0; i<nb_joueur; i++)
+                    for(u_int i=0; i<nb_joueur; i++)
                     {
                         joueurs[id_gagnant_manche].points += joueurs[i].finir_manche();
                     }
@@ -153,7 +155,7 @@ int Partie::finir_manche(bool force)
                     break;
 
                 case MANCHE_UNIQUE:
-                    for(int i=0; i<nb_joueur; i++)
+                    for(u_int i=0; i<nb_joueur; i++)
                     {
                         joueurs[id_gagnant_manche].points += joueurs[i].finir_manche();
                     }
@@ -179,26 +181,11 @@ int Partie::finir_manche(bool force)
 }
 
 
-Joueur* Partie::get_joueur(int indice)
-{
-    if(indice >= nb_joueur)
-    {
-        std::cerr << "Erreur : indice de joueur (" << indice << ") trop grand."
-                  << std::endl;
-        exit(1);
-    }
-    else
-    {
-        return &joueurs[indice];
-    }
-}
-
-
 void Partie::distribution(int nb_cartes)
 {
     for(int i=0; i<nb_cartes; i++)
     {
-        for(int j=0; j<nb_joueur; j++)
+        for(u_int j=0; j<nb_joueur; j++)
         {
             joueurs[j].piocher(1);
         }
@@ -208,12 +195,17 @@ void Partie::distribution(int nb_cartes)
 
 Message *Partie::update_and_get_next_message()
 {
+    Message *m;
     if(manche_courante != NULL && manche_courante->statut_manche == MANCHE_TERMINEE)
     {
         finir_manche();
         if(finir_partie())
         {
-            infos.add_message({FIN_PARTIE, -1});
+            infos.add_message({FIN_PARTIE, nb_joueur});
+        }
+        else
+        {
+            infos.add_message({DEBUT_MANCHE, rand()%nb_joueur});
         }
     }
     if(infos.num_next_message >= infos.nb_messages)
@@ -222,6 +214,17 @@ Message *Partie::update_and_get_next_message()
     }
     else
     {
+        m = &infos.messages[infos.num_next_message];
+
+        if(m->type == DEBUT_PARTIE)
+        {
+            start();
+        }
+        else if(m->type == DEBUT_MANCHE)
+        {
+            nouvelle_manche(m->num_joueur);
+        }
+
         return &infos.messages[infos.num_next_message++];
     }
 }

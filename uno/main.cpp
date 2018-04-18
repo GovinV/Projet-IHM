@@ -1,41 +1,117 @@
 #include <iostream>
-#include"partie.h"
-#include"pioche.h"
-#include"carte.h"
-#include"joueur.h"
+#include "partie.h"
 #include "joueuria.h"
 
 int main()
 {
+    // Déclaration des variables necessaires.
+    Message *message;
+    u_int mon_numero;
+    char action;
+    int saisie_nb;
+    bool fin_tour;
+
+    std::cout << "Commandes :\nj : jouer une carte\np : piocher une carte\n"
+              << "u : annoncer uno\nc : annoncer un contre uno\n"
+              << "\nChoix des couleurs :\n1 : rouge\n2 : vert"
+              << "\n3 : bleu\n4 : jaune\n"
+              << std::endl;
+
+    // Définit arbitrairement ici (qui je suis dans le jeu).
+    mon_numero = 0;
+
+    // Création de la partie.
     Partie jeu(MANCHE_UNIQUE, 2);
 
-    Message *message;
+    // Parametrage personnalisé de la partie.
 
     jeu.set_seed(42);
 
-    jeu.start();
+    jeu.joueurs[1] = JoueurIA(jeu.joueurs[1], SIMPLET);
 
+    // Récupération du premier message.
+    // Le premier message indique le debut de la partie et la lance.
     message = jeu.update_and_get_next_message();
 
+    // Boucle du jeu tant que la partie n'est pas terminée.
+    // Si message est un pointeur NULL, il y a eu une erreur.
     while(message != NULL && message->type != FIN_PARTIE)
     {
-        std::cout << message->type << "\t" << message->num_joueur << std::endl;
-
         switch(message->type) {
+            // Si le message indique l'attente de l'action d'un joueur.
             case JOUEUR_ACTION:
-                jeu.get_joueur(message->num_joueur)->action_par_defaut();
+            {
+                // Si c'est à moi de jouer.
+                if(message->num_joueur == mon_numero)
+                {
+                    jeu.joueurs[mon_numero].afficher_main();
+                    fin_tour = false;
+                    while(!fin_tour)
+                    {
+                        std::cout << "Carte sur la table : "
+                                  << jeu.manche_courante->active << "\n" << std::endl;
+                        std::cout << "Choix de l'action : ";
+                        std::cin >> action;
+                        switch(action)
+                        {
+                            case 'j':
+                                std::cout << "Saisir la carte à jouer : ";
+                                std::cin >> saisie_nb;
+                                std::cout << std::endl;
+                                if(jeu.joueurs[mon_numero].jouer(saisie_nb))
+                                {
+                                    fin_tour = true;
+                                }
+                                break;
+                            case 'p':
+                                std::cout << std::endl;
+                                jeu.joueurs[mon_numero].piocher();
+                                fin_tour = true;
+                                break;
+                            case 'u':
+                                jeu.joueurs[mon_numero].appuie_uno();
+                                break;
+                            case 'c':
+                                std::cout << "Saisir le joueur : " << std::endl;
+                                std::cin >> saisie_nb;
+                                jeu.joueurs[saisie_nb].appuie_contre_uno();
+                                break;
+                            default:
+                                break;
+                        }
+
+                    }
+                }
+                else
+                {
+                    jeu.joueurs[message->num_joueur].afficher_main();
+                    jeu.joueurs[message->num_joueur].action_par_defaut();
+                }
+
+            }
                 break;
 
             case JOUEUR_CHOIX_COULEUR:
-                jeu.get_joueur(message->num_joueur)->choisir_couleur_defaut();
+                if(message->num_joueur == mon_numero)
+                {
+                    std::cin >> saisie_nb;
+                    Couleur couleurs[4] = {ROUGE, VERT, BLEU, JAUNE};
+                    jeu.joueurs[mon_numero].choisir_couleur(couleurs[saisie_nb-1]);
+                }
+                else
+                {
+                    jeu.joueurs[message->num_joueur].choisir_couleur_defaut();
+                }
                 break;
 
             case DEBUT_PARTIE:
-                std::cout << "\nLa partie commence !\n" << std::endl;
+                std::cout << "\nLa partie commence !" << std::endl;
                 break;
 
             case DEBUT_MANCHE:
-                std::cout << "\nUne manche vient de commencer !\n" << std::endl;
+                std::cout << "\nUne manche vient de commencer !" << std::endl;
+                std::cout << "Carte sur la table : "
+                          << jeu.manche_courante->active << "\n" << std::endl;
                 break;
 
             case FIN_MANCHE:
@@ -43,9 +119,9 @@ int main()
                 std::cout << "Le gagnant de la manche est le joueur "
                           << message->num_joueur << "." << std::endl;
                 std::cout << "\nPoints des joueurs dans la manche :" << std::endl;
-                for(int i=0; i<jeu.nb_joueur; i++)
+                for(u_int i=0; i<jeu.nb_joueur; i++)
                 {
-                    std::cout << "Joueur " << i << " : " << jeu.get_joueur(i)->points
+                    std::cout << "Joueur " << i << " : " << jeu.joueurs[i].points
                               << "." << std::endl;
                 }
                 break;
@@ -57,27 +133,35 @@ int main()
         message = jeu.update_and_get_next_message();
     }
 
-    std::cout << "\nLa partie est terminée !\n" << std::endl;
-    if(jeu.gagnants_partie.size()==1)
+    if(message == NULL)
     {
-        std::cout << "Le gagnant de la partie est le joueur "
-                  << jeu.gagnants_partie[0] << "." << std::endl;
+        std::cerr << "La partie ne s'est pas terminée correctement." << std::endl;
     }
     else
     {
-        std::cout << "Les gagnants sont les joueurs ";
-        for(int i=0; i<jeu.gagnants_partie.size(); i++)
+        std::cout << "\nLa partie est terminée !\n" << std::endl;
+        if(jeu.gagnants_partie.size()==1)
         {
-            std::cout << jeu.gagnants_partie[i] << " ";
+            std::cout << "Le gagnant de la partie est le joueur "
+                      << jeu.gagnants_partie[0] << "." << std::endl;
         }
-        std::cout << "." << std::endl;
+        else
+        {
+            std::cout << "Les gagnants sont les joueurs ";
+            for(u_int i=0; i<jeu.gagnants_partie.size(); i++)
+            {
+                std::cout << jeu.gagnants_partie[i] << " ";
+            }
+            std::cout << "." << std::endl;
+        }
+        std::cout << "\nPoints des joueurs dans la partie :" << std::endl;
+        for(u_int i=0; i<jeu.nb_joueur; i++)
+        {
+            std::cout << "Joueur " << i << " : " << jeu.joueurs[i].points
+                      << "." << std::endl;
+        }
     }
-    std::cout << "\nPoints des joueurs dans la partie :" << std::endl;
-    for(int i=0; i<jeu.nb_joueur; i++)
-    {
-        std::cout << "Joueur " << i << " : " << jeu.get_joueur(i)->points
-                  << "." << std::endl;
-    }
+
 
     return 0;
 }
