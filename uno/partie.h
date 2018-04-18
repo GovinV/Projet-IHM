@@ -2,9 +2,9 @@
 #define GAME_H
 
 #include <iostream>
-#include<vector>
-#include"pioche.h"
-#include"joueur.h"
+#include <vector>
+#include "pioche.h"
+#include "joueur.h"
 #include "manche.h"
 #include "types.h"
 
@@ -57,7 +57,7 @@ public:
     bool manche_finie();
 
     /// Créé une nouvelle manche
-    Manche* nouvelle_manche();
+    Manche* nouvelle_manche(u_int joueur_debut);
 
     /// Finit la manche courante.
     int finir_manche(bool force=false);
@@ -66,9 +66,6 @@ public:
     void distribution(int nb_cartes);
 
     Message* update_and_get_next_message();
-
-    /// Renvoie le joueur à l'indice spécifié.
-    Joueur *get_joueur(int indice);
 
     /// Renvoie le seed de la partie.
     int get_seed();
@@ -98,8 +95,6 @@ public:
     TypePartie type;
     /// Manche en cours dans la partie.
     Manche *manche_courante;
-
-    std::vector<std::vector<int>> gagnants_manches;
 
     std::vector<int> gagnants_partie;
 

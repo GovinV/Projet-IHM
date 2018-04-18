@@ -22,7 +22,7 @@ public:
      * @param p la pioche qui sera associée à la manche.
      * @param nb_j le nombre de joueur dans la manche.
      */
-    Manche(InfoPartie *i, Pioche *p, int nb_j);
+    Manche(InfoPartie *i, Pioche *p, int nb_j, u_int joueur_debut);
 
     /**
      * @brief Prend en compte le fait que le joueur courant a pioché.
@@ -50,6 +50,13 @@ public:
      */
     int joueur_suivant();
 
+    /**
+     * @brief Indique si la carte spécifiée est posable sur le tas.
+     * @param c la Carte à tester.
+     * @return vrai si la Carte est posable, faux sinon.
+     */
+    bool est_jouable(Carte *c);
+
 public:
     /// Pioche pour la manche.
     Pioche *pioche;
@@ -64,7 +71,7 @@ public:
 
 
     /// Identifiant du joueur dont c'est le tour de jouer.
-    int joueur_courant;
+    u_int joueur_courant;
     /// Permet de gérer si le/les '+2' sur le tas ont déjà été pris en compte.
     bool plus2_actif;
     /// Permet de gérer si le/les '+4' sur le tas ont déjà été pris en compte.

@@ -1,6 +1,6 @@
 #include "manche.h"
 
-Manche::Manche(InfoPartie *i, Pioche *p, int nb_j)
+Manche::Manche(InfoPartie *i, Pioche *p, int nb_j, u_int joueur_debut)
 {
     // Initialisation des paramètres et objets de la manche.
     pioche = p;
@@ -13,8 +13,7 @@ Manche::Manche(InfoPartie *i, Pioche *p, int nb_j)
     statut_manche = MANCHE_EN_COURS;
     infos = i;
 
-    // Le joueur qui commence est déterminé aléatoirement.
-    joueur_courant = rand() % nb_joueur;
+    joueur_courant = joueur_debut;
 
     active = pioche->tirer_carte();
 
@@ -28,10 +27,9 @@ Manche::Manche(InfoPartie *i, Pioche *p, int nb_j)
 
     couleur_active = active->couleur;
 
-    infos->add_message({DEBUT_MANCHE, joueur_courant});
     infos->add_message({JOUEUR_ACTION, joueur_courant});
 
-    std::cerr << "Le joueur " << joueur_courant << " commmence." << std::endl;
+    ///std::cerr << "Le joueur " << joueur_courant << " commmence." << std::endl;
 }
 
 
@@ -46,12 +44,7 @@ void Manche::joueur_pioche()
     prends_toi_ca = 1;
 
     // Calcul du joueur suivant.
-    joueur_courant = (joueur_courant + sens) % nb_joueur;
-
-    if(joueur_courant < 0)
-    {
-        joueur_courant += nb_joueur;
-    }
+    joueur_courant = (joueur_courant + nb_joueur + sens) % nb_joueur;
 
     if(statut_manche == MANCHE_EN_COURS)
     {
@@ -73,7 +66,7 @@ void Manche::joueur_joue(Carte *c)
         case INVERSION:
             if(nb_joueur == 2)
             {
-                joueur_courant = (joueur_courant + sens) % nb_joueur;
+                joueur_courant = (joueur_courant + nb_joueur + sens) % nb_joueur;
             }
             else
             {
@@ -82,7 +75,7 @@ void Manche::joueur_joue(Carte *c)
             break;
 
         case TA_GUEULE:
-            joueur_courant = (joueur_courant + sens) % nb_joueur;
+            joueur_courant = (joueur_courant + nb_joueur + sens) % nb_joueur;
             break;
 
         case PLUS_DEUX:
@@ -121,12 +114,7 @@ void Manche::joueur_joue(Carte *c)
     }
 
     // Calcul du joueur suivant.
-    joueur_courant = (joueur_courant + sens) % nb_joueur;
-
-    if(joueur_courant < 0)
-    {
-        joueur_courant += nb_joueur;
-    }
+    joueur_courant = (joueur_courant + nb_joueur + sens) % nb_joueur;
 
     if(statut_manche == MANCHE_EN_COURS)
     {
@@ -138,3 +126,36 @@ int Manche::joueur_suivant()
 {
     return joueur_courant;
 }
+
+
+bool Manche::est_jouable(Carte *c)
+{
+    // Si un '+2' est posé, il ne peux poser qu'un autre '+2'
+    if(plus2_actif && c->type == PLUS_DEUX)
+    {
+        return true;
+    }
+    // Si un '+4' est posé, il ne peux poser qu'un autre '+4'
+    else if(plus4_actif && c->type == PLUS_QUATRE)
+    {
+        return true;
+    }
+    // Sinon il peux poser toutes les Cartes de même couleur ou de même type
+    // que la Carte active, ainsi que les '+4' et 'JOKER'.
+    else
+    {
+        if(c->couleur == couleur_active || c->couleur == NOIR)
+        {
+            return true;
+        }
+        else if(c->type == active->type)
+        {
+            if(c->type != NUMERO || c->valeur == active->valeur)
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+

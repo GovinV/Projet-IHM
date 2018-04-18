@@ -1,7 +1,7 @@
 #include "joueuria.h"
 
 
-JoueurIA::JoueurIA(Joueur j) : Joueur(j.num_joueur, j.infos)
+JoueurIA::JoueurIA(Joueur j, StyleIA s) : Joueur(j.num_joueur, j.infos)
 {
     std::cerr << "Le joueur " << num_joueur << " est une IA" << std::endl;
 
@@ -9,6 +9,8 @@ JoueurIA::JoueurIA(Joueur j) : Joueur(j.num_joueur, j.infos)
     cmain = j.cmain;
     uno = j.uno;
     points = j.points;
+
+    style = s;
 }
 
 

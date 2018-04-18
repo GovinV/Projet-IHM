@@ -15,7 +15,7 @@ enum TypeMessage { DEBUT_PARTIE, FIN_PARTIE, DEBUT_MANCHE, FIN_MANCHE,
  */
 struct Message{
     TypeMessage type;
-    int num_joueur;
+    u_int num_joueur;
 };
 
 /**

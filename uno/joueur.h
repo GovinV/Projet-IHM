@@ -28,7 +28,7 @@ public:
      * @brief Constructeur de la classe Joueur.
      * @param num le numeros du joueur dans la partie.
      */
-    Joueur(int num, InfoPartie *i);
+    Joueur(u_int num, InfoPartie *i);
 
     /**
      * @brief Réalise les actions necessaire pour finir la manche courante.
@@ -66,7 +66,7 @@ public:
      * manche courante (comprenant les éventuels malus).
      * Cette fonction appelle piocher(int nb_cartes) pour faire piocher le joueur.s
      */
-    int piocher();
+    bool piocher(bool possibilitee_poser=false);
 
     /**
      * @brief Fait piocher au joueur le nombre de Cartes spécifiées.
@@ -77,7 +77,13 @@ public:
      *
      * @param nb_cartes le nombre de Carte que le Joueur doit piocher.
      */
-    int piocher(int nb_cartes);
+    bool piocher(int nb_cartes, bool possibilitee_poser=false);
+
+    /**
+     * @brief joue_carte_piochee
+     * @param joue
+     */
+    void joue_carte_piochee(bool jouer_la_carte);
 
     /**
      * @brief Trie les Cartes de la main du Joueur.
@@ -137,12 +143,14 @@ public:
     Manche* manche_courante;
     /// Les cartes qu'a en main le joueur.
     std::vector<Carte*> cmain;
+    ///
+    Carte *carte_piochee;
     /// Voir enum UnoState pour plus de précisions.
     UnoState uno;
     /// Nombre de points du joueur dans la partie.
-    int points;
+    u_int points;
     /// Numero du joueur dans la partie.
-    int num_joueur;
+    u_int num_joueur;
 
     InfoPartie *infos;
 };
