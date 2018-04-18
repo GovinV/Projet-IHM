@@ -25,11 +25,20 @@ ServerForm {
         id: button
         x: 492
         y: 10
-        text: qsTr("Connect")
+        text: qsTr("Se connecter")
+        height: parent.height*0.6
+        width: parent.height*1.5
         anchors.verticalCenterOffset: 0
         anchors.right: parent.right
         anchors.rightMargin: 8
         anchors.verticalCenter: parent.verticalCenter
+
+        background:
+            Rectangle {
+                anchors.fill: parent
+                radius: 20
+                color:  button.hovered?"#e98515":"#ffffff"
+        }
 
         onHoveredChanged:
         {
@@ -40,7 +49,7 @@ ServerForm {
         onClicked: {
             playClick.play();
             network.joinRoom(room.serverId);
-            swipeHorizontalServeur.setCurrentIndex(1);
+            swipeHorizontalServeur.setCurrentIndex(2);
             room.host=false;
             room.name=name;
             room.serverId=serverId;

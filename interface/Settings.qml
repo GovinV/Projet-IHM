@@ -60,7 +60,7 @@ SettingsForm {
             x: 152
             height: 13
             color: "#e98515"
-            text: qsTr("Settings")
+            text: qsTr("Paramètres")
             anchors.horizontalCenterOffset: 0
             font.bold: true
             font.family: "Tahoma"
@@ -86,7 +86,7 @@ SettingsForm {
             x: 15
             y: 293
             color: "#ffffff"
-            text: qsTr("Fullsscreen")
+            text: qsTr("Plein écran")
             font.bold: false
             font.family: "Tahoma"
             font.pixelSize: 20
@@ -128,7 +128,7 @@ SettingsForm {
             x: 55
             y: 392
             color: "#ffffff"
-            text: qsTr("Width")
+            text: qsTr("Largeur")
             anchors.horizontalCenterOffset: -67
             anchors.horizontalCenter: parent.horizontalCenter
             font.bold: false
@@ -141,7 +141,7 @@ SettingsForm {
             x: 194
             y: 392
             color: "#ffffff"
-            text: qsTr("Height")
+            text: qsTr("Hauteur")
             anchors.horizontalCenterOffset: 67
             anchors.horizontalCenter: parent.horizontalCenter
             font.family: "Tahoma"
@@ -209,7 +209,7 @@ SettingsForm {
             width: 92
             height: 29
             color: "#ffffff"
-            text: qsTr("Nickname")
+            text: qsTr("Pseudo")
             verticalAlignment: Text.AlignTop
             font.pixelSize: 20
             font.bold: false
@@ -227,13 +227,20 @@ SettingsForm {
                     playSnap.play();
             }
 
+            background:
+                Rectangle {
+                    anchors.fill: parent
+                    radius: 20
+                    color:  button.hovered?"#e98515":"#ffffff"
+            }
             onClicked:
             {
                 playClick.play();
                 settings.loadSettings();
             }
             font.pointSize: 15
-            anchors.horizontalCenterOffset: 67
+            width: settingsForm.width/2.3
+            anchors.horizontalCenterOffset: 72
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 18
             anchors.horizontalCenter: parent.horizontalCenter
@@ -249,14 +256,21 @@ SettingsForm {
                     playSnap.play();
             }
 
+            background:
+                Rectangle {
+                    anchors.fill: parent
+                    radius: 20
+                    color:  button1.hovered?"#e98515":"#ffffff"
+            }
             onClicked:
             {
                 playClick.play();
                 settingsRect.isActive=false;
             }
             text: qsTr("Quitter")
+            width: settingsForm.width/2.3
             font.pointSize: 15
-            anchors.horizontalCenterOffset: -77
+            anchors.horizontalCenterOffset: -72
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 18
@@ -270,7 +284,7 @@ SettingsForm {
             height: 24
             selectByMouse: true;
             color: "#e98515"
-            text: qsTr("Semperfegrhtj")
+            text: "anonymous"
             selectionColor: "#ffffff"
             selectedTextColor: "#e98515"
             clip:true
@@ -295,11 +309,17 @@ SettingsForm {
             id: button2
             x: 31
             y: 589
-            width: 254
             height: 34
+            width: settingsForm.width/1.1
             text: qsTr("Sauvegarder")
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 87
+            background:
+                Rectangle {
+                    anchors.fill: parent
+                    radius: 20
+                    color:  button2.hovered?"#e98515":"#ffffff"
+            }
 
             onHoveredChanged:
             {
@@ -350,6 +370,7 @@ SettingsForm {
             width: 152
             height: 39
             value: 0.5
+
         }
 
         Rectangle {
@@ -368,7 +389,7 @@ SettingsForm {
                 y: 13
                 width: 62
                 height: 14
-                text: qsTr("1280")
+                text: "1280"
                 selectByMouse: true;
                 selectionColor: "#e98515"
                 selectedTextColor: "#ffffff"
@@ -394,7 +415,7 @@ SettingsForm {
                 y: 13
                 width: 62
                 height: 14
-                text: qsTr("800")
+                text: "800"
                 font.pixelSize: 15
                 selectByMouse: true;
                 selectionColor: "#e98515"

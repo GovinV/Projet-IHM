@@ -107,7 +107,7 @@ ServerMenuForm {
             onClicked: {
                 playClick.play();
                 network.createRoom("Test");
-                swipeHorizontalServeur.setCurrentIndex(1);
+                swipeHorizontalServeur.setCurrentIndex(2);
                 room.host=true;
             }
 
@@ -122,7 +122,7 @@ ServerMenuForm {
                  id: serverText
                  color: "white"
                  anchors.fill: parent
-                 text: qsTr("Create Room")
+                 text: qsTr("Créer Salon")
                  verticalAlignment: Text.AlignVCenter
                  horizontalAlignment: Text.AlignHCenter
                  font.bold: true
@@ -155,6 +155,7 @@ ServerMenuForm {
 
             onClicked: {
                 playClick.play();
+                swipeHorizontalServeur.setCurrentIndex(0);
             }
 
             Rectangle{

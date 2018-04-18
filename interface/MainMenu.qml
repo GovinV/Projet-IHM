@@ -20,7 +20,15 @@ MainMenuForm {
         transformOrigin: Item.Center
         anchors.verticalCenter: parent.verticalCenter
 
-        background: Rectangle { color: Qt.rgba(0,0,0,0)}
+        background: Rectangle {
+            width: parent.width - parent.width/327*48
+            height: parent.height - parent.height/502*48
+            anchors.left: parent.left
+            anchors.leftMargin:  parent.width/327*24
+            anchors.top: parent.top
+            anchors.topMargin:  parent.width/327*24
+            color: profil.hovered?"#e98515":"#272727"
+        }
 
         onHoveredChanged:
         {
@@ -36,7 +44,7 @@ MainMenuForm {
         Image {
             id: profilBackground
             anchors.fill: parent
-            source: "qrc:/resources/img/card.png"
+            source: "qrc:/cartes/cartes/bg.png"
         }
 
         Text {
@@ -45,7 +53,7 @@ MainMenuForm {
             y: 120
             width: 147
             height: 71
-            text: qsTr("Coming Soon")
+            text: qsTr("Arrive bientôt")
             verticalAlignment: Text.AlignVCenter
             font.bold: true
             font.family: "Tahoma"
@@ -70,7 +78,17 @@ MainMenuForm {
         anchors.verticalCenterOffset: 0
         anchors.verticalCenter: parent.verticalCenter
         transformOrigin: Item.Center
-        background: Rectangle { color: Qt.rgba(0,0,0,0)}
+
+        background: Rectangle {
+            width: parent.width - parent.width/327*48
+            height: parent.height - parent.height/502*48
+            anchors.left: parent.left
+            anchors.leftMargin:  parent.width/327*24
+            anchors.top: parent.top
+            anchors.topMargin:  parent.width/327*24
+            color: play.hovered?"#e98515":"#272727"
+        }
+
 
         onHoveredChanged:
         {
@@ -82,12 +100,13 @@ MainMenuForm {
             playClick.play();
             network.roomList();
             swipeVertical.setCurrentIndex(0);
+            swipeHorizontalServeur.setCurrentIndex(1);
         }
 
         Image {
             id: playBackground
             anchors.fill: parent
-            source: "qrc:/resources/img/card.png"
+            source: "qrc:/cartes/cartes/bg.png"
         }
         Text {
             id: textPlay
@@ -95,7 +114,7 @@ MainMenuForm {
             y: 120
             width: 147
             height: 71
-            text: qsTr("Play")
+            text: qsTr("Jouer")
             verticalAlignment: Text.AlignVCenter
             font.bold: true
             font.family: "Tahoma"
@@ -119,7 +138,16 @@ MainMenuForm {
         anchors.horizontalCenter: parent.horizontalCenter
         transformOrigin: Item.Center
         anchors.verticalCenter: parent.verticalCenter
-        background: Rectangle { color: Qt.rgba(0,0,0,0)}
+
+        background: Rectangle {
+            width: parent.width - parent.width/327*48
+            height: parent.height - parent.height/502*48
+            anchors.left: parent.left
+            anchors.leftMargin:  parent.width/327*24
+            anchors.top: parent.top
+            anchors.topMargin:  parent.width/327*24
+            color: custom.hovered?"#e98515":"#272727"
+        }
 
         onHoveredChanged:
         {
@@ -135,7 +163,7 @@ MainMenuForm {
         Image {
             id: customBackground
             anchors.fill: parent
-            source: "qrc:/resources/img/card.png"
+            source: "qrc:/cartes/cartes/bg.png"
         }
 
         Text {
@@ -144,7 +172,7 @@ MainMenuForm {
             y: 120
             width: 147
             height: 71
-            text: qsTr("Editor")
+            text: qsTr("Editeur")
             verticalAlignment: Text.AlignVCenter
             font.bold: true
             font.family: "Tahoma"

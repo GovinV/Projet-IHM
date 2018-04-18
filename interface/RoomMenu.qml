@@ -16,10 +16,6 @@ RoomMenuForm {
 
     Rectangle {
         id: gameMode
-        x: 538
-        y: 502
-        //width: 204
-        //height: 313
         width: (parent.width / 2048) * 327
         height: (parent.width / 2048) * 502
         anchors.horizontalCenter: parent.horizontalCenter
@@ -32,6 +28,108 @@ RoomMenuForm {
 
         visible: parent.host
 
+        Text {
+            id: text1
+            x: 76
+            y: 150
+            Text {
+                  id: salonName
+                  y: -113
+                  text: qsTr("Nom du Salon")
+                  anchors.horizontalCenterOffset: 0
+                  font.bold: true
+                  font.family: "Tahoma"
+                  font.pixelSize: 13
+                  verticalAlignment: Text.AlignVCenter
+                  horizontalAlignment: Text.AlignHCenter
+                  anchors.horizontalCenter: parent.horizontalCenter
+                  color: "#ffffff"
+              }
+            anchors.horizontalCenter: parent.horizontalCenter
+            font.pixelSize: 12
+        }
+
+        Rectangle
+        {
+            x: 62
+            y: 69
+            width: 158
+            height: 75
+            anchors.horizontalCenter: parent.horizontalCenter
+            color: "#dddddd"
+            TextInput {
+                id: textInput
+                anchors.fill: parent
+                horizontalAlignment: Text.AlignHCenter
+                wrapMode: TextEdit.WordWrap
+                color: "#000000"
+                text: qsTr("Nouveau salon de jeu")
+                font.bold: true
+                font.family: "Tahoma"
+                font.pixelSize: 13
+                //validator: RegExpValidator { regExp: /[0-9a-zA-Z]{1,30}/ }
+            }
+        }
+
+        Text {
+            id: text2
+            x: 76
+            y: 150
+            Text {
+                  id: nbtxt
+                  text: qsTr("Nombre de joeurs (2-4)")
+                  font.bold: true
+                  font.family: "Tahoma"
+                  font.pixelSize: 13
+                  verticalAlignment: Text.AlignVCenter
+                  horizontalAlignment: Text.AlignHCenter
+                  anchors.horizontalCenter: parent.horizontalCenter
+                  anchors.verticalCenter: parent.verticalCenter
+                  color: "#ffffff"
+              }
+            anchors.horizontalCenter: parent.horizontalCenter
+            font.pixelSize: 12
+        }
+
+
+        SpinBox {
+            id: textInput1
+            x: 47
+            y: 195
+            width: 110
+            height: 33
+            anchors.horizontalCenter: parent.horizontalCenter
+            font.pointSize: 13
+            font.family: "Tahoma"
+            to: 4
+            from: 2
+            value: 4
+
+        }
+
+        Button {
+            id: save
+            Text {
+                  id: saveText
+                  text: qsTr("Sauvegarder")
+                  font.bold: true
+                  font.family: "Tahoma"
+                  font.pixelSize: 15
+                  verticalAlignment: Text.AlignVCenter
+                  horizontalAlignment: Text.AlignHCenter
+                  anchors.horizontalCenter: parent.horizontalCenter
+                  anchors.verticalCenter: parent.verticalCenter
+                  color: "#ffffff"
+              }
+            width: parent.width
+            height: 50
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: (parent.parent.width / 2048) * 24
+            background: Rectangle{
+                color: save.hovered?"#e98515":"#484848"
+            }
+        }
+
         Rectangle {
             id: rectangle
             anchors.fill: parent
@@ -39,6 +137,7 @@ RoomMenuForm {
             color: "#00000000"
             border.color: "#ffffff"
             border.width: (parent.parent.width / 2048) * 24
+
         }
     }
 
@@ -83,6 +182,42 @@ RoomMenuForm {
                         width: parent.width
                         name: "Govin"
                         isReady: false
+                    }
+                }
+            }
+
+            Button {
+                id: button
+
+                property bool isReady:false
+
+                Text {
+                      id: textProfil
+                      text: host?qsTr("Demarer"):qsTr("Prêt")
+                      font.bold: true
+                      font.family: "Tahoma"
+                      font.pixelSize: 20
+                      verticalAlignment: Text.AlignVCenter
+                      horizontalAlignment: Text.AlignHCenter
+                      anchors.horizontalCenter: parent.horizontalCenter
+                      anchors.verticalCenter: parent.verticalCenter
+                      color: "#ffffff"
+                  }
+                width: parent.width
+                height: 50
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: 0
+                background: Rectangle{
+                    color: {
+                        if(host)
+                        {/*
+                            if()
+                                button.hovered?"#e98515":"#484848";
+                            else*/
+                                "#484848";
+                        }
+                        else
+                            button.hovered?"#e98515":"#484848";
                     }
                 }
             }

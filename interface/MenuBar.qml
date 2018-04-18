@@ -80,7 +80,6 @@ MenuBarForm {
             id: fullButton
             width: 42
             height: 42
-            text: qsTr("")
             anchors.right: parent.right
             anchors.rightMargin: 42
             anchors.top: parent.top
@@ -133,7 +132,6 @@ MenuBarForm {
             id: lessButton
             width: 42
             height: 42
-            text: qsTr("")
             anchors.right: parent.right
             anchors.rightMargin: 84
             anchors.top: parent.top
@@ -174,7 +172,6 @@ MenuBarForm {
             id: optionButton
             width: 48
             height: 48
-            text: qsTr("")
             anchors.right: parent.right
             anchors.rightMargin: 168
             anchors.verticalCenter: parent.verticalCenter
