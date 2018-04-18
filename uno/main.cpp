@@ -18,7 +18,7 @@ int main()
               << std::endl;
 
     // Définit arbitrairement ici (qui je suis dans le jeu).
-    mon_numero = 2;
+    mon_numero = 0;
 
     // Création de la partie.
     Partie jeu(MANCHE_UNIQUE, 2);

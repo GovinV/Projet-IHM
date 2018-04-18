@@ -16,13 +16,13 @@ public:
 
     std::vector<Carte*> items() const;
 
-    bool setItemAt(int index, const Carte &item);
+    bool setItemAt(int index, Carte *item);
 
 signals:
     void preItemAppended();
     void postItemAppended();
 
-    void preItemRmoved(int index);
+    void preItemRemoved(int index);
     void postItemRemoved();
 
 public slots:

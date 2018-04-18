@@ -14,15 +14,18 @@ int main(int argc, char *argv[])
     qmlRegisterType<HandModel>("game.handmodel",1,0,"HandModel");
     qmlRegisterType<Jeu>("game.backend", 1,0,"BackEnd");
 
-    QQmlApplicationEngine engine;
+    QQmlApplicationEngine *engine = new QQmlApplicationEngine();
 
-    QQmlContext *ctx=engine.rootContext();
+    QQmlContext *ctx=engine->rootContext();
 
-    Jeu jeu(ctx);
-
+    Jeu jeu;
+    Hand h1;
+    jeu.setEngine(engine);
+    jeu.setHand(&h1);
     ctx->setContextProperty("game",&jeu);
-    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
-    if (engine.rootObjects().isEmpty())
+    ctx->setContextProperty("hand_j1",&h1);
+    engine->load(QUrl(QStringLiteral("qrc:/main.qml")));
+    if (engine->rootObjects().isEmpty())
         return -1;
 
     return app.exec();

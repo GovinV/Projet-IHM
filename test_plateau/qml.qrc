@@ -1,5 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
+        <file>hand.qml</file>
+        <file>Carte.qml</file>
     </qresource>
 </RCC>
