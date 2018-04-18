@@ -35,7 +35,6 @@ ServerMenuForm {
         onServerlistChanged:
         {
             print("ta mère");
-            serverListView
         }
     }
 
@@ -235,7 +234,7 @@ ServerMenuForm {
 
             clip:true
 
-            model: network.serverlist
+            model: serverListModel
             delegate: Rectangle {
                 height: 60
                 Server{

@@ -14,7 +14,6 @@ int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
-    //qmlRegisterType<Server>("Nico's Room", "9f4gdrh9s4d9ft",1,4);
 
     QGuiApplication app(argc, argv);
 
@@ -22,6 +21,8 @@ int main(int argc, char *argv[])
     Network network;
     Settings settings;
 
+    Servers serv;
+    network._serverlist= &serv;
 
     settings.setClient(&network);
 
@@ -35,7 +36,8 @@ int main(int argc, char *argv[])
     ctx->setContextProperty("settings", &settings);
 
     ctx->setContextProperty("cardListModel", QVariant::fromValue(cardlist));
-    //ctx->setContextProperty("serverListModel", &network);
+    qmlRegisterType<Servers>();
+    ctx->setContextProperty("serverListModel", &serv);
 
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     if (engine.rootObjects().isEmpty())
@@ -43,5 +45,6 @@ int main(int argc, char *argv[])
 
     settings.loadSettings();
 
+    qDebug() << "Serv count: " <<serv._serverlist.count();
     return app.exec();
 }

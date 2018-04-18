@@ -9,27 +9,30 @@
 #include <QtQuick>
 #include "client/ClientTcp.h"
 #include "server.h"
+#include "servers.h"
 
 class Network : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(QQmlListProperty<Server> serverlist READ serverlist NOTIFY serverlistChanged )
+    //Q_PROPERTY(QQmlListProperty<Server> serverlist READ serverlist NOTIFY serverlistChanged )
     //Q_DECLARE_METATYPE(QQmlListProperty<Server>)
 
     public:
         explicit Network(QObject *parent = nullptr);
 
         ~Network();
-
+/*
         QQmlListProperty<Server> serverlist();
         void svAppend(Server *);
         int svCount() const;
         Server *svAt(int) const ;
         void svClear();
-
         QList<Server*> _serverlist;
         //QList<Server*> _playersInfos;
+
+*/
+        Servers* _serverlist;
 
     signals:
         void loadRoom(QString mess,int id, int player, int maxPlayer);
@@ -53,12 +56,12 @@ class Network : public QObject
         void quitRoom();
 
     private:
-
+/*
         static void svAppend(QQmlListProperty<Server> *, Server *);
         static int svCount(QQmlListProperty<Server> *);
         static Server* svAt(QQmlListProperty<Server> *, int );
         static void svClear(QQmlListProperty<Server> *);
-
+*/
         void parseRoomList(QString list);
         void parseRoomInfos(QString infos);
 

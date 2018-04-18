@@ -9,7 +9,7 @@ Network::~Network()
 {
     client.UI_to_Soc("<quit>\n");
 }
-
+/*
 QQmlListProperty<Server> Network::serverlist()
 {
     return QQmlListProperty<Server>(this, 0, &Network::svAppend, &Network::svCount, &Network::svAt, &Network::svClear);
@@ -53,7 +53,7 @@ void Network::svClear(QQmlListProperty<Server> *property)
 {
     reinterpret_cast<Network* >(property->data)->svClear();
 }
-
+*/
 
 void Network::receiveFromServer(QString mess)
 {
@@ -125,11 +125,13 @@ void Network::parseRoomList(QString list)
 {
     if(list=="<no room>\n")
     {
-        this->svAppend(new Server("Nico's Room", "9f4gdrh9s4d9ft",1,4));
+        _serverlist->append(new Server("Nico's Room", "9f4gdrh9s4d9ft",1,4));
+        //this->svAppend(new Server("Nico's Room", "9f4gdrh9s4d9ft",1,4));
+        qDebug() << "Serv count: " << _serverlist->count();
         emit serverlistChanged();
         return;
     }
-    _serverlist.clear();
+    //_serverlist.clear();
     QStringList Rooms = list.split(">");
     foreach (QString room , Rooms)
     {
@@ -137,7 +139,7 @@ void Network::parseRoomList(QString list)
         if(infos.length()>3)
         {
             qDebug() << "test: " + infos.at(1);
-            _serverlist.append(new Server(infos.at(1),infos.at(0),infos.at(2).toInt(),infos.at(3).toInt()));
+            _serverlist->append(new Server(infos.at(1),infos.at(0),infos.at(2).toInt(),infos.at(3).toInt()));
             emit serverlistChanged();
         }
     }
