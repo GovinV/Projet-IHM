@@ -51,11 +51,12 @@ Window {
 
             SwipeView {
                 id: swipeHorizontalServeur
-                currentIndex: 0
+                currentIndex: 1
                 interactive: false
 
                 onCurrentIndexChanged: changedReturnButton()
-
+                Tuto{
+                }
                 ServerMenu{
                 }
                 RoomMenu{
@@ -95,13 +96,16 @@ Window {
         else
         {
             returnButton.visible=true;
-            if(swipeHorizontalServeur.currentIndex==0)
+            if(swipeHorizontalServeur.currentIndex==1)
             {
                 backLogo.rotation=-90;
             }
             else
             {
-                backLogo.rotation=0;
+                if(swipeHorizontalServeur.currentIndex==0)
+                    backLogo.rotation=180;
+                else
+                    backLogo.rotation=0;
             }
         }
 
@@ -130,13 +134,13 @@ Window {
             playClick.play();
             if(swipeVertical.currentIndex==0)
             {
-                if(swipeHorizontalServeur.currentIndex==0)
+                if(swipeHorizontalServeur.currentIndex==1)
                     swipeVertical.currentIndex=1;
                 else
                 {
                     network.quitRoom();
                     network.roomList();
-                    swipeHorizontalServeur.currentIndex=0;
+                    swipeHorizontalServeur.currentIndex=1;
                 }
             }
             else

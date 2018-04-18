@@ -107,7 +107,7 @@ ServerMenuForm {
             onClicked: {
                 playClick.play();
                 network.createRoom("Test");
-                swipeHorizontalServeur.setCurrentIndex(1);
+                swipeHorizontalServeur.setCurrentIndex(2);
                 room.host=true;
             }
 
@@ -155,6 +155,7 @@ ServerMenuForm {
 
             onClicked: {
                 playClick.play();
+                swipeHorizontalServeur.setCurrentIndex(0);
             }
 
             Rectangle{

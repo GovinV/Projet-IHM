@@ -100,6 +100,7 @@ MainMenuForm {
             playClick.play();
             network.roomList();
             swipeVertical.setCurrentIndex(0);
+            swipeHorizontalServeur.setCurrentIndex(1);
         }
 
         Image {

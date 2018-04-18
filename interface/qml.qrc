@@ -19,5 +19,7 @@
         <file>PlayerForm.ui.qml</file>
         <file>Card.qml</file>
         <file>CardForm.ui.qml</file>
+        <file>Tuto.qml</file>
+        <file>TutoForm.ui.qml</file>
     </qresource>
 </RCC>
