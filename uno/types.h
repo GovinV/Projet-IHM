@@ -36,6 +36,8 @@ struct InfoPartie{
 
 std::ostream &operator << (std::ostream &out, const TypeMessage t);
 
+int my_rand(void);
 
+void my_srand(unsigned int seed);
 
 #endif // TYPES_H
