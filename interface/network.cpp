@@ -34,46 +34,46 @@ void Network::receiveFromServer(QString mess)
 
 void Network::changeNickname(QString pseudo)
 {
-    client.UI_to_Soc("name: " + pseudo);
+    client.UI_to_Soc("name: " + pseudo +"\n");
     qDebug() << "changeNickname: " << pseudo;
 }
 
 void Network::changeRoomName(QString name)
 {
-    client.UI_to_Soc("<changeroomname> " + name);
+    client.UI_to_Soc("<changeroomname> " + name +"\n");
     qDebug() << "changeRoomName: " << name;
 }
 
 void Network::changeMaxPlayer(int n)
 {
-    client.UI_to_Soc("<changemaxplayer> " + n);
+    client.UI_to_Soc("<changemaxplayer> " + n +"\n");
     qDebug() << "changeMaxPlayer: " << n;
 }
 
 void Network::roomList()
 {
-    client.UI_to_Soc("<list>");
+    client.UI_to_Soc("<list>\n");
     this->state=1;
     qDebug() << "roomList";
 }
 
 void Network::createRoom(QString room_name)
 {
-    client.UI_to_Soc("<create> "+ room_name);
+    client.UI_to_Soc("<create> "+ room_name +"\n");
     this->state=2;
     qDebug() << "createRoom";
 }
 
 void Network::joinRoom(QString room_id)
 {
-    client.UI_to_Soc("<join> " + room_id);
+    client.UI_to_Soc("<join> " + room_id +"\n");
     this->state=2;
     qDebug() << "joinRoom";
 }
 
 void Network::quitRoom()
 {
-    client.UI_to_Soc("<quit>");
+    client.UI_to_Soc("<quit>\n");
     this->state=0;
     qDebug() << "quitRoom";
 }
