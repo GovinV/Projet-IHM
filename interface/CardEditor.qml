@@ -7,6 +7,11 @@ CardEditorForm {
     width: 1280
     height: 800
 
+    function loadUsedStyle()
+    {
+        cardOnFront.style=cardOnBack.style;
+    }
+
     Connections{
         target: settings
         onLoadCardStyle: //(QString mess);
@@ -108,7 +113,7 @@ CardEditorForm {
 
                                     onClicked: {
                                         playClick.play();
-                                        cardOnBack.style=model.style;
+                                        //cardOnBack.style=model.style;
                                         cardOnFront.style=model.style;
                                     }
 
@@ -201,6 +206,7 @@ CardEditorForm {
 
         onClicked: {
             playClick.play();
+            cardOnBack.style=cardOnFront.style;
             settings.changeCardStyle(cardOnFront.style);
         }
 

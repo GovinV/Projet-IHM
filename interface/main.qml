@@ -77,6 +77,7 @@ Window {
                 MainMenu{
                 }
                 CardEditor{
+                    id:cardEditor
                 }
             }
 

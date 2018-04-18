@@ -157,6 +157,7 @@ MainMenuForm {
 
         onClicked: {
             playClick.play();
+            cardEditor.loadUsedStyle();
             swipeHorizontalMenu.setCurrentIndex(1);
         }
 

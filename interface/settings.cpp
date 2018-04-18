@@ -2,7 +2,12 @@
 
 Settings::Settings(QObject *parent) : QObject(parent)
 {
+    client=NULL;
+}
 
+void Settings::setClient(Network *cl)
+{
+    client=cl;
 }
 
 void Settings::loadSettings()
@@ -14,6 +19,8 @@ void Settings::loadSettings()
     setting.endGroup();
     setting.beginGroup("Infos");
     emit loadNickname(setting.value("nickname").toString());
+    if(client!=NULL)
+        client->changeNickname(setting.value("nickname").toString());
     emit loadLangage(setting.value("langage").toString());
     emit loadCardStyle(setting.value("card").toString());
     emit loadVolume(setting.value("volume").toDouble());

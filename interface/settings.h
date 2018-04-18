@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QDebug>
 #include <QSettings>
+#include "network.h"
 
 class Settings : public QObject
 {
@@ -11,6 +12,7 @@ class Settings : public QObject
 
     public:
         explicit Settings(QObject *parent = nullptr);
+        void setClient(Network* cl);
 
     signals:
         void loadSize(int width, int height);
@@ -29,6 +31,7 @@ class Settings : public QObject
         void loadSettings();
 
     private:
+        Network* client;
         //void saveSettings();
         //void discardSettings();
 

@@ -2,8 +2,6 @@
 
 Network::Network(QObject *parent) : QObject(parent)
 {
-    this->state=0;
-
     serverList.append(new Server("Nico's Room", "9f4gdrh9s4d9ft",1,4));
     serverList.append(new Server("Govin's Room", "9f4gdrh9s4d9ft",3,3));
     serverList.append(new Server("Nico's Room", "9f4gdrh9s4d9ft",1,4));
@@ -11,25 +9,33 @@ Network::Network(QObject *parent) : QObject(parent)
     connect(&client,SIGNAL(readingComplete(QString)),this,SLOT(receiveFromServer(QString)));
 }
 
+Network::~Network()
+{
+    client.UI_to_Soc("<quit>\n");
+}
+
 void Network::receiveFromServer(QString mess)
 {
-    {
-        qDebug() << "from Server: " << mess;
-        switch (this->state) {
-        case 0:     //discard message
-            return;
-        case 1:     //update room list
-            parseRoomList(mess);
-            this->state=0;
-            break;
-        case 2:     //update room's infos
-            parseRoomInfos(mess);
-            break;
-        default:
-            qDebug() << "Unknown message receive from Server: " << mess;
-            break;
-        }
-    }
+    qDebug() << "from Server: " << mess;
+    QStringList option = mess.split("::");
+    if(option.at(0)=="List")     //update room list
+        parseRoomList(option.at(1));
+    else if(option.at(0)=="players")     //update room's infos
+        parseRoomInfos(option.at(1));
+    else if(option.at(0)=="newroom")     //update room's infos
+        parseRoomInfos(option.at(1));
+    else if(option.at(0)=="joinroom")     //update room's infos
+        parseRoomInfos(option.at(1));
+    else if(option.at(0)=="playerleave")     //update room's infos
+        parseRoomInfos(option.at(1));
+    else if(option.at(0)=="changeroomname")     //update room's infos
+        parseRoomInfos(option.at(1));
+    else if(option.at(0)=="changemaxplayer")     //update room's infos
+        parseRoomInfos(option.at(1));
+    else if(option.at(0)=="roomdel")     //update room's infos
+        parseRoomInfos(option.at(1));
+    else
+        qDebug() << "Unknown message receive from Server: " << option.at(1);
 }
 
 void Network::changeNickname(QString pseudo)
@@ -46,45 +52,47 @@ void Network::changeRoomName(QString name)
 
 void Network::changeMaxPlayer(int n)
 {
-    client.UI_to_Soc("<changemaxplayer> " + n +"\n");
+    client.UI_to_Soc("<changemaxplayer> " + n +'\n');
     qDebug() << "changeMaxPlayer: " << n;
 }
 
 void Network::roomList()
 {
     client.UI_to_Soc("<list>\n");
-    this->state=1;
     qDebug() << "roomList";
 }
 
 void Network::createRoom(QString room_name)
 {
     client.UI_to_Soc("<create> "+ room_name +"\n");
-    this->state=2;
     qDebug() << "createRoom";
 }
 
 void Network::joinRoom(QString room_id)
 {
     client.UI_to_Soc("<join> " + room_id +"\n");
-    this->state=2;
     qDebug() << "joinRoom";
 }
 
 void Network::quitRoom()
 {
-    client.UI_to_Soc("<quit>\n");
-    this->state=0;
-    qDebug() << "quitRoom";
+    client.UI_to_Soc("<leave>\n");
+    qDebug() << "leaveRoom";
 }
 
 void Network::parseRoomList(QString list)
 {
+    if(list=="<no room>")
+        return;
     QStringList Rooms = list.split(">");
     foreach (QString room , Rooms)
     {
         QStringList infos = room.split(":");
-        serverList.append(new Server(infos.at(1),infos.at(0),infos.at(2).toInt(),infos.at(3).toInt()));
+        if(infos.length()>3)
+        {
+            qDebug() << "test: " + infos.at(1);
+            serverList.append(new Server(infos.at(1),infos.at(0),infos.at(2).toInt(),infos.at(3).toInt()));
+        }
     }
     qDebug() << "parseRoomList: " << list;
 

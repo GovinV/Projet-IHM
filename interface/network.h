@@ -12,6 +12,8 @@ class Network : public QObject
     public:
         explicit Network(QObject *parent = nullptr);
 
+        ~Network();
+
         QList<QObject*> serverList;
         QList<QObject*> playersInfos;
 
@@ -41,7 +43,6 @@ class Network : public QObject
         void parseRoomInfos(QString infos);
 
         ClientTcp client;
-        int state;
 };
 
 #endif // NETWORK_H
