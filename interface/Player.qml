@@ -41,7 +41,7 @@ PlayerForm {
         width: 73
         height: 40
         color: isReady?"#3ff826":"#b31919"
-        text: isReady?"Pret":"en attente"
+        text: isReady?qsTr("Prêt"):qsTr("En attente")
         font.bold: true
         anchors.right: parent.right
         anchors.rightMargin: 8

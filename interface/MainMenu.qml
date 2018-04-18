@@ -53,7 +53,7 @@ MainMenuForm {
             y: 120
             width: 147
             height: 71
-            text: qsTr("Coming Soon")
+            text: qsTr("Arrive bientôt")
             verticalAlignment: Text.AlignVCenter
             font.bold: true
             font.family: "Tahoma"
@@ -114,7 +114,7 @@ MainMenuForm {
             y: 120
             width: 147
             height: 71
-            text: qsTr("Play")
+            text: qsTr("Jouer")
             verticalAlignment: Text.AlignVCenter
             font.bold: true
             font.family: "Tahoma"
@@ -172,7 +172,7 @@ MainMenuForm {
             y: 120
             width: 147
             height: 71
-            text: qsTr("Editor")
+            text: qsTr("Editeur")
             verticalAlignment: Text.AlignVCenter
             font.bold: true
             font.family: "Tahoma"

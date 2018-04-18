@@ -159,7 +159,7 @@ Window {
             id: text1
             y: 11
             color: "#ffffff"
-            text: "Return"
+            text: qsTr("Retour")
             anchors.verticalCenterOffset: -1
             anchors.left: parent.left
             anchors.leftMargin: (window.width / 2048) * 97

@@ -63,7 +63,7 @@ RoomMenuForm {
                 horizontalAlignment: Text.AlignHCenter
                 wrapMode: TextEdit.WordWrap
                 color: "#000000"
-                text: qsTr("Salon heberger par " + settingsForm.nicknameInput)
+                text: qsTr("Nouveau salon de jeu")
                 font.bold: true
                 font.family: "Tahoma"
                 font.pixelSize: 13
@@ -193,7 +193,7 @@ RoomMenuForm {
 
                 Text {
                       id: textProfil
-                      text: host?qsTr("Demarer"):qsTr("Pret")
+                      text: host?qsTr("Demarer"):qsTr("Prêt")
                       font.bold: true
                       font.family: "Tahoma"
                       font.pixelSize: 20
