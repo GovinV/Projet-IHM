@@ -2,6 +2,7 @@
 #define JEU_H
 
 #include <QObject>
+#include <QQmlContext>
 
 #include "core/partie.h"
 #include "core/pioche.h"
@@ -11,6 +12,7 @@
 
 #define INVK Q_INVOKABLE
 
+//todo : add hand object to context at runtime and bind to class instance
 class Jeu : public QObject
 {
     Q_OBJECT
@@ -20,6 +22,10 @@ public:
 
     int compteur();
     void setCompteur(int i);
+
+    void setContext(QQmlContext *ctx);
+
+    void addObject();
 
 signals:
     void compteurChanged();
@@ -33,8 +39,10 @@ public slots:
     void playCard();
 
 private:
-    Partie *partie;
+    Partie *m_partie;
     int m_compteur;
+
+    QQmlContext *m_ctx;
 };
 
 #endif // JEU_H

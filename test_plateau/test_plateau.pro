@@ -20,7 +20,9 @@ SOURCES += \
     core/joueuria.cpp \
     core/manche.cpp \
     core/partie.cpp \
-    core/pioche.cpp
+    core/pioche.cpp \
+    handmodel.cpp \
+    hand.cpp
 
 RESOURCES += \
     qml.qrc \
@@ -44,6 +46,8 @@ HEADERS += \
     core/joueuria.h \
     core/manche.h \
     core/partie.h \
-    core/pioche.h
+    core/pioche.h \
+    handmodel.h \
+    hand.h
 
 DISTFILES +=

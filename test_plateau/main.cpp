@@ -3,6 +3,7 @@
 #include <QQmlContext>
 
 #include "jeu.h"
+#include "handmodel.h"
 
 int main(int argc, char *argv[])
 {
@@ -10,13 +11,16 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
 
-    //Jeu jeu;
-
-
-    //QQmlContext *ctx=engine.rootContext();
-    //ctx->setContextProperty("game",&jeu);
+    qmlRegisterType<HandModel>("game.handmodel",1,0,"HandModel");
     qmlRegisterType<Jeu>("game.backend", 1,0,"BackEnd");
+
     QQmlApplicationEngine engine;
+
+    QQmlContext *ctx=engine.rootContext();
+
+    Jeu jeu(ctx);
+
+    ctx->setContextProperty("game",&jeu);
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     if (engine.rootObjects().isEmpty())
         return -1;

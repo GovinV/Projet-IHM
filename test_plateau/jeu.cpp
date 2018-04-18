@@ -1,6 +1,7 @@
 #include "jeu.h"
 
-Jeu::Jeu(QObject *parent) : QObject(parent)
+Jeu::Jeu(QObject *parent) :
+    QObject(parent)
 {
     m_compteur = 0;
 }
@@ -14,6 +15,16 @@ void Jeu::setCompteur(int i)
 {
     m_compteur = i;
     emit compteurChanged();
+}
+
+void Jeu::setContext(QQmlContext *ctx)
+{
+    m_ctx = ctx;
+}
+
+void Jeu::addObject()
+{
+
 }
 
 void Jeu::drawCard()
