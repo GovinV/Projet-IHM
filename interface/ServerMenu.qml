@@ -32,6 +32,11 @@ ServerMenuForm {
         {
 
         }
+        onServerlistChanged:
+        {
+            print("ta mère");
+            serverListView
+        }
     }
 
     Rectangle {
@@ -221,6 +226,7 @@ ServerMenuForm {
         border.color: "#ffffff"
 
         ListView {
+            id: serverListView
             width: parent.width-(parent.parent.width / 2048) * 48
             height: parent.height-60-(parent.parent.width / 2048) * 24
             anchors.horizontalCenter: parent.horizontalCenter
@@ -229,7 +235,7 @@ ServerMenuForm {
 
             clip:true
 
-            model: serverListModel
+            model: network.serverlist
             delegate: Rectangle {
                 height: 60
                 Server{

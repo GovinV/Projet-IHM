@@ -2,6 +2,11 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 
+
+#include <QCoreApplication>
+#include <QQmlEngine>
+#include <QQmlComponent>
+
 #include "network.h"
 #include "settings.h"
 
@@ -9,11 +14,14 @@ int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
+    //qmlRegisterType<Server>("Nico's Room", "9f4gdrh9s4d9ft",1,4);
+
     QGuiApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
     Network network;
     Settings settings;
+
 
     settings.setClient(&network);
 
@@ -27,7 +35,7 @@ int main(int argc, char *argv[])
     ctx->setContextProperty("settings", &settings);
 
     ctx->setContextProperty("cardListModel", QVariant::fromValue(cardlist));
-    ctx->setContextProperty("serverListModel", QVariant::fromValue(network.serverList));
+    //ctx->setContextProperty("serverListModel", &network);
 
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     if (engine.rootObjects().isEmpty())
