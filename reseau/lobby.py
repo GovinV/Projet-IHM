@@ -11,8 +11,10 @@ class Lobby:
     def __init__(self):
         self.rooms = {} # {room_id: Room}
         self.room_player_map = {} # {playerid: roomId}
+        self.players= [] # all players
 
     def welcome_new(self, new_player):
+        self.players.append(new_player)
         new_player.socket.sendall(b"<name>\n")
 
     def list_rooms(self, player):
@@ -51,12 +53,15 @@ class Lobby:
         elif "<create>" in msg:
             if len(msg.split()) >= 2: # error check
                 room_name = msg.split()[1]
-                new_room = Room(room_name, 4)
+                new_room = Room(room_name, 4, player)
                 room_id = new_room.id
                 self.rooms[room_id] = new_room
                 self.rooms[room_id].players.append(player)
                 self.rooms[room_id].welcome_new(player)
                 self.room_player_map[player.id] = room_id
+                player.status = "inroom"
+                new_msg="newroom:" + room_id + ":" + room_name +"\n"
+                self.broadcast(player,new_msg)
             else:
                 player.socket.sendall(instructions)
 
@@ -69,6 +74,9 @@ class Lobby:
                     self.rooms[room_id].players.append(player)
                     self.rooms[room_id].welcome_new(player)
                     self.room_player_map[player.id] = room_id
+                    player.status = "inroom"
+                    new_msg="roomjoin:" + room_id + ":" + player.id +"\n"
+                    self.broadcast(player,new_msg)                    
                 else:
                     player.socket.sendall(b"This Room is full. Choose another one:\n <list> to see.\n")
             else:
@@ -79,8 +87,13 @@ class Lobby:
                 old_room = self.room_player_map[player.id]
                 self.rooms[old_room].remove_player(player)
                 del self.room_player_map[player.id]
+                player.status = "inlobby"
                 if self.rooms[old_room].length == 0:
                     del self.rooms[old_room]
+                    new_msg ="roomdel:" + old_room + "\n"
+                else:
+                    new_msg = "playerleave:" + old_room + ":" + player.id +"\n"
+                self.broadcast(player,new_msg)                                    
             else:
                 player.socket.sendall(b"You are not currently in a room\n")
 
@@ -106,7 +119,12 @@ class Lobby:
                 room_name = msg.split()[1]
                 if player.id in self.room_player_map:
                     room = self.room_player_map[player.id]
-                    self.rooms[room].name = room_name
+                    if player == self.rooms[room].owner:
+                        self.rooms[room].name = room_name
+                        new_msg = "roomchangename:" + room + ":" + room_name +"\n"
+                        self.broadcast(player,new_msg)
+                    else:
+                        player.socket.sendall(b"changeroomname: not owner\n")
                 else:
                     player.socket.sendall(b"You are not currently in a room\n")
             else:
@@ -117,7 +135,13 @@ class Lobby:
                 room_MP = msg.split()[1]
                 if player.id in self.room_player_map:
                     room = self.room_player_map[player.id]
-                    self.rooms[room].capacity = int(room_MP)
+                    if player == self.rooms[room].owner:
+                        if self.rooms[room].capacity > int(room_MP):
+                            self.rooms[room].capacity = int(room_MP)
+                            new_msg = "roomchangecapacity:" + room + ":" + room_MP +"\n"
+                            self.broadcast(player,new_msg)
+                    else:
+                        player.socket.sendall(b"changemaxplayer: not owner\n")
                 else:
                     player.socket.sendall(b"You are not currently in a room\n")
             else:
@@ -135,21 +159,28 @@ class Lobby:
                 player.socket.sendall(msg.encode())
     
     def remove_player(self, player):
+        self.players.remove(player)
         if player.id in self.room_player_map:
             room = self.room_player_map[player.id]
             self.rooms[room].remove_player(player)
             if self.rooms[room].length == 0:
-                    del self.rooms[room]
+                del self.rooms[room]
             del self.room_player_map[player.id]
         print("Player: " + player.id + " has left\n")
 
+    def broadcast(self, from_player, msg):
+        for player in self.players:
+            if player != from_player:
+                if player.status == "inlobby":
+                    player.socket.sendall(msg.encode())
     
 class Room:
-    def __init__(self, name, capacity):
+    def __init__(self, name, capacity, owner):
         self.players = [] # a list of sockets
         self.name = name
         self.length = 0
         self.capacity = capacity
+        self.owner = owner
         self.id = str(uuid.uuid4())
 
     def welcome_new(self, from_player):
