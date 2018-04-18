@@ -4,6 +4,8 @@
 #include <vector>
 #include <iostream>
 
+typedef unsigned int u_int;
+
 /**
  * @brief The TypeMessage enum
  */

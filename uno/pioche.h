@@ -6,6 +6,8 @@
 #include <vector>
 #include <ctime>
 #include "carte.h"
+#include "types.h"
+
 
 
 class Pioche
