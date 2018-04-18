@@ -33,7 +33,7 @@ Couleur JoueurIA::choisir_couleur_defaut()
     Couleur choix;
     if(cmain.empty() || cmain[0]->couleur == NOIR)
     {
-        choix = l_couleurs_candidates[rand()%4];
+        choix = l_couleurs_candidates[my_rand()%4];
     }
     else
     {

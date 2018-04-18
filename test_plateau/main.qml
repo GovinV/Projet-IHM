@@ -60,7 +60,7 @@ Window {
             anchors.fill: parent
 
             onClicked: {
-                back.compteur--
+                back.addObject()
             }
         }
     }

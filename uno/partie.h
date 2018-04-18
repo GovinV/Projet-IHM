@@ -20,9 +20,6 @@ enum TypePartie { CLASSIQUE, MANCHE_UNIQUE, DEUX_VS_DEUX_CLASSIQUE,
                   DEUX_VS_DEUX_MANCHE_UNIQUE, ELIMINATION };
 
 
-
-typedef unsigned int u_int;
-
 class Partie
 {
 public:

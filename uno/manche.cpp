@@ -131,14 +131,14 @@ int Manche::joueur_suivant()
 bool Manche::est_jouable(Carte *c)
 {
     // Si un '+2' est posé, il ne peux poser qu'un autre '+2'
-    if(plus2_actif && c->type == PLUS_DEUX)
+    if(plus2_actif)
     {
-        return true;
+        return c->type == PLUS_DEUX;
     }
     // Si un '+4' est posé, il ne peux poser qu'un autre '+4'
-    else if(plus4_actif && c->type == PLUS_QUATRE)
+    else if(plus4_actif)
     {
-        return true;
+        return c->type == PLUS_QUATRE;
     }
     // Sinon il peux poser toutes les Cartes de même couleur ou de même type
     // que la Carte active, ainsi que les '+4' et 'JOKER'.

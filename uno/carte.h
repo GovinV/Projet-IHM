@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string.h>
+#include "types.h"
 
 
 #define VALEUR_INVERSION 10

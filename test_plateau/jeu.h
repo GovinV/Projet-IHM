@@ -3,17 +3,18 @@
 
 #include <QObject>
 #include <QQmlContext>
+#include <QQmlApplicationEngine>
+#include <QQmlComponent>
 
 #include "core/partie.h"
 #include "core/pioche.h"
 #include "core/carte.h"
 #include "core/joueur.h"
 #include "core/joueuria.h"
-
-#define INVK Q_INVOKABLE
+#include "hand.h"
 
 //todo : add hand object to context at runtime and bind to class instance
-class Jeu : public QObject
+class Jeu : public QQuickItem
 {
     Q_OBJECT
     Q_PROPERTY(int compteur READ compteur WRITE setCompteur NOTIFY compteurChanged)
@@ -23,26 +24,20 @@ public:
     int compteur();
     void setCompteur(int i);
 
-    void setContext(QQmlContext *ctx);
+    void setEngine(QQmlApplicationEngine *engine);
+    void setHand(Hand *h);
 
-    void addObject();
+    Q_INVOKABLE void addObject();
 
 signals:
     void compteurChanged();
-    void playerDrawsCard(int id);
-    void playerPlaysCard(int id);
-    void playerPressesUNO(int id);
-    
-public slots:
-    void drawCard();
-    void pressUNO();
-    void playCard();
 
 private:
     Partie *m_partie;
     int m_compteur;
+    Hand *m_hand1;
 
-    QQmlContext *m_ctx;
+    QQmlApplicationEngine *m_engine;
 };
 
 #endif // JEU_H

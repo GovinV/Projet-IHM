@@ -103,12 +103,20 @@ bool HandModel::setData(const QModelIndex &index, const QVariant &value, int rol
         break;
     }
 
-    if(m_hand->setItemAt(index.row(),*item))
+    if(m_hand->setItemAt(index.row(),item))
     {
         emit dataChanged(index, index, QVector<int>() << role);
         return true;
     }
     return false;
+}
+
+Qt::ItemFlags HandModel::flags(const QModelIndex &index) const
+{
+    if(!index.isValid())
+        return Qt::NoItemFlags;
+
+    return Qt::ItemIsEditable;
 }
 
 QHash<int, QByteArray> HandModel::roleNames() const

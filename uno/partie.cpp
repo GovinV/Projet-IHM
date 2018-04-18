@@ -31,14 +31,14 @@ Partie::Partie(TypePartie t, unsigned int nb_j, unsigned int limite)
     }
 
     infos.add_message({DEBUT_PARTIE, nb_joueur});
-    infos.add_message({DEBUT_MANCHE, rand()%nb_joueur});
+    infos.add_message({DEBUT_MANCHE, my_rand()%nb_joueur});
 }
 
 
 void Partie::start()
 {
     statut_partie = PARTIE_EN_COURS;
-    srand(seed);
+    my_srand(seed);
 }
 
 
@@ -205,7 +205,7 @@ Message *Partie::update_and_get_next_message()
         }
         else
         {
-            infos.add_message({DEBUT_MANCHE, rand()%nb_joueur});
+            infos.add_message({DEBUT_MANCHE, my_rand()%nb_joueur});
         }
     }
     if(infos.num_next_message >= infos.nb_messages)

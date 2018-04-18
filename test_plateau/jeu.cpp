@@ -1,9 +1,12 @@
 #include "jeu.h"
+#include <QDebug>
 
 Jeu::Jeu(QObject *parent) :
     QObject(parent)
 {
     m_compteur = 0;
+    m_partie = new Partie(MANCHE_UNIQUE,2);
+    m_partie->set_seed(42);
 }
 
 int Jeu::compteur()
@@ -17,25 +20,24 @@ void Jeu::setCompteur(int i)
     emit compteurChanged();
 }
 
-void Jeu::setContext(QQmlContext *ctx)
+void Jeu::setEngine(QQmlApplicationEngine *engine)
 {
-    m_ctx = ctx;
+    m_engine = engine;
+}
+
+void Jeu::setHand(Hand *h)
+{
+    m_hand1 = h;
 }
 
 void Jeu::addObject()
 {
+    Hand hand;
+    hand.bindJoueur(m_partie->get_joueur(1));
 
-}
-
-void Jeu::drawCard()
-{
-
-}
-void Jeu::pressUNO()
-{
-
-}
-void Jeu::playCard()
-{
-
+    QQmlComponent comp(qmlEngine(this), QUrl::fromLocalFile("hand.qml"));
+    QObject *obj = comp.create();
+    QObject *model = obj->findChild<QObject*>("model");
+    if(model)
+        model->setProperty("list","hand_j1");
 }

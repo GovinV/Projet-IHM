@@ -4,6 +4,8 @@
 #include <vector>
 #include <iostream>
 
+typedef unsigned int u_int;
+
 /**
  * @brief The TypeMessage enum
  */
@@ -34,6 +36,8 @@ struct InfoPartie{
 
 std::ostream &operator << (std::ostream &out, const TypeMessage t);
 
+int my_rand(void);
 
+void my_srand(unsigned int seed);
 
 #endif // TYPES_H
