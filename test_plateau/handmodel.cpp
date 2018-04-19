@@ -2,7 +2,7 @@
 
 HandModel::HandModel(QObject *parent):
     QAbstractListModel(parent),
-    m_hand(nullptr)
+    _list(nullptr)
 {
 
 }
@@ -56,26 +56,26 @@ TypeCarte int_to_typecarte(int i)
 
 int HandModel::rowCount(const QModelIndex &parent) const
 {
-    if(parent.isValid() || !m_hand)
+    if(parent.isValid() || !_list)
         return 0;
-    return m_hand->items().size();
+    return _list->items().size();
 }
 
 QVariant HandModel::data(const QModelIndex &index, int role) const
 {
-    if(!index.isValid() || !m_hand)
+    if(!index.isValid() || !_list)
         return QVariant();
 
-    const Carte *carte = m_hand->items().at(index.row());
+    const HandItem item = _list->items().at(index.row());
     switch (role) {
-    case CouleurRole:
-        return QVariant(carte->couleur);
+    case ColorRole:
+        return QVariant(item.color);
         break;
     case TypeRole:
-        return QVariant(carte->type);
+        return QVariant(item.type);
         break;
-    case ValeurRole:
-        return QVariant(carte->valeur);
+    case ValueRole:
+        return QVariant(item.value);
     default:
         break;
     }
@@ -85,25 +85,25 @@ QVariant HandModel::data(const QModelIndex &index, int role) const
 
 bool HandModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-    if(!m_hand)
+    if(!_list)
         return false;
 
-    Carte* item = m_hand->items().at(index.row());
+    HandItem item = _list->items().at(index.row());
     switch(role){
-    case CouleurRole:
-        item->couleur = int_to_couleur(value.toInt());
+    case ColorRole:
+        item.color = int_to_couleur(value.toInt());
         break;
     case TypeRole:
-        item->type = int_to_typecarte(value.toInt());
+        item.type = int_to_typecarte(value.toInt());
         break;
-    case ValeurRole:
-        item->valeur = value.toInt();
+    case ValueRole:
+        item.value = value.toInt();
         break;
     default:
         break;
     }
 
-    if(m_hand->setItemAt(index.row(),item))
+    if(_list->setItemAt(index.row(),item))
     {
         emit dataChanged(index, index, QVector<int>() << role);
         return true;
@@ -122,8 +122,40 @@ Qt::ItemFlags HandModel::flags(const QModelIndex &index) const
 QHash<int, QByteArray> HandModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
-    roles[CouleurRole] = "couleur";
+    roles[ColorRole] = "color";
     roles[TypeRole] = "type";
-    roles[ValeurRole] = "valeur";
+    roles[ValueRole] = "value";
     return roles;
+}
+
+Hand* HandModel::list() const
+{
+    return _list;
+}
+
+void HandModel::setList(Hand *list)
+{
+    beginResetModel();
+
+    if(_list)
+        _list->disconnect(this);
+
+    _list = list;
+
+    if(_list){
+        connect(_list, &Hand::preItemAppended, this, [=](){
+            const int index = _list->items().size();
+            beginInsertRows(QModelIndex(), index, index);
+        });
+        connect(_list, &Hand::postItemAppended, this, [=]{
+            endInsertRows();
+        });
+        connect(_list, &Hand::preItemRemoved, this, [=](int index){
+            beginRemoveRows(QModelIndex(), index, index);
+        });
+        connect(_list, &Hand::postItemRemoved, this, [=](){
+            endRemoveRows();
+        });
+    }
+    endResetModel();
 }

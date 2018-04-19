@@ -14,7 +14,7 @@
 #include "hand.h"
 
 //todo : add hand object to context at runtime and bind to class instance
-class Jeu : public QQuickItem
+class Jeu : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(int compteur READ compteur WRITE setCompteur NOTIFY compteurChanged)

@@ -60,5 +60,6 @@
         <file>img/cartes/v/p.png</file>
         <file>img/cartes/v/s.png</file>
         <file>img/bg.jpg</file>
+        <file>img/cartes/bg.png</file>
     </qresource>
 </RCC>

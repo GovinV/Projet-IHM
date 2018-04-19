@@ -33,7 +33,6 @@ void Jeu::setHand(Hand *h)
 void Jeu::addObject()
 {
     Hand hand;
-    hand.bindJoueur(m_partie->get_joueur(1));
 
     QQmlComponent comp(qmlEngine(this), QUrl::fromLocalFile("hand.qml"));
     QObject *obj = comp.create();

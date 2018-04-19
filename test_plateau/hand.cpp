@@ -3,40 +3,58 @@
 Hand::Hand(QObject* parent):
     QObject(parent)
 {
-
+    _items.append({TYPE_NB,"r",1});
+    _items.append({TYPE_S_P2,"v",-1});
 }
 
-void Hand::bindJoueur(Joueur *j)
+QVector<HandItem> Hand::items() const
 {
-    m_joueur = j;
+    return _items;
 }
 
-std::vector<Carte*> Hand::items() const
+bool Hand::setItemAt(int index, HandItem &item)
 {
-    return m_joueur->cmain;
-}
-
-bool Hand::setItemAt(int index, Carte *item)
-{
-    if(index < 0 || index >= m_joueur->cmain.size())
+    if(index < 0 || index >= _items.size())
         return false;
 
-    const Carte* oldItem = m_joueur->cmain.at(index);
-    if(item->couleur == oldItem->couleur &&
-            item->type == item->type &&
-            item->valeur == item->valeur)
+    const HandItem oldItem = _items.at(index);
+    if(item.color == oldItem.color &&
+            item.type == item.type &&
+            item.value == item.value)
     {
         return false;
     }
 
-    m_joueur->cmain[index] = item;
+    _items[index] = item;
     return true;
 }
 
-void Hand::appendItemp()
+void Hand::appendItem(int type, QString color, int value)
 {
     emit preItemAppended();
-    Carte* item;
-    m_joueur->cmain.push_back(item);
+
+    HandItem item;
+    item.color = color;
+    item.type = type;
+    item.value = value;
+    _items.append(item);
+
     emit postItemAppended();
+}
+
+void Hand::removeItem(int index)
+{
+    emit preItemRemoved(index);
+
+    _items.removeAt(index);
+
+    emit postItemRemoved();
+}
+
+void Hand::clear()
+{
+    for(auto i = 0; i<_items.size();)
+    {
+        removeItem(i);
+    }
 }
