@@ -25,6 +25,8 @@ void Network::receiveFromServer(QString mess)
         parsePlayerList(option.at(1));
     else if(option.at(0)=="roomdel")     //update room's infos
         parsePlayerList(option.at(1));
+    else if (option.at(0)=="gamestart")
+        startGame(option.at(1));
     else
         qDebug() << "Unknown message receive from Server: " << option.at(1);
 }
@@ -75,6 +77,12 @@ void Network::quit()
 {
     client.UI_to_Soc("<quit>\n");
     qDebug() << "quitGame";
+}
+
+void Network::startGame(QString infos)
+{
+    //lien vers une nouvelle classe Jeu pour style jeu actif bah t'envoie msg directe à l'objet jeu sinon tu crée l'objet jeu
+    qDebug() << "startGame";
 }
 
 void Network::parseRoominfos(QString list)
