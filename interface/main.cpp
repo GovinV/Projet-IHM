@@ -9,20 +9,22 @@
 
 #include "network.h"
 #include "settings.h"
+#include "serverlist.h"
+#include "servermodel.h"
 
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-
-
     QGuiApplication app(argc, argv);
+
+
+    qmlRegisterType<ServerModel>("Server", 1, 0, "ServerModel");
+    qmlRegisterUncreatableType<ServerList>("Server", 1, 0, "ServerList",
+        QStringLiteral("ServerList should not be created in QML"));
 
     QQmlApplicationEngine engine;
     Network network;
     Settings settings;
-
-    Servers serv;
-    network._serverlist= &serv;
 
     settings.setClient(&network);
 
@@ -36,8 +38,7 @@ int main(int argc, char *argv[])
     ctx->setContextProperty("settings", &settings);
 
     ctx->setContextProperty("cardListModel", QVariant::fromValue(cardlist));
-    qmlRegisterType<Servers>();
-    ctx->setContextProperty("serverListModel", &serv);
+    ctx->setContextProperty(QStringLiteral("serversList"), &network.serverList);
 
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     if (engine.rootObjects().isEmpty())
@@ -45,6 +46,5 @@ int main(int argc, char *argv[])
 
     settings.loadSettings();
 
-    qDebug() << "Serv count: " <<serv._serverlist.count();
     return app.exec();
 }

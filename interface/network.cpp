@@ -5,56 +5,6 @@ Network::Network(QObject *parent) : QObject(parent)
     connect(&client,SIGNAL(readingComplete(QString)),this,SLOT(receiveFromServer(QString)));
 }
 
-Network::~Network()
-{
-    client.UI_to_Soc("<quit>\n");
-}
-/*
-QQmlListProperty<Server> Network::serverlist()
-{
-    return QQmlListProperty<Server>(this, 0, &Network::svAppend, &Network::svCount, &Network::svAt, &Network::svClear);
-    //return QQmlListProperty<Server>(this, _serverlist);
-}
-
-void Network::svAppend(Server * value)
-{
-    _serverlist.append(value);
-}
-
-void Network::svAppend(QQmlListProperty<Server> *property, Server *value)
-{
-    reinterpret_cast<Network* >(property->data)->svAppend(value);
-}
-
-int Network::svCount() const
-{
-    return _serverlist.count();
-}
-
-int Network::svCount(QQmlListProperty<Server> *property)
-{
-    return reinterpret_cast<Network* >(property->data)->svCount();
-}
-
-Server *Network::svAt(int index) const
-{
-    return _serverlist.at(index);
-}
-Server *Network::svAt(QQmlListProperty<Server> *property, int index)
-{
-    return reinterpret_cast<Network* >(property->data)->svAt(index);
-}
-void Network::svClear()
-{
-    _serverlist.clear();
-}
-
-void Network::svClear(QQmlListProperty<Server> *property)
-{
-    reinterpret_cast<Network* >(property->data)->svClear();
-}
-*/
-
 void Network::receiveFromServer(QString mess)
 {
     qDebug() << "from Server: " << mess;
@@ -125,9 +75,8 @@ void Network::parseRoomList(QString list)
 {
     if(list=="<no room>\n")
     {
-        _serverlist->append(new Server("Nico's Room", "9f4gdrh9s4d9ft",1,4));
+        serverList.appendItem("Nico's Room", "9f4gdrh9s4d9ft",1,4);
         //this->svAppend(new Server("Nico's Room", "9f4gdrh9s4d9ft",1,4));
-        qDebug() << "Serv count: " << _serverlist->count();
         emit serverlistChanged();
         return;
     }
@@ -139,7 +88,7 @@ void Network::parseRoomList(QString list)
         if(infos.length()>3)
         {
             qDebug() << "test: " + infos.at(1);
-            _serverlist->append(new Server(infos.at(1),infos.at(0),infos.at(2).toInt(),infos.at(3).toInt()));
+            serverList.appendItem(infos.at(1),infos.at(0),infos.at(2).toInt(),infos.at(3).toInt());
             emit serverlistChanged();
         }
     }

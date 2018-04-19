@@ -1,5 +1,7 @@
 import QtQuick 2.4
 import QtQuick.Controls 2.3
+import Server 1.0
+
 
 ServerMenuForm {
     id: serverMenu
@@ -234,7 +236,10 @@ ServerMenuForm {
 
             clip:true
 
-            model: serverListModel
+            model: ServerModel{
+                list: serversList
+            }
+
             delegate: Rectangle {
                 height: 60
                 Server{

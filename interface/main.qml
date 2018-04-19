@@ -11,7 +11,7 @@ Window {
     height: 800
     title: qsTr("Uno")
 
-    flags: Qt.FramelessWindowHint
+    //flags: Qt.FramelessWindowHint
 
     Connections{
         target: settings

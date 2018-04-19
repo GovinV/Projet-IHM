@@ -8,31 +8,18 @@
 #include <QDebug>
 #include <QtQuick>
 #include "client/ClientTcp.h"
-#include "server.h"
-#include "servers.h"
+
+#include "serverlist.h"
+#include "servermodel.h"
 
 class Network : public QObject
 {
     Q_OBJECT
 
-    //Q_PROPERTY(QQmlListProperty<Server> serverlist READ serverlist NOTIFY serverlistChanged )
-    //Q_DECLARE_METATYPE(QQmlListProperty<Server>)
-
     public:
         explicit Network(QObject *parent = nullptr);
 
-        ~Network();
-/*
-        QQmlListProperty<Server> serverlist();
-        void svAppend(Server *);
-        int svCount() const;
-        Server *svAt(int) const ;
-        void svClear();
-        QList<Server*> _serverlist;
-        //QList<Server*> _playersInfos;
-
-*/
-        Servers* _serverlist;
+        ServerList serverList;
 
     signals:
         void loadRoom(QString mess,int id, int player, int maxPlayer);
