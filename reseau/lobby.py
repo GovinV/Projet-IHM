@@ -37,7 +37,7 @@ class Lobby:
 
         print(player.id + " says: " + msg)
         if "name:" in msg:
-            name = msg.split()[1]
+            name = (msg.split("\n")[0]).split(":")[1]
             player.name = name
             print("New connection from:", player.name)
             player.socket.sendall(instructions)
