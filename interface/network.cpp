@@ -33,13 +33,13 @@ void Network::receiveFromServer(QString mess)
 
 void Network::changeNickname(QString pseudo)
 {
-    client.UI_to_Soc("name: " + pseudo +"\n");
+    client.UI_to_Soc("name:" + pseudo +"\n");
     qDebug() << "changeNickname: " << pseudo;
 }
 
 void Network::changeRoomName(QString name)
 {
-    client.UI_to_Soc("<changeroomname> " + name +"\n");
+    client.UI_to_Soc("<changeroomname>" + name +"\n");
     qDebug() << "changeRoomName: " << name;
 }
 
@@ -57,7 +57,7 @@ void Network::roomList()
 
 void Network::createRoom(QString room_name)
 {
-    client.UI_to_Soc("<create> "+ room_name +"\n");
+    client.UI_to_Soc("<create>"+ room_name +"\n");
     qDebug() << "createRoom";
 }
 
