@@ -49,3 +49,13 @@ void ServerList::removeItems(int index)
 
     emit postItemRemoved();
 }
+
+void ServerList::clear()
+{
+
+    for (int i = 0; i < _items.size(); ) {
+        emit preItemRemoved(i);
+        _items.removeAt(i);
+        emit postItemRemoved();
+    }
+}

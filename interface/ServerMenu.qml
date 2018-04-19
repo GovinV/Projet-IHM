@@ -10,9 +10,9 @@ ServerMenuForm {
 
     Connections{
         target: network
-        onLoadRoom:     //(QString mess,int id, int player, int maxPlayer)
+        onServerRoomNull:
         {
-
+            noRoom.visible=none;
         }
 
         onPlayerJoin:   //(QString mess)
@@ -225,6 +225,20 @@ ServerMenuForm {
         transformOrigin: Item.Center
         border.width: (parent.width / 2048) * 24
         border.color: "#ffffff"
+
+
+        Text {
+            id: noRoom
+            color: "white"
+            anchors.fill: parent
+            text: qsTr("Aucun salon de jeu trouvé")
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+            font.bold: true
+            font.family: "Tahoma"
+            font.pixelSize: 20
+            visible: false;
+        }
 
         ListView {
             id: serverListView

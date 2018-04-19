@@ -30,6 +30,8 @@ class Network : public QObject
         void serverStatut(bool online);
         void serverlistChanged();
 
+        void serverRoomNull(bool none);
+
     public slots:
 
         void receiveFromServer(QString mess);
@@ -40,7 +42,8 @@ class Network : public QObject
         void roomList();
         void createRoom(QString room_name);
         void joinRoom(QString room_id);
-        void quitRoom();
+        void leaveRoom();
+        void quit();
 
     private:
 /*
@@ -49,8 +52,9 @@ class Network : public QObject
         static Server* svAt(QQmlListProperty<Server> *, int );
         static void svClear(QQmlListProperty<Server> *);
 */
+        void parseRoominfos(QString list);
         void parseRoomList(QString list);
-        void parseRoomInfos(QString infos);
+        void parsePlayerList(QString infos);
 
         ClientTcp client;
 };

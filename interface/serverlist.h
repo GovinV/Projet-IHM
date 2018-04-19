@@ -35,6 +35,7 @@ signals:
 public slots:
     void appendItem(QString name, QString id, int player,int max);
     void removeItems(int index);
+    void clear();
 
 private:
     QVector<ServerItem> _items;

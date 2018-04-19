@@ -6,6 +6,10 @@ MenuBarForm {
     width: 1280
     height: 300
 
+    Connections{
+        target: network
+    }
+
     Rectangle {
         id: backgroundGris
         x: 0
@@ -57,8 +61,8 @@ MenuBarForm {
             }
 
             onClicked: {
+                network.quit();
                 playClick.play();
-
                 window.close()
             }
 

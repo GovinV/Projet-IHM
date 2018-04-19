@@ -2,6 +2,7 @@ import QtQuick.Window 2.10
 import QtQuick.Controls 2.2
 import QtMultimedia 5.9
 import QtQuick 2.9
+import QtWinExtras 1.0
 import QtGraphicalEffects 1.0
 
 Window {
@@ -11,7 +12,7 @@ Window {
     height: 800
     title: qsTr("Uno")
 
-    //flags: Qt.FramelessWindowHint
+    flags: Qt.Window | Qt.FramelessWindowHint
 
     Connections{
         target: settings
@@ -139,7 +140,7 @@ Window {
                     swipeVertical.currentIndex=1;
                 else
                 {
-                    network.quitRoom();
+                    network.leaveRoom();
                     network.roomList();
                     swipeHorizontalServeur.currentIndex=1;
                 }

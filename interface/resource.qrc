@@ -8,6 +8,7 @@
         <file>img/less.png</file>
         <file>img/settings.png</file>
         <file>img/card.png</file>
+        <file>img/icon.png</file>
     </qresource>
     <qresource prefix="/cartes">
         <file>cartes/bg.png</file>
