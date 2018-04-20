@@ -19,8 +19,8 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app(argc, argv);
 
-    qmlRegisterType<ServerModel>("Player", 1, 0, "PlayerModel");
-    qmlRegisterUncreatableType<ServerList>("Player", 1, 0, "PlayerList",
+    qmlRegisterType<PlayerModel>("Player", 1, 0, "PlayerModel");
+    qmlRegisterUncreatableType<PlayerList>("Player", 1, 0, "PlayerList",
         QStringLiteral("PlayerList should not be created in QML"));
 
     qmlRegisterType<ServerModel>("Server", 1, 0, "ServerModel");

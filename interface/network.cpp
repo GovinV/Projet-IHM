@@ -132,6 +132,8 @@ void Network::updateRoom(int type, QString room, QString nb)
         break;
     case 4:
         qDebug() << "playerjoin";
+        playerList.appendItem(infos.at(0),infos.at(1));
+        emit playerlistChanged();
         break;
     default:
         break;
@@ -169,7 +171,7 @@ void Network::parsePlayerList(QString infos)
 {
     QStringList myOptions;
     myOptions << "playerjoin" << "playerquit";
-    
+
     QStringList option = infos.split(":");
 
     switch(myOptions.indexOf(option.at(0)))

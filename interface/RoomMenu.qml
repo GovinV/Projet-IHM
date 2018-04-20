@@ -3,6 +3,8 @@ import QtQuick 2.4
 import QtQuick 2.4
 import QtQuick.Controls 2.3
 
+import Player 1.0
+
 RoomMenuForm {
     id: roomMenu
     width: 1280
@@ -155,7 +157,7 @@ RoomMenuForm {
 
 
     Rectangle {
-        id: playerList
+        id: playerListrect
         x: 532
         y: 511
         width: (parent.width / 2048) * 327*2.35
@@ -170,74 +172,70 @@ RoomMenuForm {
         border.width: (parent.width / 2048) * 24
         border.color: "#ffffff"
 
-        ScrollView {
-            id: scrollView
+        ListView {
+            id: playerListView
             width: parent.width-(parent.parent.width / 2048) * 48
             height: parent.height-(parent.parent.width / 2048) * 48
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.top: parent.top
             anchors.topMargin: (parent.parent.width / 2048) * 24
 
+            clip:true
 
-            Flickable {
-                clip: true
-                Column {
-                    id: column
-                    width: scrollView.width
-
-                    Player{
-                        width: parent.width
-                        name: "Semper"
-                        isReady: true
-                    }
-                    Player{
-                        width: parent.width
-                        name: "Govin"
-                        isReady: false
-                    }
-                }
+            model: PlayerModel{
+                list: playerList
             }
 
-            Button {
-                id: button
-
-                property bool isReady:false
-
-                Text {
-                      id: textProfil
-                      text: host?qsTr("Demarer"):qsTr("Prêt")
-                      font.bold: true
-                      font.family: "Tahoma"
-                      font.pixelSize: 20
-                      verticalAlignment: Text.AlignVCenter
-                      horizontalAlignment: Text.AlignHCenter
-                      anchors.horizontalCenter: parent.horizontalCenter
-                      anchors.verticalCenter: parent.verticalCenter
-                      color: "#ffffff"
-                  }
-                width: parent.width
-                height: 50
-                anchors.bottom: parent.bottom
-                anchors.bottomMargin: 0
-                background: Rectangle{
-                    color: {
-                        if(host)
-                        {/*
-                            if()
-                                button.hovered?"#e98515":"#484848";
-                            else*/
-                                "#484848";
-                        }
-                        else
-                            button.hovered?"#e98515":"#484848";
-                    }
+            delegate: Rectangle {
+                height: 60
+                Player{
+                    width: playerListrect.width-(playerListrect.parent.width / 2048) * 48;
+                    playerId: model.id
+                    name: model.name
+                    ready: false
                 }
             }
         }
+        Button {
+            id: button
+
+            property bool isReady:false
+
+            Text {
+                  id: textProfil
+                  text: host?qsTr("Demarer"):qsTr("Prêt")
+                  font.bold: true
+                  font.family: "Tahoma"
+                  font.pixelSize: 20
+                  verticalAlignment: Text.AlignVCenter
+                  horizontalAlignment: Text.AlignHCenter
+                  anchors.horizontalCenter: parent.horizontalCenter
+                  anchors.verticalCenter: parent.verticalCenter
+                  color: "#ffffff"
+              }
+            width: parent.width
+            height: 50
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 0
+            background: Rectangle{
+                color: {
+                    if(host)
+                    {/*
+                        if()
+                            button.hovered?"#e98515":"#484848";
+                        else*/
+                            "#484848";
+                    }
+                    else
+                        button.hovered?"#e98515":"#484848";
+                }
+            }
+        }
+
+
     }
-
-
-
-
-
 }
+
+
+
+

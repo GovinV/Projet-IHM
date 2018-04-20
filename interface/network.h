@@ -33,6 +33,8 @@ class Network : public QObject
         void serverStatut(bool online);
         void serverlistChanged();
 
+        void playerlistChanged();
+
         void serverRoomNull(bool none);
 
     public slots:

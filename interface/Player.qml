@@ -7,7 +7,8 @@ PlayerForm {
     height: 60
 
     property string name: "anonymous"
-    property bool isReady: false
+    property string playerId: "anvsddhfsegdrgsgdrhs"
+    property bool ready: false
 
     Rectangle {
         id: rectangle1
@@ -40,8 +41,8 @@ PlayerForm {
         y: 10
         width: 73
         height: 40
-        color: isReady?"#3ff826":"#b31919"
-        text: isReady?qsTr("Prêt"):qsTr("En attente")
+        color: ready?"#3ff826":"#b31919"
+        text: ready?qsTr("Prêt"):qsTr("En attente")
         font.bold: true
         anchors.right: parent.right
         anchors.rightMargin: 8
