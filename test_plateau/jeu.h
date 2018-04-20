@@ -17,27 +17,23 @@
 class Jeu : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(int compteur READ compteur WRITE setCompteur NOTIFY compteurChanged)
 public:
     explicit Jeu(QObject *parent = nullptr);
 
-    int compteur();
-    void setCompteur(int i);
+    Hand hands[4];
 
-    void setEngine(QQmlApplicationEngine *engine);
-    void setHand(Hand *h);
-
-    Q_INVOKABLE void addObject();
+    void newPlayer(int i);
+    Q_INVOKABLE void start();
 
 signals:
-    void compteurChanged();
 
 private:
-    Partie *m_partie;
-    int m_compteur;
-    Hand *m_hand1;
 
-    QQmlApplicationEngine *m_engine;
+    //fonction de transition entre la classe et le core
+    void init_deck();
+    QString couleur_to_string2(Couleur c);
+
+    Partie *m_partie;
 };
 
 #endif // JEU_H

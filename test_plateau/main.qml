@@ -2,7 +2,7 @@ import QtQuick 2.0
 import QtQuick.Window 2.1
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.0
-//import game.backend 1.0
+import game.backend 1.0
 import game.handmodel 1.0
 
 Window {
@@ -20,91 +20,77 @@ Window {
     }
 
     ListView{
+        id:list0
+
+        //STYLE
+        width:parent.width
+        height:150
+        anchors.horizontalCenter: parent.horizontalCenter
+        highlightRangeMode: ListView.StrictlyEnforceRange
+        preferredHighlightBegin: width / 2 - 20-150*0.65*0.2
+        preferredHighlightEnd: width / 2 + 20-150*0.65*0.2
+        //interactive:false
+        anchors.bottom: parent.bottom
+        orientation:ListView.Horizontal
+        //spacing: -50
+        //clip:true;
+
+        //DATA
+        model:HandModel{
+            list:hand_j0
+        }
+        delegate:Component{
+            Carte{listdata:list0}
+        }
+    }
+
+    ListView{
+        rotation: {originX:width/2;originY:height/2;angle:180}
+        id:list1
+
+        //STYLE
+        width:parent.width
+        height:150
+        anchors.horizontalCenter: parent.horizontalCenter
+        highlightRangeMode: ListView.StrictlyEnforceRange
+        preferredHighlightBegin: width / 2 - 20-150*0.65*0.2
+        preferredHighlightEnd: width / 2 + 20-150*0.65*0.2
+        //interactive:false
+        anchors.top: parent.top
+        orientation:ListView.Horizontal
+        //spacing: -50
+        //clip:true;
+
+        //DATA
         model:HandModel{
             list:hand_j1
         }
-
-        width: parent.width
-        height: parent.height
-        orientation:ListView.Horizontal
-        delegate: Rectangle{
-            Image{
-                id: underlayer
-                source:"qrc:/img/cartes/"+model.color+"/bg.png"
-                anchors.fill:parent
-                fillMode: Image.Stretch
-            }
-            Image{
-                id: circle
-                source:"qrc:/img/cartes/bg.png"
-                anchors.fill:parent
-                fillMode: Image.Stretch
-            }
-            Image{
-                id: figure
-                source:if(model.type === 0){
-                           return "qrc:/img/cartes/"+model.color+"/"+model.value+".png"
-                       }else if(model.type === 1){
-                           return "qrc:/img/cartes/"+model.color+"/+2.png"
-                       }
-                anchors.fill:parent
-                fillMode: Image.Stretch
-            }
-
-            color:"transparent"
-            width: 60*2
-            height: 90*2
-
-            Text{
-                text:model.color
-            }
+        delegate:Component{
+            Carte{listdata:list1}
         }
-    }
-
-    /*BackEnd{
-        id: back
-    }
-
-    Text{
-        text:back.compteur
     }
 
     Rectangle{
-        id:button1
-        x:0
-        y:100
-        width:100
-        height: 100
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
+        height: 70
+        width:200
         color: "white"
         Text{
-            text: "+"
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+            text: "Start Game"
+            font.pixelSize: 35
         }
-
-        MouseArea {
-            anchors.fill: parent
-
+        Frame{
+            anchors.fill:parent
+        }
+        MouseArea{
+            anchors.fill:parent
             onClicked: {
-                back.compteur++
+                console.log("click");
+                game.start();
             }
         }
     }
-    Rectangle{
-        id:button2
-        x:0
-        y:200
-        width:100
-        height: 100
-        color: "white"
-        Text{
-            text: "-"
-        }
-
-        MouseArea {
-            anchors.fill: parent
-
-            onClicked: {
-                back.addObject()
-            }
-        }
-    }*/
 }

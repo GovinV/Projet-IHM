@@ -4,39 +4,67 @@
 Jeu::Jeu(QObject *parent) :
     QObject(parent)
 {
-    m_compteur = 0;
     m_partie = new Partie(MANCHE_UNIQUE,2);
     m_partie->set_seed(42);
+    m_partie->nouvelle_manche();
+    qDebug()<<"init";
 }
 
-int Jeu::compteur()
+void Jeu::start()
 {
-    return m_compteur;
+    //hands[0].appendItem(TYPE_NB,"v",5);
+    //qDebug()<<"hello";
+    init_deck();
 }
 
-void Jeu::setCompteur(int i)
+void Jeu::init_deck()
 {
-    m_compteur = i;
-    emit compteurChanged();
+
+    for(unsigned int i = 0;i< m_partie->joueurs.size();i++)
+    {
+        qDebug()<<"joueur "<<i;
+        hands[i].clear();
+        for(unsigned int j = 0; j<m_partie->joueurs.at(i).cmain.size();j++)
+        {
+            qDebug()<<"carte "<<j;
+            int t = m_partie->joueurs.at(i).cmain.at(j)->type;
+            QString c = couleur_to_string2(m_partie->joueurs.at(i).cmain.at(j)->couleur);
+            int v = m_partie->joueurs.at(i).cmain.at(j)->valeur;
+            qDebug()<<t<<c<<v;
+            hands[i].appendItem(t,c,v);
+        }
+    }
 }
 
-void Jeu::setEngine(QQmlApplicationEngine *engine)
+QString Jeu::couleur_to_string2(Couleur c)
 {
-    m_engine = engine;
-}
+    QString nom_couleur;
 
-void Jeu::setHand(Hand *h)
-{
-    m_hand1 = h;
-}
+    switch(c)
+    {
+        case ROUGE:
+            nom_couleur = "r";
+            break;
 
-void Jeu::addObject()
-{
-    Hand hand;
+        case VERT:
+            nom_couleur = "v";
+            break;
 
-    QQmlComponent comp(qmlEngine(this), QUrl::fromLocalFile("hand.qml"));
-    QObject *obj = comp.create();
-    QObject *model = obj->findChild<QObject*>("model");
-    if(model)
-        model->setProperty("list","hand_j1");
+        case BLEU:
+            nom_couleur = "b";
+            break;
+
+        case JAUNE:
+            nom_couleur = "j";
+            break;
+
+        case NOIR:
+            nom_couleur = "n";
+            break;
+        default:
+            nom_couleur = "x";
+            break;
+    }
+
+    return nom_couleur;
 }
