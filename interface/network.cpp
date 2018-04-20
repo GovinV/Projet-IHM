@@ -3,6 +3,7 @@
 Network::Network(QObject *parent) : QObject(parent)
 {
     connect(&client,SIGNAL(readingComplete(QString)),this,SLOT(receiveFromServer(QString)));
+    inRoom=false;
 }
 
 void Network::receiveFromServer(QString mess)
@@ -66,6 +67,7 @@ void Network::roomList()
 
 void Network::createRoom(QString room_name)
 {
+    inRoom=true;
     playerList.clear();
     client.UI_to_Soc("<create>"+ room_name +"\n");
     qDebug() << "createRoom";
@@ -73,12 +75,14 @@ void Network::createRoom(QString room_name)
 
 void Network::joinRoom(QString room_id)
 {
+    inRoom=true;
     client.UI_to_Soc("<join> " + room_id +"\n");
     qDebug() << "joinRoom";
 }
 
 void Network::leaveRoom()
 {
+    inRoom=false;
     client.UI_to_Soc("<leave>\n");
     qDebug() << "leaveRoom";
 }
@@ -131,13 +135,22 @@ void Network::delRoom(QString room)
 void Network::updateRoomPlace(QString room, int nb)
 {
     QStringList infos = room.split(":");
-    serverList.editPlayer(infos.at(0), nb);
+    if(inRoom && nb==-1)
+    {
+        int id=playerList.findItem(infos.at(0));
+        playerList.removeItems(id);
+    }
+    else
+        serverList.editPlayer(infos.at(0), nb);
+
 }
 
 void Network::updatePlayerReady(QString room)
 {
     QStringList infos = room.split(":");
+    qDebug() << "updatePlayerReady " <<  infos.at(1).toInt();
     playerList.editReady(infos.at(0), infos.at(1).toInt());
+    emit tmpReady();
 }
 
 void Network::updateRoom(int type, QString room)

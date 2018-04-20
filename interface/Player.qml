@@ -6,9 +6,26 @@ PlayerForm {
     width: 600
     height: 60
 
+    Connections{
+        target: network
+        onTmpReady:
+        {
+            print("non non non");
+            print(ready);
+            text2.text=ready?qsTr("Prêt"):qsTr("En attente")
+            text2.color=ready?"#3ff826":"#b31919"
+        }
+    }
+
     property string name: "anonymous"
     property string playerId: "anvsddhfsegdrgsgdrhs"
     property bool ready: false
+
+
+    onReadyChanged:
+    {
+        print("oui oui oui");
+    }
 
     Rectangle {
         id: rectangle1

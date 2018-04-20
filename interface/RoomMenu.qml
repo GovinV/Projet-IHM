@@ -190,7 +190,7 @@ RoomMenuForm {
                     width: playerListrect.width-(playerListrect.parent.width / 2048) * 48;
                     playerId: model.id
                     name: model.name
-                    ready: false
+                    ready: model.ready
                 }
             }
         }

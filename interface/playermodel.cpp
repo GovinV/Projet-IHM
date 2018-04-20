@@ -46,11 +46,13 @@ bool PlayerModel::setData(const QModelIndex &index, const QVariant &value, int r
         item.name = value.toString();
         break;
     case ReadyRole:
+        qDebug() << "ReadyRole" << value.toBool();
         item.ready = value.toBool();
         break;
     }
 
     if (_list->setItemAt(index.row(), item)) {
+        qDebug() << "dataChanged";
         emit dataChanged(index, index, QVector<int>() << role);
         return true;
     }
