@@ -17,15 +17,15 @@ void Network::receiveFromServer(QString mess)
     else if(option.at(0)=="roomdel")
         delRoom(option.at(1));
     else if(option.at(0)=="changeroomname")
-        updateRoom(1,option.at(1));
-    else if(option.at(0)=="changermaxplayer")
-        updateRoom(3,option.at(1));
-
+        updateRoom(1,option.at(1),"1");
+    else if(option.at(0)=="changemaxplayer")
+        updateRoom(3,option.at(1),"1");
     else if(option.at(0)=="roomjoin")
-        updateRoom(2,"1");
+        updateRoom(2,option.at(1),"1");
     else if(option.at(0)=="playerleave")
-        updateRoom(2,"-1");
-
+        updateRoom(2,option.at(1),"-1");
+    else if(option.at(0)=="playerjoin")
+        updateRoom(4,option.at(1),"1");
     else if (option.at(0)=="ingame")
         qDebug() << "ingame message receive from Server: " << option.at(1);
     else if (option.at(0)=="startgame")
@@ -116,7 +116,7 @@ void Network::delRoom(QString room)
     }
 }
 
-void Network::updateRoom(int type, QString room)
+void Network::updateRoom(int type, QString room, QString nb)
 {
     QStringList infos = room.split(":");
     switch (type) {
@@ -125,10 +125,13 @@ void Network::updateRoom(int type, QString room)
         break;
     case 2:
         qDebug() << "update player : " << infos.at(1) << "  toInt(): " << infos.at(1).toInt() ;
-        //serverList.editPlayer(infos.at(0), room.toInt());
+        serverList.editPlayer(infos.at(0), room.toInt());
         break;
     case 3:
         serverList.editMax(infos.at(0), infos.at(1).toInt());
+        break;
+    case 4:
+        qDebug() << "playerjoin";
         break;
     default:
         break;
