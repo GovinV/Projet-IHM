@@ -25,10 +25,13 @@ class Lobby:
         else:
             msg = "List::"
             for room in self.rooms:
-                msg += self.rooms[room].id + ":"+ self.rooms[room].name +":" \
-                + str(self.rooms[room].length) \
-                + ":" + str(self.rooms[room].capacity) + ">"
+                if self.rooms[room].status != "game":
+                    msg += self.rooms[room].id + ":"+ self.rooms[room].name +":" \
+                    + str(self.rooms[room].length) \
+                    + ":" + str(self.rooms[room].capacity) + ">"
             msg+="\n"
+            if msg == "List::\n":
+                msg = "List::<no room>\n" 
             player.socket.sendall(msg.encode())
     
     def handle_msg(self, player, msg):
@@ -62,7 +65,8 @@ class Lobby:
                 room_id = msg.split()[1]
                 if not room_id in self.rooms: # new room:
                     player.socket.sendall(b"error::This Room is not created: <list> to see.\n")
-                elif self.rooms[room_id].length < self.rooms[room_id].capacity:
+                elif self.rooms[room_id].status != "game" or \
+                     self.rooms[room_id].length < self.rooms[room_id].capacity:
                     self.rooms[room_id].players.append(player)
                     self.rooms[room_id].welcome_new(player)
                     self.room_player_map[player.id] = room_id
@@ -107,9 +111,10 @@ class Lobby:
             if player.id in self.room_player_map:
                 room = self.room_player_map[player.id]
                 if player == self.rooms[room].owner:
-                    if self.rooms[room].all_ready():                   
-                        new_msg = "startgame::1\n"
-                        self.broadcast(player,new_msg)
+                    if self.rooms[room].all_ready():                  
+                        self.rooms[room].infogame(player,b"1")
+                    else:
+                        player.socket.sendall(b"error:: not all ready\n")
                 else:
                     player.socket.sendall(b"startgame:: not owner\n")
             else:
@@ -148,7 +153,7 @@ class Lobby:
                 if player.id in self.room_player_map:
                     room = self.room_player_map[player.id]
                     if player == self.rooms[room].owner:
-                        if self.rooms[room].capacity > int(room_MP):
+                        if self.rooms[room].length <= int(room_MP):
                             self.rooms[room].capacity = int(room_MP)
                             new_msg = "changemaxplayer::" + room + ":" + room_MP +"\n"
                             self.broadcast(player,new_msg)
@@ -196,6 +201,7 @@ class Room:
         self.length = 0
         self.capacity = capacity
         self.owner = owner
+        self.status = "waiting"
         self.id = str(uuid.uuid4())
 
     def welcome_new(self, from_player):
@@ -206,6 +212,14 @@ class Room:
     
     def broadcast(self, from_player, msg):
         msg = b"ingame::" + from_player.name.encode() + b":" + msg
+        for player in self.players:
+            if player != from_player:
+                player.socket.sendall(msg)
+
+    def infogame(self, from_player, msg):
+        if msg == b"1":
+            self.status = "game"
+        msg = b"startgame::" + msg
         for player in self.players:
             if player != from_player:
                 player.socket.sendall(msg)
