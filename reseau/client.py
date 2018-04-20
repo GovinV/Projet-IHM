@@ -39,7 +39,7 @@ while True:
                 else:
                     sys.stdout.write(msg.decode())
                     if '<name>' in msg.decode():
-                        msg_prefix = 'name: ' # identifier for name
+                        msg_prefix = 'name:' # identifier for name
                     else:
                         msg_prefix = ''
                     prompt()

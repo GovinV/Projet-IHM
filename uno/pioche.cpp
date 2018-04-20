@@ -44,7 +44,18 @@ Pioche::Pioche()
 
 void Pioche::melanger()
 {
-    std::random_shuffle(pile.begin(), pile.end());
+    //std::random_shuffle(pile.begin(), pile.end());
+    int nb_cartes = pile.size();
+    int new_pos;
+    Carte *save_card;
+
+    for(int i=0; i<nb_cartes; i++)
+    {
+        new_pos = my_rand()%nb_cartes;
+        save_card = pile[i];
+        pile[i] = pile[new_pos];
+        pile[new_pos] = save_card;
+    }
 }
 
 Carte *Pioche::tirer_carte()

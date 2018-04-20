@@ -10,7 +10,7 @@ import player
 
 
 def signal_handler(signal, frame):
-        print('You pressed Ctrl+C!')
+        print('Arrivederci!')
         sys.exit(0)
 
 signal.signal(signal.SIGINT, signal_handler)

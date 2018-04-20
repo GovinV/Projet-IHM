@@ -4,19 +4,26 @@
 #include <QObject>
 #include <QVector>
 
-#include "core/joueur.h"
+#define TYPE_NB 0
+#define TYPE_S_P2 1
+
+struct HandItem
+{
+    int type;
+    QString color;
+    int value;
+};
 
 class Hand : public QObject
 {
     Q_OBJECT
+
 public:
     explicit Hand(QObject *parent = nullptr);
 
-    void bindJoueur(Joueur *j);
+    QVector<HandItem> items() const;
 
-    std::vector<Carte*> items() const;
-
-    bool setItemAt(int index, Carte *item);
+    bool setItemAt(int index, HandItem &item);
 
 signals:
     void preItemAppended();
@@ -26,12 +33,12 @@ signals:
     void postItemRemoved();
 
 public slots:
-    void appendItemp();
+    void appendItem(int type, QString color, int value);
+    void removeItem(int index);
+    void clear();
 
 private:
-    std::vector<Carte*> m_cartes;
-    Joueur *m_joueur;
-
+    QVector<HandItem> _items;
 };
 
 #endif // HAND_H
