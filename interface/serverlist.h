@@ -3,6 +3,8 @@
 
 #include <QObject>
 #include <QVector>
+#include <QDebug>
+#include <QAbstractItemModel>
 
 struct ServerItem
 {
@@ -29,11 +31,17 @@ signals:
     void preItemAppended();
     void postItemAppended();
 
+    void itemEdited(int index, QString name);
+
     void preItemRemoved(int index);
     void postItemRemoved();
 
 public slots:
     void appendItem(QString name, QString id, int player,int max);
+    ServerItem getItem(int index);
+    int findItem(QString id);
+    void editName(QString id, QString name);
+    bool isEmpty();
     void removeItems(int index);
     void clear();
 

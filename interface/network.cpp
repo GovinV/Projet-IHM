@@ -9,24 +9,27 @@ void Network::receiveFromServer(QString mess)
 {
     qDebug() << "from Server: " << mess;
     QStringList option = mess.split("::");
-    if(option.at(0)=="List")     //update room list
+    if(option.at(0)=="List")
         parseRoomList(option.at(1));
-    else if(option.at(0)=="players")     //update room's infos
-        parsePlayerList(option.at(1));
-    else if(option.at(0)=="newroom")     //update room's infos
-        parseRoomList(">"+option.at(1)+":1:4");
-    else if(option.at(0)=="roomjoin")     //update room's infos
-        parsePlayerList(option.at(1));
-    else if(option.at(0)=="playerleave")     //update room's infos
-        parsePlayerList(option.at(1));
-    else if(option.at(0)=="changeroomname")     //update room's infos
-        parsePlayerList(option.at(1));
-    else if(option.at(0)=="changemaxplayer")     //update room's infos
-        parsePlayerList(option.at(1));
-    else if(option.at(0)=="roomdel")     //update room's infos
-        parsePlayerList(option.at(1));
-    else if (option.at(0)=="gamestart")
-        startGame(option.at(1));
+
+    else if(option.at(0)=="newroom")
+        addRoom(option.at(1)+":1:4");
+    else if(option.at(0)=="roomdel")
+        delRoom(option.at(1));
+    else if(option.at(0)=="changeroomname")
+        updateRoom(1,option.at(1));
+    else if(option.at(0)=="changermaxplayer")
+        updateRoom(3,option.at(1));
+
+    else if(option.at(0)=="roomjoin")
+        addRoom(">"+option.at(1)+":1:4");
+    else if(option.at(0)=="playerleave")
+        addRoom(">"+option.at(1)+":1:4");
+
+    else if (option.at(0)=="ingame")
+        qDebug() << "ingame message receive from Server: " << option.at(1);
+    else if (option.at(0)=="startgame")
+        qDebug() << "gamestart message receive from Server: " << option.at(1);
     else
         qDebug() << "Unknown message receive from Server: " << option.at(1);
 }
@@ -85,23 +88,49 @@ void Network::startGame(QString infos)
     qDebug() << "startGame";
 }
 
-void Network::parseRoominfos(QString list)
+void Network::addRoom(QString room)
 {
-    QStringList Rooms = list.split(">");
-    foreach (QString room , Rooms)
+    QStringList infos = room.split(":");
+    if(infos.length()>3)
     {
-        QStringList infos = room.split(":");
-        qDebug() << "test: " + infos.at(0);
-        if(infos.length()>3)
-        {
-            qDebug() << "test: " + infos.at(1);
-            serverList.appendItem(infos.at(1),infos.at(0),infos.at(2).toInt(),infos.at(3).toInt());
-            emit serverRoomNull(false);
-            emit serverlistChanged();
-        }
+        serverList.appendItem(infos.at(1),infos.at(0),infos.at(2).toInt(),infos.at(3).toInt());
+        emit serverRoomNull(false);
+        emit serverlistChanged();
     }
-    qDebug() << "parseRoominfos: " << list;
+    qDebug() << "addRoom: " << room;
 
+}
+
+void Network::delRoom(QString room)
+{
+    std::string sv=room.toStdString();
+    sv.pop_back();
+    int id=serverList.findItem(QString::fromStdString(sv));
+    if(id==-1)
+        qDebug() << "Erreur delRoom : " << room;
+    else
+    {
+        serverList.removeItems(id);
+        qDebug() << "del room : " << serverList.isEmpty();
+        emit serverRoomNull(serverList.isEmpty());
+    }
+}
+
+void Network::updateRoom(int type, QString room)
+{
+    QStringList infos = room.split(":");
+    switch (type) {
+    case 1:
+        qDebug() << infos.at(0) << "  ||  " << infos.at(1);
+        serverList.editName(infos.at(0), infos.at(1));
+        break;
+    case 2:
+        break;
+    case 3:
+        break;
+    default:
+        break;
+    }
 }
 
 

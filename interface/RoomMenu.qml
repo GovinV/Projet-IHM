@@ -14,6 +14,10 @@ RoomMenuForm {
     property int player: 1
     property int playerMax: 4
 
+    Connections{
+        target: network
+    }
+
     Rectangle {
         id: gameMode
         width: (parent.width / 2048) * 327
@@ -121,6 +125,14 @@ RoomMenuForm {
                   anchors.verticalCenter: parent.verticalCenter
                   color: "#ffffff"
               }
+
+            onClicked:
+            {
+                print(textInput.text);
+                network.changeRoomName(textInput.text);
+
+            }
+
             width: parent.width
             height: 50
             anchors.bottom: parent.bottom

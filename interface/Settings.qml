@@ -267,7 +267,7 @@ SettingsForm {
                 playClick.play();
                 settingsRect.isActive=false;
             }
-            text: qsTr("Quitter")
+            text: qsTr("Annuler")
             width: settingsForm.width/2.3
             font.pointSize: 15
             anchors.horizontalCenterOffset: -72

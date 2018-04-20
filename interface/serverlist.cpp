@@ -41,6 +41,36 @@ void ServerList::appendItem(QString name, QString id, int player,int max)
     emit postItemAppended();
 }
 
+ServerItem ServerList::getItem(int index)
+{
+    return _items.at(index);
+}
+
+int ServerList::findItem(QString id)
+{
+    for (int i = 0; i < _items.size(); i++) {
+        if (_items.at(i).id==id)
+            return i;
+    }
+    return -1;
+}
+
+void ServerList::editName(QString id, QString name)
+{
+    int index = findItem(id);
+    if(index!=-1)
+    {
+        _items[index].name=name;
+        qDebug() << "new namr set: " << _items[index].name;
+        emit itemEdited(index,name);
+    }
+}
+
+bool ServerList::isEmpty()
+{
+    return _items.count()==0;
+}
+
 void ServerList::removeItems(int index)
 {
     emit preItemRemoved(index);

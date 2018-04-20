@@ -210,6 +210,7 @@ Window {
             height: parent.height
             anchors.left: parent.left
             anchors.leftMargin: 0
+            onClicked: settingsRect.isActive=false;
         }
 
         Settings

@@ -35,7 +35,7 @@ class Network : public QObject
     public slots:
 
         void receiveFromServer(QString mess);
-        void startGame(QString infos)
+        void startGame(QString infos);
         void changeNickname(QString pseudo);
         void changeRoomName(QString name);
         void changeMaxPlayer(int n);
@@ -52,7 +52,9 @@ class Network : public QObject
         static Server* svAt(QQmlListProperty<Server> *, int );
         static void svClear(QQmlListProperty<Server> *);
 */
-        void parseRoominfos(QString list);
+        void addRoom(QString room);
+        void delRoom(QString room);
+        void updateRoom(int type, QString room);
         void parseRoomList(QString list);
         void parsePlayerList(QString infos);
 

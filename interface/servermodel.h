@@ -2,7 +2,7 @@
 #define SERVERMODEL_H
 
 #include <QAbstractListModel>
-//#include <QDebug>
+#include <QDebug>
 
 class ServerList;
 
