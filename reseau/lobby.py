@@ -199,7 +199,7 @@ class Room:
         self.id = str(uuid.uuid4())
 
     def welcome_new(self, from_player):
-        msg = "roomjoin::" + from_player.id + ":" + from_player.name + "\n"
+        msg = "playerjoin::" + from_player.id + ":" + from_player.name + "\n"
         self.length+=1
         for player in self.players:
             player.socket.sendall(msg.encode())
@@ -226,6 +226,6 @@ class Room:
     def all_ready(self):
         ret=True
         for player in self.players:
-            if player.status != "ready"
+            if player.status != "ready":
                 ret=False
         return ret
