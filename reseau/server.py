@@ -42,7 +42,10 @@ while True:
             lobby.welcome_new(new_player)
 
         else: # new message
-            msg = player.socket.recv(READ_BUFFER)
+            try:
+                msg = player.socket.recv(READ_BUFFER)
+            except:
+                continue
             if msg:
                 msg = msg.decode().lower()
                 lobby.handle_msg(player, msg)
