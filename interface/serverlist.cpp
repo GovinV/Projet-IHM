@@ -60,9 +60,26 @@ void ServerList::editName(QString id, QString name)
     int index = findItem(id);
     if(index!=-1)
     {
-        _items[index].name=name;
-        qDebug() << "new namr set: " << _items[index].name;
-        emit itemEdited(index,name);
+        emit nameEdited(index,name);
+    }
+}
+
+void ServerList::editPlayer(QString id, int nb)
+{
+    int index = findItem(id);
+    if(index!=-1)
+    {
+        qDebug() << "old: " << _items.at(index).player << " new: " << _items.at(index).player+nb ;
+        emit playerEdited(index,_items.at(index).player+nb);
+    }
+}
+
+void ServerList::editMax(QString id, int nb)
+{
+    int index = findItem(id);
+    if(index!=-1)
+    {
+        emit maxEdited(index,nb);
     }
 }
 

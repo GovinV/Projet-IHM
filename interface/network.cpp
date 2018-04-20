@@ -22,9 +22,9 @@ void Network::receiveFromServer(QString mess)
         updateRoom(3,option.at(1));
 
     else if(option.at(0)=="roomjoin")
-        addRoom(">"+option.at(1)+":1:4");
+        updateRoom(2,"1");
     else if(option.at(0)=="playerleave")
-        addRoom(">"+option.at(1)+":1:4");
+        updateRoom(2,"-1");
 
     else if (option.at(0)=="ingame")
         qDebug() << "ingame message receive from Server: " << option.at(1);
@@ -121,12 +121,14 @@ void Network::updateRoom(int type, QString room)
     QStringList infos = room.split(":");
     switch (type) {
     case 1:
-        qDebug() << infos.at(0) << "  ||  " << infos.at(1);
         serverList.editName(infos.at(0), infos.at(1));
         break;
     case 2:
+        qDebug() << "update player : " << infos.at(1) << "  toInt(): " << infos.at(1).toInt() ;
+        serverList.editPlayer(infos.at(0), room.toInt());
         break;
     case 3:
+        serverList.editMax(infos.at(0), infos.at(1).toInt());
         break;
     default:
         break;

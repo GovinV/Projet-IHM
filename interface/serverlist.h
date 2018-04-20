@@ -31,7 +31,9 @@ signals:
     void preItemAppended();
     void postItemAppended();
 
-    void itemEdited(int index, QString name);
+    void nameEdited(int index, QString name);
+    void playerEdited(int index, int nb);
+    void maxEdited(int index, int nb);
 
     void preItemRemoved(int index);
     void postItemRemoved();
@@ -41,6 +43,8 @@ public slots:
     ServerItem getItem(int index);
     int findItem(QString id);
     void editName(QString id, QString name);
+    void editPlayer(QString id, int nb);
+    void editMax(QString id, int nb);
     bool isEmpty();
     void removeItems(int index);
     void clear();

@@ -39,14 +39,11 @@ bool ServerModel::setData(const QModelIndex &index, const QVariant &value, int r
 {
     if (!_list)
         return false;
-    qDebug() << "ahahahaahahah";
 
     ServerItem item = _list->items().at(index.row());
     switch (role) {
     case NameRole:
         item.name = value.toString();
-        qDebug() << "ouaip ouaip ouaip";
-
         break;
     case IdRole:
         item.id = value.toString();
@@ -63,6 +60,7 @@ bool ServerModel::setData(const QModelIndex &index, const QVariant &value, int r
         emit dataChanged(index, index, QVector<int>() << role);
         return true;
     }
+
     return false;
 }
 
@@ -107,11 +105,15 @@ void ServerModel::setList(ServerList *list)
             endInsertRows();
         });
 
-
-        connect(_list, &ServerList::itemEdited, this, [=](int index, QString name) {
+        connect(_list, &ServerList::nameEdited, this, [=](int index, QString name) {
             setData(createIndex(index,0), (QVariant) name, (int) NameRole);
         });
-
+        connect(_list, &ServerList::playerEdited, this, [=](int index,int nb ) {
+            setData(createIndex(index,0), (QVariant) nb, (int) PlayerRole);
+        });
+        connect(_list, &ServerList::maxEdited, this, [=](int index, int nb) {
+            setData(createIndex(index,0), (QVariant) nb, (int) MaxRole);
+        });
 
         connect(_list, &ServerList::preItemRemoved, this, [=](int index) {
             beginRemoveRows(QModelIndex(), index, index);
