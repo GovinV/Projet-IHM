@@ -53,8 +53,11 @@ class Network : public QObject
     private:
 
         void addRoom(QString room);
+        void addPlayer(QString room);
         void delRoom(QString room);
-        void updateRoom(int type, QString room, QString nb);
+        void updateRoom(int type, QString room);
+        void updateRoomPlace(QString room, int nb);
+        void updatePlayerReady(QString room);
         void parseRoomList(QString list);
         void parsePlayerList(QString infos);
 

@@ -163,14 +163,12 @@ RoomMenuForm {
         width: (parent.width / 2048) * 327*2.35
         height: (parent.width / 2048) * 502
         color: "#272727"
-        radius: 20
         anchors.verticalCenter: parent.verticalCenter
         anchors.verticalCenterOffset: 0
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.horizontalCenterOffset: parent.host?((parent.width / 2048) * (220)):0
         transformOrigin: Item.Center
-        border.width: (parent.width / 2048) * 24
-        border.color: "#ffffff"
+        radius: 20
 
         ListView {
             id: playerListView
@@ -213,10 +211,12 @@ RoomMenuForm {
                   anchors.verticalCenter: parent.verticalCenter
                   color: "#ffffff"
               }
-            width: parent.width
+            width: parent.width- (parent.parent.width / 2048) * 48
             height: 50
             anchors.bottom: parent.bottom
-            anchors.bottomMargin: 0
+            anchors.bottomMargin: (parent.parent.width / 2048) * 24
+            anchors.left: parent.left
+            anchors.leftMargin: (parent.parent.width / 2048) * 24
             background: Rectangle{
                 color: {
                     if(host)
@@ -230,6 +230,14 @@ RoomMenuForm {
                         button.hovered?"#e98515":"#484848";
                 }
             }
+        }
+
+        Rectangle {
+            anchors.fill: parent;
+            color: "#00000000"
+            radius: 20
+            border.width: (parent.parent.width / 2048) * 24
+            border.color: "#ffffff"
         }
 
 

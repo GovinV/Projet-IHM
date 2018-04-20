@@ -2,8 +2,6 @@
 
 ServerList::ServerList(QObject *parent) : QObject(parent)
 {
-    _items.append({"semper's server","ergthry",2,4});
-    _items.append({"govin's server","ergthry",1,3});
 }
 
 

@@ -16,16 +16,22 @@ void Network::receiveFromServer(QString mess)
         addRoom(option.at(1)+":1:4");
     else if(option.at(0)=="roomdel")
         delRoom(option.at(1));
+
     else if(option.at(0)=="changeroomname")
-        updateRoom(1,option.at(1),"1");
+        updateRoom(1,option.at(1));
     else if(option.at(0)=="changemaxplayer")
-        updateRoom(3,option.at(1),"1");
+        updateRoom(2,option.at(1));
+
     else if(option.at(0)=="roomjoin")
-        updateRoom(2,option.at(1),"1");
+        updateRoomPlace(option.at(1),1);
     else if(option.at(0)=="playerleave")
-        updateRoom(2,option.at(1),"-1");
+        updateRoomPlace(option.at(1),-1);
+
+    else if(option.at(0)=="playerready")
+        updatePlayerReady(option.at(1));
     else if(option.at(0)=="playerjoin")
-        updateRoom(4,option.at(1),"1");
+        updateRoom(3,option.at(1));
+
     else if (option.at(0)=="ingame")
         qDebug() << "ingame message receive from Server: " << option.at(1);
     else if (option.at(0)=="startgame")
@@ -60,6 +66,7 @@ void Network::roomList()
 
 void Network::createRoom(QString room_name)
 {
+    playerList.clear();
     client.UI_to_Soc("<create>"+ room_name +"\n");
     qDebug() << "createRoom";
 }
@@ -101,6 +108,11 @@ void Network::addRoom(QString room)
 
 }
 
+void Network::addPlayer(QString room)
+{
+    qDebug() << room;
+}
+
 void Network::delRoom(QString room)
 {
     std::string sv=room.toStdString();
@@ -116,7 +128,19 @@ void Network::delRoom(QString room)
     }
 }
 
-void Network::updateRoom(int type, QString room, QString nb)
+void Network::updateRoomPlace(QString room, int nb)
+{
+    QStringList infos = room.split(":");
+    serverList.editPlayer(infos.at(0), nb);
+}
+
+void Network::updatePlayerReady(QString room)
+{
+    QStringList infos = room.split(":");
+    playerList.editReady(infos.at(0), infos.at(1).toInt());
+}
+
+void Network::updateRoom(int type, QString room)
 {
     QStringList infos = room.split(":");
     switch (type) {
@@ -124,13 +148,9 @@ void Network::updateRoom(int type, QString room, QString nb)
         serverList.editName(infos.at(0), infos.at(1));
         break;
     case 2:
-        qDebug() << "update player : " << infos.at(1) << "  toInt(): " << infos.at(1).toInt() ;
-        serverList.editPlayer(infos.at(0), room.toInt());
-        break;
-    case 3:
         serverList.editMax(infos.at(0), infos.at(1).toInt());
         break;
-    case 4:
+    case 3:
         qDebug() << "playerjoin";
         playerList.appendItem(infos.at(0),infos.at(1));
         emit playerlistChanged();

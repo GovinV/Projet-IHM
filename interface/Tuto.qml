@@ -23,7 +23,10 @@ TutoForm {
 
         ScrollView {
             id: scrollView
-            anchors.fill: parent
+            width : parent.width-(parent.parent.width / 2048) * 48
+            height: parent.height
+            anchors.left: parent.left
+            anchors.leftMargin: (parent.parent.width / 2048) * 24
             contentHeight: reglesContent.height+reglesContent.y+100
             clip: true
 

@@ -3,8 +3,6 @@
 
 PlayerList::PlayerList(QObject *parent)
 {
-    _items.append({"vfegrhstdjygzerhstdsfw","Semper"});
-    _items.append({"cegrhtyuytgrseshrtdytr","Govin"});
 }
 
 QVector<PlayerItem> PlayerList::items() const
