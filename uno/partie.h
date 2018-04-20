@@ -64,6 +64,8 @@ public:
 
     Message* update_and_get_next_message();
 
+    void changer_joueur(u_int num_j, Joueur *j);
+
     /// Renvoie le seed de la partie.
     int get_seed();
 
@@ -82,7 +84,7 @@ public:
     /// Pioche de la partie.
     Pioche* pioche;
     /// Liste des joueurs dans la partie.
-    std::vector<Joueur> joueurs;
+    std::vector<Joueur *> joueurs;
 
 public:
     /// Enregistre les infos sur la partie en cours.

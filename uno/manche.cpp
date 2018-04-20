@@ -122,6 +122,21 @@ void Manche::joueur_joue(Carte *c)
     }
 }
 
+
+void Manche::joueur_change_couleur(Couleur couleur, u_int num_joueur)
+{
+    ActionJoueur action;
+
+    action.action = CHOISIT_COULEUR;
+    action.num_joueur = num_joueur;
+    action.couleur = couleur;
+
+    historique.push_back(action);
+
+    couleur_active = couleur;
+}
+
+
 int Manche::joueur_suivant()
 {
     return joueur_courant;
@@ -157,5 +172,28 @@ bool Manche::est_jouable(Carte *c)
         }
     }
     return false;
+}
+
+void Manche::add_action_pioche(u_int num_j, Carte *c)
+{
+    ActionJoueur action;
+
+    action.action = PIOCHE;
+    action.num_joueur = num_j;
+    action.carte_piochee = c;
+
+    historique.push_back(action);
+}
+
+void Manche::add_action_pose(u_int num_j, int num_c, Carte *c)
+{
+    ActionJoueur action;
+
+    action.action = POSE_CARTE;
+    action.num_joueur = num_j;
+    action.num_carte = num_c;
+    action.carte_posee = c;
+
+    historique.push_back(action);
 }
 

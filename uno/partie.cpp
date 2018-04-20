@@ -16,7 +16,7 @@ Partie::Partie(TypePartie t, unsigned int nb_j, unsigned int limite)
 
     for(u_int i=0; i<nb_joueur; i++)
     {
-        joueurs.push_back(Joueur(i, &infos));
+        joueurs.push_back(new Joueur(i, &infos));
     }
 
     if(t != CLASSIQUE && t != MANCHE_UNIQUE)
@@ -62,14 +62,14 @@ bool Partie::finir_partie()
         switch(type)
         {
             case CLASSIQUE:
-                if(joueurs[i].points > limite_points)
+                if(joueurs[i]->points > limite_points)
                 {
                     gagnants_partie.push_back(i);
                 }
                 break;
 
             case MANCHE_UNIQUE:
-                if(joueurs[i].points > 0)
+                if(joueurs[i]->points > 0)
                 {
                     gagnants_partie.push_back(i);
                 }
@@ -104,12 +104,12 @@ Manche* Partie::nouvelle_manche(u_int joueur_debut)
     manche_courante = new Manche(&infos, pioche, nb_joueur, joueur_debut);
     for(u_int i=0; i<nb_joueur; i++)
     {
-        joueurs[i].manche_courante = manche_courante;
+        joueurs[i]->manche_courante = manche_courante;
     }
     distribution(nb_cartes_debut);
     for(u_int i=0; i<nb_joueur; i++)
     {
-        joueurs[i].trier_main();
+        joueurs[i]->trier_main();
     }
 
     return manche_courante;
@@ -130,7 +130,7 @@ int Partie::finir_manche(bool force)
             {
                 for(u_int i=0; i<nb_joueur; i++)
                 {
-                    joueurs[i].finir_manche();
+                    joueurs[i]->finir_manche();
                 }
                 pioche->poser(manche_courante->active);
             }
@@ -149,7 +149,7 @@ int Partie::finir_manche(bool force)
                 case CLASSIQUE:
                     for(u_int i=0; i<nb_joueur; i++)
                     {
-                        joueurs[id_gagnant_manche].points += joueurs[i].finir_manche();
+                        joueurs[id_gagnant_manche]->points += joueurs[i]->finir_manche();
                     }
                     pioche->poser(manche_courante->active);
                     break;
@@ -157,7 +157,7 @@ int Partie::finir_manche(bool force)
                 case MANCHE_UNIQUE:
                     for(u_int i=0; i<nb_joueur; i++)
                     {
-                        joueurs[id_gagnant_manche].points += joueurs[i].finir_manche();
+                        joueurs[id_gagnant_manche]->points += joueurs[i]->finir_manche();
                     }
                     pioche->poser(manche_courante->active);
                     break;
@@ -187,7 +187,7 @@ void Partie::distribution(int nb_cartes)
     {
         for(u_int j=0; j<nb_joueur; j++)
         {
-            joueurs[j].piocher(1);
+            joueurs[j]->piocher(1);
         }
     }
 }
@@ -226,6 +226,21 @@ Message *Partie::update_and_get_next_message()
         }
 
         return &infos.messages[infos.num_next_message++];
+    }
+}
+
+
+void Partie::changer_joueur(u_int num_j, Joueur *j)
+{
+    if(num_j >= nb_joueur)
+    {
+        std::cerr << "Erreur : Numero de joueur trop grand, le joueur n'est"
+                  << " pas changé." << std::endl;
+    }
+    else
+    {
+        delete(joueurs[num_j]);
+        joueurs[num_j] = j;
     }
 }
 
@@ -288,8 +303,15 @@ void Partie::set_limite(int limite)
 
 Partie::~Partie()
 {
+    int nb_joueurs = joueurs.size();
+
     if(pioche != NULL)
     {
         delete(pioche);
+    }
+
+    for(int i=0; i<nb_joueurs; i++)
+    {
+        delete(joueurs[i]);
     }
 }

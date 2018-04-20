@@ -7,7 +7,26 @@
 
 enum StatutManche { MANCHE_EN_COURS, MANCHE_TERMINEE };
 
-class Partie;
+enum TypeActionJoueur { POSE_CARTE, PIOCHE, CHOISIT_COULEUR };
+
+struct ActionJoueur{
+    TypeActionJoueur action;
+    u_int num_joueur;
+    union {
+        struct {
+            int num_carte;
+            Carte *carte_posee;
+        };
+
+        struct {
+            Carte *carte_piochee;
+        };
+
+        struct {
+            Couleur couleur;
+        };
+    };
+};
 
 class Manche
 {
@@ -45,6 +64,12 @@ public:
     void joueur_joue(Carte *c);
 
     /**
+     * @brief joueur_change_couleur
+     * @param couleur
+     */
+    void joueur_change_couleur(Couleur couleur, u_int num_joueur);
+
+    /**
      * @brief Renvoie le numéro du joueur suivant.
      * @return le numéro du joueur suivant.
      */
@@ -56,6 +81,10 @@ public:
      * @return vrai si la Carte est posable, faux sinon.
      */
     bool est_jouable(Carte *c);
+
+    void add_action_pioche(u_int num_j, Carte *c);
+
+    void add_action_pose(u_int num_j, int num_c, Carte *c);
 
 public:
     /// Pioche pour la manche.
@@ -69,6 +98,7 @@ public:
 
     InfoPartie *infos;
 
+    std::vector<ActionJoueur> historique;
 
     /// Identifiant du joueur dont c'est le tour de jouer.
     u_int joueur_courant;
