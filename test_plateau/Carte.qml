@@ -1,24 +1,69 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.0
 
-Item {
+Item{
+    property var listdata
+
+    height: 150
+    width: 150*0.65
+
     Rectangle{
-        height:100
-        width: 100
+        anchors.fill:parent
         Image{
-            id:valeur
-            anchors.fill: parent
+            id: underlayer
+            source:"qrc:/img/cartes/"+model.color+"/bg.png"
+            anchors.fill:parent
             fillMode: Image.Stretch
         }
         Image{
-            id:couleur
-            anchors.fill: parent
+            id: circle
+            source:"qrc:/img/cartes/bg.png"
+            anchors.fill:parent
             fillMode: Image.Stretch
         }
         Image{
-            id:type
-            anchors.fill: parent
+            id: figure
+            source:if(model.type === 0){//numero
+                       return "qrc:/img/cartes/"+model.color+"/"+model.value+".png"
+                   }
+                   else if(model.type === 1){//+2
+                       return "qrc:/img/cartes/"+model.color+"/+2.png"
+                   }
+                   else if(model.type === 2){//changement de sens
+                       return "qrc:/img/cartes/"+model.color+"/s.png"
+                   }
+                   else if(model.type === 3){//passe
+                       return "qrc:/img/cartes/"+model.color+"/p.png"
+                   }
+                   else if(model.type === 4){//+4
+                       return "qrc:/img/cartes/"+model.color+"/+4.png"
+                   }
+                   else if(model.type === 5){//couleur
+                       return "qrc:/img/cartes/"+model.color+"/c.png"
+                   }
+
+            anchors.fill:parent
             fillMode: Image.Stretch
+        }
+        Text{
+            text:index
+        }
+        Text{
+            text: listdata.isCurrentItem ? "selected" : ""
+        }
+
+        color:"transparent"
+
+        //scale: parent.ListView.isCurrentItem ? 1.2 : 1
+        //Behavior on scale { NumberAnimation { duration: 200 } }
+
+    }
+    MouseArea{
+
+        anchors.fill:parent
+        onClicked: {
+            listdata.currentIndex = index
+            console.log("select");
         }
     }
 }

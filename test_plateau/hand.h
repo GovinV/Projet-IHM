@@ -6,6 +6,10 @@
 
 #define TYPE_NB 0
 #define TYPE_S_P2 1
+#define TYPE_S_SW 2
+#define TYPE_S_SK 3
+#define TYPE_S_P4 4
+#define TYPE_S_CO 5
 
 struct HandItem
 {

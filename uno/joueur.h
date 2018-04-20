@@ -30,6 +30,8 @@ public:
      */
     Joueur(u_int num, InfoPartie *i);
 
+    virtual ~Joueur();
+
     /**
      * @brief Réalise les actions necessaire pour finir la manche courante.
      *
@@ -108,7 +110,7 @@ public:
      *
      * @return renvoie la couleur choisie.
      */
-    Couleur choisir_couleur_defaut();
+    virtual Couleur choisir_couleur_defaut();
 
     /**
      * @brief Cherche toutes les Carte du Joueur qu'il peux poser.
@@ -131,7 +133,7 @@ public:
      *
      * Si une carte est jouable, il joue la première jouable, sinon il pioche.
      */
-    void action_par_defaut();
+    virtual void action_par_defaut();
 
     /**
      * @brief Affiche les Cartes du Joueur sur la sortie standard.
