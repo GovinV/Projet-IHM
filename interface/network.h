@@ -11,6 +11,8 @@
 
 #include "serverlist.h"
 #include "servermodel.h"
+#include "playerlist.h"
+#include "playermodel.h"
 
 class Network : public QObject
 {
@@ -20,6 +22,7 @@ class Network : public QObject
         explicit Network(QObject *parent = nullptr);
 
         ServerList serverList;
+        PlayerList playerList;
 
     signals:
         void loadRoom(QString mess,int id, int player, int maxPlayer);
@@ -46,12 +49,7 @@ class Network : public QObject
         void quit();
 
     private:
-/*
-        static void svAppend(QQmlListProperty<Server> *, Server *);
-        static int svCount(QQmlListProperty<Server> *);
-        static Server* svAt(QQmlListProperty<Server> *, int );
-        static void svClear(QQmlListProperty<Server> *);
-*/
+
         void addRoom(QString room);
         void delRoom(QString room);
         void updateRoom(int type, QString room);

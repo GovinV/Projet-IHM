@@ -1,5 +1,5 @@
 
-QT += quick qml
+QT += quick
 CONFIG += c++11
 
 # The following define makes your compiler emit warnings if you use
@@ -17,14 +17,18 @@ HEADERS += client/ClientTcp.h\
     settings.h \
     network.h \
     serverlist.h \
-    servermodel.h
+    servermodel.h \
+    playerlist.h \
+    playermodel.h
 
 SOURCES += main.cpp \
     client/ClientTcp.cpp \
     settings.cpp \
     network.cpp \
     serverlist.cpp \
-    servermodel.cpp
+    servermodel.cpp \
+    playerlist.cpp \
+    playermodel.cpp
 
 RESOURCES += qml.qrc \
     resource.qrc

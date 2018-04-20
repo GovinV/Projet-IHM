@@ -11,12 +11,17 @@
 #include "settings.h"
 #include "serverlist.h"
 #include "servermodel.h"
+#include "playerlist.h"
+#include "playermodel.h"
 
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app(argc, argv);
 
+    qmlRegisterType<ServerModel>("Player", 1, 0, "PlayerModel");
+    qmlRegisterUncreatableType<ServerList>("Player", 1, 0, "PlayerList",
+        QStringLiteral("PlayerList should not be created in QML"));
 
     qmlRegisterType<ServerModel>("Server", 1, 0, "ServerModel");
     qmlRegisterUncreatableType<ServerList>("Server", 1, 0, "ServerList",
@@ -39,6 +44,7 @@ int main(int argc, char *argv[])
 
     ctx->setContextProperty("cardListModel", QVariant::fromValue(cardlist));
     ctx->setContextProperty(QStringLiteral("serversList"), &network.serverList);
+    ctx->setContextProperty(QStringLiteral("playerList"), &network.playerList);
 
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     if (engine.rootObjects().isEmpty())

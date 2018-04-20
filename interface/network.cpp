@@ -125,7 +125,7 @@ void Network::updateRoom(int type, QString room)
         break;
     case 2:
         qDebug() << "update player : " << infos.at(1) << "  toInt(): " << infos.at(1).toInt() ;
-        serverList.editPlayer(infos.at(0), room.toInt());
+        //serverList.editPlayer(infos.at(0), room.toInt());
         break;
     case 3:
         serverList.editMax(infos.at(0), infos.at(1).toInt());
