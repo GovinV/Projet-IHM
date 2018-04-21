@@ -14,7 +14,6 @@
 #include "core/joueuria.h"
 #include "hand.h"
 
-//todo : add hand object to context at runtime and bind to class instance
 class Jeu : public QObject
 {
     Q_OBJECT
@@ -26,16 +25,21 @@ public:
     Hand hands[4];
 
     //action triggered from QML
-    /** @brief starts the game, initialize properties of this class*/
+    /**
+     * @brief starts the game, initialize properties of this class
+     */
     Q_INVOKABLE void start();
 
-    /** @brief player pick a card, function trigger core function and update
+    /**
+     * @brief player pick a card, function trigger core function and update
      * player hand in QML
      * @param i id of player
      */
     Q_INVOKABLE void piocher(int i);
 
-    /** @brief player plays card
+    /**
+     * @brief player plays card
+     * @param i indice de la carte
      */
     Q_INVOKABLE void playCard(int i);
 
@@ -44,11 +48,19 @@ public:
     int comp(){return _comp;}
     void setComp(int i){_comp = i;}
 
+    /**
+     * @brief bind les boutons QML aux attributs correspondant de la classe
+     * @param engine Le moteur de l'application à explorer
+     */
     void setupBt(QQmlApplicationEngine *engine);
 
-    void updateHand(int i);
+    /**
+     * @brief Mets à jour le jeu (QML) du joueur
+     * @param id_joueur l'id du joueur
+     */
+    void updateHand(int id_joueur);
 
-    QObject *unoBt, *drawCardBt, *playCardBt;
+
 
 signals:
 
@@ -59,14 +71,26 @@ public slots:
     void unoBtPressed();
 private:
 
-    //fonction de transition entre la classe et le core
+    //fonctions de transition entre la classe et le core
+
+    /**
+     * @brief initialisation des cartes dans qml
+     */
     void init_deck();
+
+    /**
+     * @brief converti une couleur en son équivalent text
+     * les équivalents correspondent aux noms de dossier des cartes
+     * @param c couleur à convertir
+     * @return l'initiale de la couleur
+     */
     QString couleur_to_string2(Couleur c);
 
-    //gameloop
-
+    // attributs
 
     Partie *m_partie;
+
+    QObject *unoBt, *drawCardBt, *playCardBt;
 
     int _comp;
 };

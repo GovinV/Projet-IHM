@@ -76,6 +76,18 @@ void Jeu::setupBt(QQmlApplicationEngine *engine)
 
 }
 
+void Jeu::updateHand(int id_joueur)
+{
+    hands[id_joueur].clear();
+    for(unsigned int j = 0; j<m_partie->joueurs.at(id_joueur)->cmain.size();j++)
+    {
+        int t = m_partie->joueurs.at(id_joueur)->cmain.at(j)->type;
+        QString c = couleur_to_string2(m_partie->joueurs.at(id_joueur)->cmain.at(j)->couleur);
+        int v = m_partie->joueurs.at(id_joueur)->cmain.at(j)->valeur;
+        hands[id_joueur].appendItem(t,c,v);
+    }
+}
+
 void Jeu::unoBtPressed()
 {
     qWarning()<<"boutton uno pressé";
