@@ -33,5 +33,7 @@ int main(int argc, char *argv[])
     if (engine.rootObjects().isEmpty())
         return -1;
 
+    jeu.setupBt(&engine);
+
     return app.exec();
 }

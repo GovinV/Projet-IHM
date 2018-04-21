@@ -6,7 +6,8 @@ Jeu::Jeu(QObject *parent) :
 {
     m_partie = new Partie(MANCHE_UNIQUE,2);
     m_partie->set_seed(42);
-    m_partie->nouvelle_manche();
+    m_partie->nouvelle_manche(0);
+    _comp = 0;
     qDebug()<<"init";
 }
 
@@ -34,6 +35,50 @@ void Jeu::init_deck()
             hands[i].appendItem(t,c,v);
         }
     }
+}
+
+
+
+void Jeu::piocher(int i)
+{
+    Carte *c = m_partie->pioche->tirer_carte();
+    hands[i].appendItem(c->type,couleur_to_string2(c->couleur),c->valeur);
+}
+
+void Jeu::playCard(int i)
+{
+    if(m_partie->joueurs.at(0).jouer(i)){
+        hands[0].removeItem(i);
+    }
+}
+
+void Jeu::gameLoop()
+{
+    qDebug()<<"loop started";
+    QEventLoop loop;
+    connect(unoBt,  SIGNAL(unoBtPressed()), &loop, SLOT(quit()) );
+    loop.exec();
+    qDebug()<<"loop ended";
+}
+
+void Jeu::setupBt(QQmlApplicationEngine *engine)
+{
+    unoBt = engine->rootObjects()[0]->findChild<QObject*>("unoBt");
+    if(!unoBt){qWarning()<<"unable to bind button unoBt";}
+
+    playCardBt = engine->rootObjects()[0]->findChild<QObject*>("drawCardBt");
+    if(!playCardBt){qWarning()<<"unable to bind button playCardBt";}
+
+    drawCardBt = engine->rootObjects()[0]->findChild<QObject*>("playCardBt");
+    if(!drawCardBt){qWarning()<<"unable to bind button drawCardBt";}
+
+    connect(unoBt,SIGNAL(unoBtPressed()),this,SLOT(unoBtPressed()));
+
+}
+
+void Jeu::unoBtPressed()
+{
+    qWarning()<<"boutton uno pressé";
 }
 
 QString Jeu::couleur_to_string2(Couleur c)
