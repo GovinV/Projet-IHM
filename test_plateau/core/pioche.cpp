@@ -4,8 +4,8 @@ Pioche::Pioche()
 {
     pile.reserve(108);
 
-    // Ajout des cartes numeros (1 à 9 deux fois par couleur et le 0 une fois par couleur)
-    // La valeur de ces cartes
+    // Ajout des cartes numeros
+    // (1 à 9 deux fois par couleur et le 0 une fois par couleur).
     for(int i=1; i<20; i++)
     {
         pile.push_back(new Carte(ROUGE, NUMERO, i/2));
@@ -14,8 +14,8 @@ Pioche::Pioche()
         pile.push_back(new Carte(JAUNE, NUMERO, i/2));
     }
 
-    // Ajout des cartes pieges de couleurs
-    // ('+2', 'changement de sens' et 'passe ton tour').
+    // Ajout des cartes pieges de couleurs (deux par couleur) :
+    // '+2', 'changement de sens' et 'passe ton tour'.
     for(int i=0; i<2; i++)
     {
         pile.push_back(new Carte(ROUGE, PLUS_DEUX, VALEUR_PLUS_DEUX));
@@ -34,7 +34,7 @@ Pioche::Pioche()
         pile.push_back(new Carte(JAUNE, TA_GUEULE, VALEUR_TA_GUEULE));
     }
 
-    // Ajout des +4 et changement de couleur
+    // Ajout des +4 et changement de couleur (quatre chacun).
     for(int i=0; i<4; i++)
     {
         pile.push_back(new Carte(NOIR, PLUS_QUATRE, VALEUR_PLUS_QUATRE));
@@ -42,18 +42,36 @@ Pioche::Pioche()
     }
 }
 
-void Pioche::melanger(unsigned int s)
+void Pioche::melanger()
 {
-    std::srand(s);
-    std::random_shuffle(pile.begin(), pile.end());
+    //std::random_shuffle(pile.begin(), pile.end());
+    int nb_cartes = pile.size();
+    int new_pos;
+    Carte *save_card;
+
+    for(int i=0; i<nb_cartes; i++)
+    {
+        new_pos = my_rand()%nb_cartes;
+        save_card = pile[i];
+        pile[i] = pile[new_pos];
+        pile[new_pos] = save_card;
+    }
 }
 
 Carte *Pioche::tirer_carte()
 {
     if(pile.empty())
     {
-        std::cerr << "Il n'y a plus de cartes a piocher" << std::endl;
-        exit(1);
+        if(tas.empty())
+        {
+            std::cerr << "Erreur : Il n'y a plus de Cartes à piocher." << std::endl;
+            exit(1);
+        }
+        else
+        {
+            pile.swap(tas);
+            melanger();
+        }
     }
 
     Carte *c = pile.back();
@@ -62,22 +80,45 @@ Carte *Pioche::tirer_carte()
     return c;
 }
 
-void Pioche::ajouter(Carte *c)
+void Pioche::poser(Carte *c)
 {
-    pile.insert(pile.begin(), c);
+    tas.push_back(c);
+}
+
+void Pioche::ramasser()
+{
+    // Fait des push bask dans pile pour toutes les Carte du tas.
+    std::copy(tas.begin(), tas.end(), std::back_inserter(pile));
+    // Vide le tas.
+    tas.clear();
 }
 
 void Pioche::afficher()
 {
-    for(int i=0;i<108;i++)
+    int taille_pile = pile.size(), taille_tas = tas.size();
+
+    std::cout << "Liste des Cartes dans la pile : \n" << std::endl;
+    for(int i=0; i<taille_pile; i++)
     {
         std::cout << pile[i] << std::endl;
+    }
+
+    std::cout << "\nListe des Cartes dans le tas : " << std::endl;
+    for(int i=0; i<taille_tas; i++)
+    {
+        std::cout << tas[i] << std::endl;
     }
 }
 
 Pioche::~Pioche()
 {
-    int nb_cartes = pile.size();
+    int nb_cartes;
+
+    // On regroupe toutes les cartes dans la pile.
+    ramasser();
+
+    nb_cartes = pile.size();
+
     for(int i=0; i<nb_cartes; i++)
     {
         delete(pile[i]);

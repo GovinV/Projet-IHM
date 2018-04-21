@@ -1,7 +1,7 @@
 #include "joueuria.h"
 
 
-JoueurIA::JoueurIA(Joueur j) : Joueur(j.num_joueur)
+JoueurIA::JoueurIA(Joueur j, StyleIA s) : Joueur(j.num_joueur, j.infos)
 {
     std::cerr << "Le joueur " << num_joueur << " est une IA" << std::endl;
 
@@ -9,6 +9,8 @@ JoueurIA::JoueurIA(Joueur j) : Joueur(j.num_joueur)
     cmain = j.cmain;
     uno = j.uno;
     points = j.points;
+
+    style = s;
 }
 
 
@@ -31,7 +33,7 @@ Couleur JoueurIA::choisir_couleur_defaut()
     Couleur choix;
     if(cmain.empty() || cmain[0]->couleur == NOIR)
     {
-        choix = l_couleurs_candidates[rand()%4];
+        choix = l_couleurs_candidates[my_rand()%4];
     }
     else
     {
