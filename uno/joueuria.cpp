@@ -2,6 +2,7 @@
 #include "partie.h"
 
 
+
 JoueurIA::JoueurIA(Joueur *j, StyleIA s, Partie *p) : Joueur(j->num_joueur, j->infos)
 {
     //std::cerr << "Le joueur " << num_joueur << " est une IA" << std::endl;
@@ -43,7 +44,7 @@ void JoueurIA::action_par_defaut_simplet()
     }
     else
     {
-        if(cmain.size() <= 2 && rand()%2==0)
+        if(cmain.size() <= 2 && my_rand()%2==0)
         {
             appuie_uno();
         }
@@ -63,7 +64,7 @@ void JoueurIA::action_par_defaut_moyen()
     int nb_cartes_suivant = partie->joueurs[(num_joueur+ manche_courante->nb_joueur
                           + manche_courante->sens) % manche_courante->nb_joueur]->cmain.size();
 
-    for(int i=0; i<partie->joueurs.size(); i++)
+    for(u_int i=0; i<partie->nb_joueur; i++)
     {
         if(i != num_joueur && partie->joueurs[i]->cmain.size() == 1)
         {
@@ -118,7 +119,7 @@ void JoueurIA::action_par_defaut_moyen()
                 }
                 else
                 {
-                    score_cartes[i] += rand()%10;
+                    score_cartes[i] += my_rand()%10;
                 }
             }
             else if(nb_cartes_suivant <= 2)
@@ -230,7 +231,7 @@ Couleur JoueurIA::choisir_couleur_moyen()
 
     if(nb_opti == 0)
     {
-        return l_couleurs_candidates[rand()%4];
+        return l_couleurs_candidates[my_rand()%4];
     }
     else
     {
@@ -248,3 +249,4 @@ Couleur JoueurIA::choisir_couleur_moyen()
         }
     }*/
 }
+

@@ -11,7 +11,7 @@ SOURCES += main.cpp \
     carte.cpp \
     manche.cpp \
     joueuria.cpp \
-    types.cpp
+    types.cpp \
 
 HEADERS += \
     pioche.h \
@@ -20,5 +20,4 @@ HEADERS += \
     carte.h \
     manche.h \
     joueuria.h \
-    types.h
-
+    types.h \

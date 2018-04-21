@@ -65,4 +65,5 @@ public:
     std::vector<Carte*> tas;
 };
 
+
 #endif // PIOCHE_H

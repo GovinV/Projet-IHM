@@ -1,6 +1,5 @@
 #include "partie.h"
 
-
 Partie::Partie(TypePartie t, unsigned int nb_j, unsigned int limite)
 {
     nb_joueur = nb_j;
@@ -214,7 +213,7 @@ Message *Partie::update_and_get_next_message()
     }
     else
     {
-        for(int i=0; i<nb_joueur; i++)
+        for(u_int i=0; i<nb_joueur; i++)
         {
             if(joueurs[i]->uno == UNOSTATE_PENALITE)
             {
@@ -324,3 +323,5 @@ Partie::~Partie()
         delete(joueurs[i]);
     }
 }
+
+

@@ -5,6 +5,7 @@
 #include "pioche.h"
 #include "types.h"
 
+
 enum StatutManche { MANCHE_EN_COURS, MANCHE_TERMINEE };
 
 enum TypeActionJoueur { POSE_CARTE, PIOCHE, CHOISIT_COULEUR };
@@ -115,5 +116,6 @@ public:
     /// Indice du Joueur ayant remporté la manche;
     int joueur_gagnant;
 };
+
 
 #endif // MANCHE_H
