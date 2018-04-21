@@ -103,3 +103,10 @@ bool comparaison_cartes(const Carte *c1, const Carte *c2)
         return false;
     }
 }
+
+bool egalite_cartes(const Carte *c1, const Carte *c2)
+{
+    return (c1->couleur == c1->couleur &&
+            c1->type == c2->type &&
+            c1->valeur == c2->valeur);
+}

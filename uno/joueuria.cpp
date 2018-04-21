@@ -43,10 +43,10 @@ void JoueurIA::action_par_defaut_simplet()
     }
     else
     {
-        /*if(cmain.size() <= 2 && rand()%2==0)
+        if(cmain.size() <= 2 && rand()%2==0)
         {
             appuie_uno();
-        }*/
+        }
         jouer(cartes_jouables[0]);
     }
 }
@@ -54,6 +54,14 @@ void JoueurIA::action_par_defaut_simplet()
 void JoueurIA::action_par_defaut_moyen()
 {
     std::vector<int> cartes_jouables = recherche_cartes_jouables();
+    int nb_jouables = cartes_jouables.size();
+    std::vector<int> score_cartes(nb_jouables, 0);
+    int nb_cartes_couleurs[5] = {0, 0, 0, 0, 0};
+    int nb_cartes_non_noir;
+    int max_score = -1, carte_a_jouer;
+
+    int nb_cartes_suivant = partie->joueurs[(num_joueur+ manche_courante->nb_joueur
+                          + manche_courante->sens) % manche_courante->nb_joueur]->cmain.size();
 
     for(int i=0; i<partie->joueurs.size(); i++)
     {
@@ -63,22 +71,76 @@ void JoueurIA::action_par_defaut_moyen()
         }
     }
 
-    /*std::cout << "Joueur 0 : " << partie->joueurs[0]->cmain.size() << " cartes, "
-              << "Joueur 1 : " << partie->joueurs[1]->cmain.size() << " cartes, "
-              << "Joueur 2 : " << partie->joueurs[2]->cmain.size() << " cartes, "
-              << "Joueur 3 : " << partie->joueurs[3]->cmain.size() << " cartes.\n";*/
-
     if(cartes_jouables.empty())
     {
         piocher();
     }
     else
     {
+        carte_a_jouer = cartes_jouables[0];
+
         if(cmain.size() <= 2)
         {
             appuie_uno();
         }
-        jouer(cartes_jouables[0]);
+
+        for(int i=0; i<nb_jouables; i++)
+        {
+            nb_cartes_couleurs[cmain[cartes_jouables[i]]->couleur]++;
+        }
+
+        nb_cartes_non_noir = nb_jouables - nb_cartes_couleurs[NOIR];
+
+        for(int i=0; i<nb_jouables; i++)
+        {
+            for(int j=i+1; j<nb_jouables; j++)
+            {
+                if(egalite_cartes(cmain[cartes_jouables[i]], cmain[cartes_jouables[j]]))
+                {
+                    score_cartes[i] += 20;
+                    score_cartes[j] += 20;
+                }
+            }
+
+            if(cmain[cartes_jouables[i]]->type == NUMERO)
+            {
+                score_cartes[i] += cmain[cartes_jouables[i]]->valeur;
+            }
+            else if(cmain[cartes_jouables[i]]->type == JOKER)
+            {
+                score_cartes[i] += 1;
+            }
+            else if(cmain[cartes_jouables[i]]->type != PLUS_QUATRE)
+            {
+                if(nb_cartes_suivant <= 2)
+                {
+                    score_cartes[i] += 150;
+                }
+                else
+                {
+                    score_cartes[i] += rand()%10;
+                }
+            }
+            else if(nb_cartes_suivant <= 2)
+            {
+                score_cartes[i] += 200;
+            }
+
+            if(cmain[cartes_jouables[i]]->couleur == manche_courante->couleur_active)
+            {
+                score_cartes[i] += 100;
+            }
+
+            score_cartes[i] += (int)(1.0 * nb_cartes_couleurs[cmain[cartes_jouables[i]]->couleur] / nb_cartes_non_noir * 100);
+
+            if(score_cartes[i] > max_score)
+            {
+                max_score = score_cartes[i];
+                carte_a_jouer = cartes_jouables[i];
+            }
+        }
+        jouer(carte_a_jouer);
+        //jouer(cartes_jouables[0]);
     }
 }
 
@@ -125,7 +187,6 @@ Couleur JoueurIA::choisir_couleur_moyen()
     Couleur l_couleurs_candidates[4] = {ROUGE, VERT, BLEU, JAUNE};
     Couleur choix;
     int nb_cartes_couleurs[5] = {0, 0, 0, 0, 0};
-    int score_couleurs[4] = {0, 0, 0, 0};
     int nb_cartes = cmain.size();
 
     for(int i=0; i<nb_cartes; i++)
@@ -133,18 +194,41 @@ Couleur JoueurIA::choisir_couleur_moyen()
         nb_cartes_couleurs[cmain[i]->couleur]++;
     }
 
-    int nb_max = 0;
+    int nb_opti = 0;
 
-    for(int i=0; i<4; i++)
+    if(nb_cartes_couleurs[4]>0)
     {
-        if(nb_cartes_couleurs[i] > nb_max)
+        for(int i=0; i<4; i++)
         {
-            nb_max = nb_cartes_couleurs[i];
-            choix = l_couleurs_candidates[i];
+            if(nb_cartes_couleurs[i] > nb_opti)
+            {
+                nb_opti = nb_cartes_couleurs[i];
+                choix = l_couleurs_candidates[i];
+            }
+        }
+    }
+    else
+    {
+        for(int i=0; i<4; i++)
+        {
+            if(nb_cartes_couleurs[i] < nb_opti)
+            {
+                nb_opti = nb_cartes_couleurs[i];
+                choix = l_couleurs_candidates[i];
+            }
         }
     }
 
-    if(nb_max == 0)
+    /*for(int i=0; i<4; i++)
+    {
+        if(nb_cartes_couleurs[i] > nb_opti)
+        {
+            nb_opti = nb_cartes_couleurs[i];
+            choix = l_couleurs_candidates[i];
+        }
+    }*/
+
+    if(nb_opti == 0)
     {
         return l_couleurs_candidates[rand()%4];
     }

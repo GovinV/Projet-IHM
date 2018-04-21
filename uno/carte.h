@@ -103,4 +103,8 @@ std::ostream &operator << (std::ostream &out, const Carte *c);
  */
 bool comparaison_cartes(const Carte *c1, const Carte *c2);
 
+
+bool egalite_cartes(const Carte *c1, const Carte *c2);
+
+
 #endif // CARTE_H
