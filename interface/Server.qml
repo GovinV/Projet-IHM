@@ -48,7 +48,7 @@ ServerForm {
 
         onClicked: {
             playClick.play();
-            network.joinRoom(room.serverId);
+            network.joinRoom(serverId);
             swipeHorizontalServeur.setCurrentIndex(2);
             room.host=false;
             room.name=name;
