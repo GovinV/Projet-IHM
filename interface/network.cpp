@@ -69,6 +69,12 @@ void Network::roomList()
     qDebug() << "roomList";
 }
 
+void Network::setReady()
+{
+    client.UI_to_Soc("<ready>\n");
+    qDebug() << "setReady";
+}
+
 void Network::createRoom(QString room_name)
 {
     inRoom=true;

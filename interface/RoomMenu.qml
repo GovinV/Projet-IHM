@@ -308,6 +308,11 @@ RoomMenuForm {
                 anchors.verticalCenter: parent.verticalCenter
                 color: "#ffffff"
             }
+
+            onClicked: {
+                network.setReady();
+            }
+
             width: parent.width- (parent.parent.width / 2048) * 48
             height: 50
             anchors.bottom: parent.bottom
