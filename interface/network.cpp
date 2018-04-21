@@ -29,6 +29,9 @@ void Network::receiveFromServer(QString mess)
     else if(option.at(0)=="playerleave")
         updateRoomPlace(option.at(1),-1);
 
+    else if(option.at(0)=="players")
+        parsePlayerList(option.at(1));
+
     else if(option.at(0)=="playerready")
         updatePlayerReady(option.at(1));
     else if(option.at(0)=="playerjoin")
@@ -209,38 +212,23 @@ void Network::parseRoomList(QString list)
     qDebug() << "parseRoomList: " << list;
 }
 
-void Network::parsePlayerList(QString infos)
+void Network::parsePlayerList(QString mess)
 {
-    QStringList myOptions;
-    myOptions << "playerjoin" << "playerquit";
+    QStringList players = mess.split(">");
 
-    QStringList option = infos.split(":");
+    playerList.clear();
 
-    switch(myOptions.indexOf(option.at(0)))
+    foreach (QString player , players)
     {
-        case 0:
-            emit playerJoin(option.at(1));
-            break;
-        case 1:
-            emit playerQuit(infos);
-            break;
-        /* add every others options possible*/
-        default:
-             qDebug() << "Unknown message receive from Server: " << infos;
-             break;
+        QStringList infos = player.split(":");
+        if(infos.size()==2)
+        {
+            qDebug() << "player-> id: " << infos.at(0) <<"  name: " <<infos.at(1);
+            playerList.appendItem(infos.at(0),infos.at(1));
+        }
     }
-    /*          TO-DO
-     *
-     * For each info:
-     *
-     *      emit playerJoin(QString mess);
-     * or
-     *      emit playerQuit(QString mess);
-     * or
-     *      emit playerStatut(QString mess);
-     *
-     */
-    qDebug() << "parsePlayerList: " << infos;
+
+    qDebug() << "parsePlayerList";
 }
 
 

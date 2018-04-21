@@ -63,7 +63,7 @@ class Network : public QObject
         void updateRoomPlace(QString room, int nb);
         void updatePlayerReady(QString room);
         void parseRoomList(QString list);
-        void parsePlayerList(QString infos);
+        void parsePlayerList(QString mess);
 
         bool inRoom;
         bool isHost;
