@@ -13,7 +13,7 @@ RoomMenuForm {
 
     property bool host: true
     property string name: "test Server"
-    //property string roomId: "123456789"
+    property string roomId: "123456789"
     property int player: 1
     property int playerMax: 4
 

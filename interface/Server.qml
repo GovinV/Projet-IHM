@@ -52,7 +52,7 @@ ServerForm {
             swipeHorizontalServeur.setCurrentIndex(2);
             room.host=false;
             room.name=name;
-            room.serverId=serverId;
+            room.roomId=serverId;
             room.player=player;
             room.playerMax=playerMax;
         }
