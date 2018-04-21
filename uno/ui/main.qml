@@ -85,6 +85,8 @@ Window {
         }
     }
 
+    // START GAME BUTTON
+
     Rectangle{
         anchors.left: parent.left
         anchors.verticalCenter: parent.verticalCenter
@@ -105,7 +107,7 @@ Window {
             onClicked: {
                 console.log("click");
                 game.start();
-                game.gameLoop();
+                //game.test();
             }
         }
     }
@@ -139,9 +141,38 @@ Window {
         }
     }
 
+    Rectangle{
+        signal contreUnoBtPressed()
+        objectName: "contreUnoBt"
+        id:contreUnoBt
+        height:100
+        width:200
+        radius: 15
+        color:"orange"
+        anchors.right: unoBt.left
+        anchors.bottom: parent.bottom
+        Text{
+            text:"CONTRE !"
+            font.pixelSize: 40
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+        }
+
+
+
+        MouseArea{
+            anchors.fill:parent
+            onClicked: {
+                console.log("CONTRE !");
+                contreUnoBt.contreUnoBtPressed()
+            }
+        }
+    }
+
     // DRAW CARD
 
     Rectangle{
+        signal qdrawCardBtPressed()
         objectName: "drawCardBt"
         id:drawCardBt
         height:150
@@ -169,11 +200,12 @@ Window {
             anchors.fill:parent
             onClicked: {
                 console.log("draw card")
+                drawCardBt.qdrawCardBtPressed()
             }
         }
     }
 
-    // PLAY CARD
+    // PLAY CARD & carte active
 
     Rectangle{
         objectName: "playCardBt"
@@ -185,6 +217,13 @@ Window {
         color:"transparent"
         anchors.verticalCenter: parent.verticalCenter
         x:parent.width/2 - width
+
+        CarteBase{
+            color:game.curCardColor
+            type:game.curCardType
+            value:game.curCardValue
+        }
+
         Text{
             rotation: {originX:width/2;originY:height;angle:90}
             text:"PLAY"
@@ -195,10 +234,13 @@ Window {
         Frame{
             anchors.fill:parent
         }
+        signal qplayCardBtPressed(int i);
         MouseArea{
             anchors.fill:parent
             onClicked: {
                 console.log("play card")
+                playCardBt.qplayCardBtPressed(list0.currentIndex)
+                game.playCard(list0.currentIndex)
             }
         }
 
