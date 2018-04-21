@@ -1,23 +1,42 @@
 TEMPLATE = app
 CONFIG += console
-CONFIG -= app_bundle
-CONFIG -= qt
+QT += quick
 CONFIG += c++11
 
 SOURCES += main.cpp \
-    pioche.cpp \
-    partie.cpp \
-    joueur.cpp \
-    carte.cpp \
-    manche.cpp \
-    joueuria.cpp \
-    types.cpp \
+    core/carte.cpp \
+    core/joueur.cpp \
+    core/joueuria.cpp \
+    core/manche.cpp \
+    core/partie.cpp \
+    core/pioche.cpp \
+    core/types.cpp \
+    tests/tests-main.cpp \
+    ui/hand.cpp \
+    ui/handmodel.cpp \
+    ui/jeu.cpp \
+
+# Default rules for deployment.
+qnx: target.path = /tmp/$${TARGET}/bin
+else: unix:!android: target.path = /opt/$${TARGET}/bin
+!isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    pioche.h \
-    partie.h \
-    joueur.h \
-    carte.h \
-    manche.h \
-    joueuria.h \
-    types.h \
+    core/carte.h \
+    core/joueur.h \
+    core/joueuria.h \
+    core/manche.h \
+    core/partie.h \
+    core/pioche.h \
+    core/types.h \
+    tests/catch.hpp \
+    ui/hand.h \
+    ui/handmodel.h \
+    ui/jeu.h
+
+#SUBDIRS += \
+#    uno.pro
+
+RESOURCES += \
+    ui/qml.qrc \
+    rsc/img.qrc
