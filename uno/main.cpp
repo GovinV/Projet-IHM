@@ -171,7 +171,7 @@ int simu_partie(unsigned int seed)
 int main()
 {
 
-    int NB_PARTIES = 50000;
+    int NB_PARTIES = 1000;
 
     int gagnees[4] = {0, 0, 0, 0};
 

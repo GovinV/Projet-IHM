@@ -22,7 +22,8 @@ SOURCES += \
     core/partie.cpp \
     core/pioche.cpp \
     handmodel.cpp \
-    hand.cpp
+    hand.cpp \
+    core/types.cpp
 
 RESOURCES += \
     qml.qrc \
@@ -48,6 +49,7 @@ HEADERS += \
     core/partie.h \
     core/pioche.h \
     handmodel.h \
-    hand.h
+    hand.h \
+    core/types.h
 
 DISTFILES +=

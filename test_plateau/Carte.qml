@@ -49,13 +49,15 @@ Item{
             text:index
         }
         Text{
-            text: listdata.isCurrentItem ? "selected" : ""
+            text: parent.parent.ListView.isCurrentItem ? "selected" : ""
         }
 
         color:"transparent"
 
         //scale: parent.ListView.isCurrentItem ? 1.2 : 1
-        //Behavior on scale { NumberAnimation { duration: 200 } }
+        //Behavior on scale { NumberAnimation { duration: 100 } }
+        //y: parent.ListView.isCurrentItem ? -200 : 0
+        //Behavior on x { NumberAnimation { duration: 100 } }
 
     }
     MouseArea{
@@ -66,4 +68,5 @@ Item{
             console.log("select");
         }
     }
+
 }

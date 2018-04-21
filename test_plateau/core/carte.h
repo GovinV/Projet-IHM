@@ -1,8 +1,9 @@
 #ifndef CARTE_H
 #define CARTE_H
 
-#include<iostream>
-#include<string.h>
+#include <iostream>
+#include <string.h>
+#include "types.h"
 
 
 #define VALEUR_INVERSION 10

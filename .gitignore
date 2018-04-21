@@ -55,3 +55,6 @@ CMakeLists.txt.user*
 *.exe
 *.out
 *.app
+
+# Python Byte Code
+*.pyc

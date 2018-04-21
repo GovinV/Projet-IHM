@@ -3,15 +3,22 @@
 
 #include "joueur.h"
 
+enum StyleIA { SIMPLET }; // TODO : Ajouter d'autre styles
+
+// TODO : Rendre intelligent l'IA.
+
 class JoueurIA : public Joueur
 {
 public:
 
-    JoueurIA(Joueur j);
+    JoueurIA(Joueur j, StyleIA s);
 
     void action_par_defaut();
 
     Couleur choisir_couleur_defaut();
+
+ public:
+    StyleIA style;
 };
 
 #endif // JOUEURIA_H

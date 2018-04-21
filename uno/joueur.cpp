@@ -1,5 +1,6 @@
 #include "joueur.h"
 
+
 Joueur::Joueur(u_int num, InfoPartie *i)
 {
     uno = UNOSTATE_FAUX;
@@ -291,3 +292,5 @@ Joueur::~Joueur()
 {
 
 }
+
+

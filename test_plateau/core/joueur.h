@@ -1,77 +1,141 @@
 #ifndef JOUEUR_H
 #define JOUEUR_H
 
-#include<iostream>
-#include<vector>
-#include<string>
-#include"carte.h"
-#include"pioche.h"
-#include"partie.h"
+#include <iostream>
+#include <vector>
+#include <string>
+#include "carte.h"
 #include "manche.h"
+#include "types.h"
 
 /**
- * @brief Permet de spécifier si le joueur a dit 'uno' au bon moment et si c'est pris en compte
+ * @brief Permet la gestion des différents cas concernant la nécessité de dire 'uno'.
  *
  * UNOSTATE_FAUX : 'uno' n'est pas prononcé (ou ne peut pas être prononcé).
- * UNOSTATE_EN_ATTENTE : 'uno' a été prononcé dans un cas probable, mais le joueur n'as
- *                       pas encore joué son avant-dernière carte.
+ * UNOSTATE_EN_ATTENTE : 'uno' a été prononcé quand le joueur avait le droit,
+ *                       mais il n'a pas encore joué son avant-dernière carte.
  * UNOSTATE_VRAI : 'uno' a été prononcé a temps, et le joueurs n'as plus qu'une carte.
  * UNOSTATE_PENALITE : 'uno' n'as pas été prononcé et le joueur a été pénalisé.
  */
 enum UnoState { UNOSTATE_FAUX, UNOSTATE_EN_ATTENTE, UNOSTATE_VRAI, UNOSTATE_PENALITE };
 
-
+class Partie;
 
 class Joueur
 {
 public:
-    /// Constructeur.
-    Joueur(int num);
+    /**
+     * @brief Constructeur de la classe Joueur.
+     * @param num le numeros du joueur dans la partie.
+     */
+    Joueur(u_int num, InfoPartie *i);
 
-    /// Finit la manche courante en comptant les points de sa main et en
-    /// remettant dans la pioche les cartes restantes.
+    /**
+     * @brief Réalise les actions necessaire pour finir la manche courante.
+     *
+     * Finit la manche courante en comptant les points de sa main et en
+     * remettant dans la pioche ses cartes restantes.
+     *
+     * @return le nombre de nombre de points calculé a partir de ses cartes restantes.
+     */
     int finir_manche();
 
-    /// Indique que le joueur annonce 'uno', le uno n'est cependant pas validé
-    /// tout de suite.
+    /**
+     * @brief Prend en compte que le joueur annonce 'uno'.
+     *
+     * Le 'uno' n'est pris en compte que si c'est à son tour de jouer, et n'est
+     * validé que plus tard si il ne lui reste plus qu'une Carte à la fin de son
+     * tour.
+     */
     void appuie_uno();
 
-    /// Indique qu'un joueur adverse a annoncé un 'contre-uno'.
-    /// Si le joueur adverse avait raison, il pioche deux cartes
+    /**
+     * @brief Prend en compte qu'un joueur a annoncé un 'contre-uno' contre lui.
+     *
+     * Le 'contre-uno' ne fait piocher le joueur que s'il ne lui reste qu'une
+     * Carte et qu'il n'as pas validé le uno.
+     *
+     * @return vrai si le joueur adverse avait raison de dire 'contre-uno', faux sinon.
+     */
     bool appuie_contre_uno();
 
-    /// Le joueur pioche (par défaut ou non) le nombre de carte indiqué
-    /// dans la manche courante (comprenant les éventuels malus).
-    void piocher();
+    /**
+     * @brief Fait piocher le joueur lorsque c'est son tour de jeu.
+     *
+     * Le joueur pioche (par défaut ou non) le nombre de Carte indiqué dans la
+     * manche courante (comprenant les éventuels malus).
+     * Cette fonction appelle piocher(int nb_cartes) pour faire piocher le joueur.s
+     */
+    bool piocher(bool possibilitee_poser=false);
 
-    /// Le joueur pioche un nombre nb_cartes de cartes dans la pioche.
-    void piocher(int nb_cartes);
+    /**
+     * @brief Fait piocher au joueur le nombre de Cartes spécifiées.
+     *
+     * Cette fonction est appelée quand le joueur pioche quand c'est son tour
+     * de jeu, mais également pour distribuer les Cartes en début de Manche,
+     * ainsi que pour lui infliger les malus du 'contre-uno'.
+     *
+     * @param nb_cartes le nombre de Carte que le Joueur doit piocher.
+     */
+    bool piocher(int nb_cartes, bool possibilitee_poser=false);
 
-    /// Trie les cartes du joueur en fonction de sa couleur et de son type.
+    /**
+     * @brief joue_carte_piochee
+     * @param joue
+     */
+    void joue_carte_piochee(bool jouer_la_carte);
+
+    /**
+     * @brief Trie les Cartes de la main du Joueur.
+     *
+     * Voir la fonction comparaison_cartes dans la classs Carte pour plus
+     * d'information sur le tri des Cartes.
+     */
     void trier_main();
 
-    /// Indique si le joueur a gagné la manche (si il n'a plus de cartes).
-    bool gagne();
-
-    /// Modifie la couleur active (après un '+4' ou un joker).
+    /**
+     * @brief Indique à la manche le choix de Couleur du Joueur.
+     * @param c la nouvelle couleur choisie par le Joueur.
+     */
     void choisir_couleur(Couleur c);
 
-    /// Choisit arbitrairement une couleur en tant que nouvelle couleur pour
-    /// le jeu et la renvoie.
+    /**
+     * @brief Choisit arbitrairement une nouvelle couleur pour la manche.
+     *
+     * Si le joueur n'as plus de Carte ou qu'il ne reste que des Carte NOIR,
+     * alors la couleur est choisie aléatoirement, sinon la couleur choisie est
+     * celle de la première carte de son jeu.
+     *
+     * @return renvoie la couleur choisie.
+     */
     Couleur choisir_couleur_defaut();
 
-    /// Renvoie les indices des cartes jouables dans la main du joueur.
+    /**
+     * @brief Cherche toutes les Carte du Joueur qu'il peux poser.
+     * @return la liste des indices des Cartes jouables.
+     */
     std::vector<int> recherche_cartes_jouables();
 
-    /// Le joueur joue la carte à la position indice_carte dans son jeu.
+    /**
+     * @brief Joue (si possible) la carte indiquée.
+     *
+     * La Carte que souhaite poser le joueur n'est jouée que si elle est jouable.
+     *
+     * @param indice_carte l'indice de la carte à jouer.
+     * @return vrai si la Carte a été jouée, faux sinon.
+     */
     bool jouer(int indice_carte);
 
-    /// L'action du joueur se fait arbitrairement.
-    /// L'action effectuee peut être récupérée dans l'historique des actions des
-    /// joueurs dans la manche courante.
+    /**
+     * @brief L'action du joueur se fait arbitrairement.
+     *
+     * Si une carte est jouable, il joue la première jouable, sinon il pioche.
+     */
     void action_par_defaut();
 
-    /// Affiche sur la sortie d'erreur les cartes dans la main du joueur.
+    /**
+     * @brief Affiche les Cartes du Joueur sur la sortie standard.
+     */
     void afficher_main();
 
 public:
@@ -79,12 +143,16 @@ public:
     Manche* manche_courante;
     /// Les cartes qu'a en main le joueur.
     std::vector<Carte*> cmain;
-    /// Indique s'il a dit uno (en ayant 1 seule carte).
+    ///
+    Carte *carte_piochee;
+    /// Voir enum UnoState pour plus de précisions.
     UnoState uno;
     /// Nombre de points du joueur dans la partie.
-    int points;
-    /// Place du joueur dans le jeu (son indice).
-    int num_joueur;
+    u_int points;
+    /// Numero du joueur dans la partie.
+    u_int num_joueur;
+
+    InfoPartie *infos;
 };
 
 #endif // JOUEUR_H

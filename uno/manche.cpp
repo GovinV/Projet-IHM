@@ -1,5 +1,7 @@
 #include "manche.h"
 
+
+
 Manche::Manche(InfoPartie *i, Pioche *p, int nb_j, u_int joueur_debut)
 {
     // Initialisation des paramètres et objets de la manche.
@@ -196,4 +198,5 @@ void Manche::add_action_pose(u_int num_j, int num_c, Carte *c)
 
     historique.push_back(action);
 }
+
 

@@ -1,50 +1,77 @@
 #include "partie.h"
 
 
-Partie::Partie(TypePartie t, int nb_j, int limite)
+Partie::Partie(TypePartie t, unsigned int nb_j, unsigned int limite)
 {
     nb_joueur = nb_j;
-    type = t;
     limite_points = limite;
     manche_courante = NULL;
     nb_cartes_debut = DEFAUT_CARTES_MAIN;
-    partie_lancee = false;
+    statut_partie = PARTIE_ATTENTE_LANCEMENT;
     pioche = new Pioche();
     seed = unsigned(std::time(0));
 
-    for(int i=0; i<nb_joueur; i++)
+    infos.nb_messages = 0;
+    infos.num_next_message = 0;
+
+    for(u_int i=0; i<nb_joueur; i++)
     {
-        joueurs.push_back(Joueur(i));
+        joueurs.push_back(Joueur(i, &infos));
     }
+
+    if(t != CLASSIQUE && t != MANCHE_UNIQUE)
+    {
+        std::cerr << "Type de partie non implémenté. La partie sera de type "
+                  << "MANCHE_UNIQUE." << std::endl;
+        type = MANCHE_UNIQUE;
+    }
+    else
+    {
+        type = t;
+    }
+
+    infos.add_message({DEBUT_PARTIE, nb_joueur});
+    infos.add_message({DEBUT_MANCHE, my_rand()%nb_joueur});
 }
 
 
-bool Partie::partie_finie(std::vector<Joueur *> *gagnants)
+void Partie::start()
 {
-    gagnants->clear();
+    statut_partie = PARTIE_EN_COURS;
+    my_srand(seed);
+}
 
-    // Vérifie qu'il n'y ai pas une manche a finir. Si finir_manche ne s'est
-    // pas terminé normalement, la partie n'est pas considérée comme finie.
-    if(finir_manche() != 0)
+
+bool Partie::finir_partie()
+{
+    // Si la partie n'est pas lancée, ou déjà terminée, elle ne peux pas être finie.
+    if(statut_partie == PARTIE_TERMINEE || statut_partie == PARTIE_ATTENTE_LANCEMENT)
     {
         return false;
     }
 
-    for(int i=0; i<nb_joueur; i++)
+    // Vérifie qu'il n'y ai pas une manche a finir. Si finir_manche ne s'est
+    // pas terminé normalement, la partie n'est pas considérée comme finie.
+    if(manche_courante != NULL && manche_courante->statut_manche != MANCHE_TERMINEE)
+    {
+        return false;
+    }
+
+    for(u_int i=0; i<nb_joueur; i++)
     {
         switch(type)
         {
             case CLASSIQUE:
                 if(joueurs[i].points > limite_points)
                 {
-                    gagnants->push_back(&joueurs[i]);
+                    gagnants_partie.push_back(i);
                 }
                 break;
 
             case MANCHE_UNIQUE:
                 if(joueurs[i].points > 0)
                 {
-                    gagnants->push_back(&joueurs[i]);
+                    gagnants_partie.push_back(i);
                 }
                 break;
 
@@ -53,7 +80,7 @@ bool Partie::partie_finie(std::vector<Joueur *> *gagnants)
         }
     }
 
-    if(!gagnants->empty())
+    if(!gagnants_partie.empty())
     {
         return true;
     }
@@ -64,68 +91,27 @@ bool Partie::partie_finie(std::vector<Joueur *> *gagnants)
 }
 
 
-bool Partie::manche_finie(Joueur **gagnant)
-{
-    *gagnant = NULL;
-    // On verifie qu'une manche est en cours.
-    if(manche_courante == NULL)
-    {
-        std::cerr << "Aucune manche en cours." << std::endl;
-        return false;
-    }
-
-    for(int i=0; i<nb_joueur; i++)
-    {
-        switch(type)
-        {
-            case MANCHE_UNIQUE:
-            case CLASSIQUE:
-                if(joueurs[i].cmain.empty())
-                {
-                    *gagnant = &joueurs[i];
-                    break;
-                }
-                break;
-
-            default:
-                std::cerr << "Type de partie (" << type << ") inconnue."
-                          << std::endl;
-        }
-    }
-
-    if(*gagnant != NULL)
-    {
-
-        manche_courante->joueur_gagnant = (*gagnant)->num_joueur;
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
-
-
-Manche* Partie::nouvelle_manche()
+Manche* Partie::nouvelle_manche(u_int joueur_debut)
 {
     // Vérifie qu'il n'y ai pas une manche a finir. Si finir_manche ne s'est
     // pas terminé normalement, alors aucune manche ne peut être commencée.
-    if(finir_manche() != 0)
+    if(manche_courante != NULL)
     {
         return NULL;
     }
 
-    pioche->melanger(seed);
-    manche_courante = new Manche(pioche, nb_joueur);
-    for(int i=0; i<nb_joueur; i++)
+    pioche->melanger();
+    manche_courante = new Manche(&infos, pioche, nb_joueur, joueur_debut);
+    for(u_int i=0; i<nb_joueur; i++)
     {
         joueurs[i].manche_courante = manche_courante;
     }
     distribution(nb_cartes_debut);
-    for(int i=0; i<nb_joueur; i++)
+    for(u_int i=0; i<nb_joueur; i++)
     {
         joueurs[i].trier_main();
     }
+
     return manche_courante;
 }
 
@@ -138,15 +124,15 @@ int Partie::finir_manche(bool force)
     if(manche_courante != NULL)
     {
         id_gagnant_manche = manche_courante->joueur_gagnant;
-        if(id_gagnant_manche < 0)
+        if(manche_courante->statut_manche != MANCHE_TERMINEE)
         {
             if(force)
             {
-                for(int i=0; i<nb_joueur; i++)
+                for(u_int i=0; i<nb_joueur; i++)
                 {
                     joueurs[i].finir_manche();
                 }
-                pioche->ajouter(manche_courante->active);
+                pioche->poser(manche_courante->active);
             }
             else
             {
@@ -161,19 +147,19 @@ int Partie::finir_manche(bool force)
         {
             switch(type) {
                 case CLASSIQUE:
-                    for(int i=0; i<nb_joueur; i++)
+                    for(u_int i=0; i<nb_joueur; i++)
                     {
                         joueurs[id_gagnant_manche].points += joueurs[i].finir_manche();
                     }
-                    pioche->ajouter(manche_courante->active);
+                    pioche->poser(manche_courante->active);
                     break;
 
                 case MANCHE_UNIQUE:
-                    for(int i=0; i<nb_joueur; i++)
+                    for(u_int i=0; i<nb_joueur; i++)
                     {
                         joueurs[id_gagnant_manche].points += joueurs[i].finir_manche();
                     }
-                    pioche->ajouter(manche_courante->active);
+                    pioche->poser(manche_courante->active);
                     break;
 
                 default:
@@ -189,23 +175,9 @@ int Partie::finir_manche(bool force)
             manche_courante = NULL;
         }
     }
+    //infos.add_message({});
 
     return valeur_retour;
-}
-
-
-Joueur* Partie::get_joueur(int indice)
-{
-    if(indice >= nb_joueur)
-    {
-        std::cerr << "Erreur : indice de joueur (" << indice << ") trop grand."
-                  << std::endl;
-        exit(1);
-    }
-    else
-    {
-        return &joueurs[indice];
-    }
 }
 
 
@@ -213,7 +185,7 @@ void Partie::distribution(int nb_cartes)
 {
     for(int i=0; i<nb_cartes; i++)
     {
-        for(int j=0; j<nb_joueur; j++)
+        for(u_int j=0; j<nb_joueur; j++)
         {
             joueurs[j].piocher(1);
         }
@@ -221,9 +193,52 @@ void Partie::distribution(int nb_cartes)
 }
 
 
+Message *Partie::update_and_get_next_message()
+{
+    Message *m;
+    if(manche_courante != NULL && manche_courante->statut_manche == MANCHE_TERMINEE)
+    {
+        finir_manche();
+        if(finir_partie())
+        {
+            infos.add_message({FIN_PARTIE, nb_joueur});
+        }
+        else
+        {
+            infos.add_message({DEBUT_MANCHE, my_rand()%nb_joueur});
+        }
+    }
+    if(infos.num_next_message >= infos.nb_messages)
+    {
+        return NULL;
+    }
+    else
+    {
+        m = &infos.messages[infos.num_next_message];
+
+        if(m->type == DEBUT_PARTIE)
+        {
+            start();
+        }
+        else if(m->type == DEBUT_MANCHE)
+        {
+            nouvelle_manche(m->num_joueur);
+        }
+
+        return &infos.messages[infos.num_next_message++];
+    }
+}
+
+
+int Partie::get_seed()
+{
+    return seed;
+}
+
+
 void Partie::set_nb_cartes_debut(int nb_cartes)
 {
-    if(partie_lancee)
+    if(statut_partie != PARTIE_ATTENTE_LANCEMENT)
     {
         std::cerr << "Le nombre de cartes en début de manche ne peut pas être "
                   << "modifié en cours de partie."
@@ -245,7 +260,7 @@ void Partie::set_nb_cartes_debut(int nb_cartes)
 
 void Partie::set_seed(int s)
 {
-    if(partie_lancee)
+    if(statut_partie != PARTIE_ATTENTE_LANCEMENT)
     {
         std::cerr << "Le seed de la partie ne peut pas être modifié après son lancement."
                   << std::endl;
@@ -257,13 +272,24 @@ void Partie::set_seed(int s)
 }
 
 
-int Partie::get_seed()
+void Partie::set_limite(int limite)
 {
-    return seed;
+    if(statut_partie != PARTIE_ATTENTE_LANCEMENT)
+    {
+        std::cerr << "La limite de points a atteindre ne peux pas être modifié"
+                  << " après le début de la partie." << std::endl;
+    }
+    else
+    {
+        limite_points = limite;
+    }
 }
 
 
 Partie::~Partie()
 {
-    delete(pioche);
+    if(pioche != NULL)
+    {
+        delete(pioche);
+    }
 }

@@ -12,29 +12,29 @@ void Carte::init_description()
 {
     switch(type)
     {
-        case INVERSION : description = "Changement de sens ";
+        case INVERSION : description = "Inversion ";
             break;
 
         case TA_GUEULE : description = "Ta gueule ";
             break;
 
-        case PLUS_DEUX : description = "Plus 2 ";
+        case PLUS_DEUX : description = "+2 ";
             break;
 
-        case JOKER : description = "Changement de couleur ";
+        case JOKER : description = "Joker ";
             break;
 
-        case PLUS_QUATRE : description = "Plus 4 ";
+        case PLUS_QUATRE : description = "+4 ";
             break;
 
-        case NUMERO : description = std::to_string(valeur) + " ";
+        case NUMERO : description = "Numero " + std::to_string(valeur) + " ";
             break;
 
         default : description = "Carte inconnue ";
             break;
     }
 
-    description += couleur_to_string(couleur);
+    description += "("+couleur_to_string(couleur)+")";
 }
 
 std::string couleur_to_string(Couleur c)
@@ -44,23 +44,23 @@ std::string couleur_to_string(Couleur c)
     switch(c)
     {
         case ROUGE:
-            nom_couleur = "rouge";
+            nom_couleur = "Rouge";
             break;
 
         case VERT:
-            nom_couleur = "vert";
+            nom_couleur = "Vert";
             break;
 
         case BLEU:
-            nom_couleur = "bleu";
+            nom_couleur = "Bleu";
             break;
 
         case JAUNE:
-            nom_couleur = "jaune";
+            nom_couleur = "Jaune";
             break;
 
         case NOIR:
-            nom_couleur = "";
+            nom_couleur = "Noir";
             break;
 
         default:

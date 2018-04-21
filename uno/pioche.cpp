@@ -1,5 +1,6 @@
 #include "pioche.h"
 
+
 Pioche::Pioche()
 {
     pile.reserve(108);
@@ -124,3 +125,4 @@ Pioche::~Pioche()
         delete(pile[i]);
     }
 }
+

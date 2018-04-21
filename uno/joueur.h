@@ -8,19 +8,29 @@
 #include "manche.h"
 #include "types.h"
 
+
+
 /**
- * @brief Permet la gestion des différents cas concernant la nécessité de dire 'uno'.
+ * @brief Permet la gestion des différents cas concernant la nécessité de dire
+ *        'uno' quand il ne nous reste plus qu'une carte en main.
  *
  * UNOSTATE_FAUX : 'uno' n'est pas prononcé (ou ne peut pas être prononcé).
- * UNOSTATE_EN_ATTENTE : 'uno' a été prononcé quand le joueur avait le droit,
- *                       mais il n'a pas encore joué son avant-dernière carte.
- * UNOSTATE_VRAI : 'uno' a été prononcé a temps, et le joueurs n'as plus qu'une carte.
- * UNOSTATE_PENALITE : 'uno' n'as pas été prononcé et le joueur a été pénalisé.
+ *
+ * UNOSTATE_EN_ATTENTE : 'uno' a été prononcé quand le joueur avait le droit :
+ *                       le joueur peut annoncer 'uno' quand c'est à son tour
+ *                       de jouer, donc avant de poser son avant-dernière carte.
+ *
+ * UNOSTATE_VRAI : 'uno' a été prononcé a temps, et le joueurs n'as
+ *                 plus qu'une carte.
+ *
+ * UNOSTATE_PENALITE : 'uno' n'as pas été prononcé la pénalité a été
+ *                     prise en compte.
  */
 enum UnoState { UNOSTATE_FAUX, UNOSTATE_EN_ATTENTE, UNOSTATE_VRAI, UNOSTATE_PENALITE };
 
-class Partie;
-
+/**
+ * @brief La classe Joueur représente un participant d'une partie de Uno.
+ */
 class Joueur
 {
 public:
@@ -156,5 +166,6 @@ public:
 
     InfoPartie *infos;
 };
+
 
 #endif // JOUEUR_H

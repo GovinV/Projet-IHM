@@ -1,11 +1,14 @@
 #include "joueur.h"
 
-Joueur::Joueur(int num)
+Joueur::Joueur(u_int num, InfoPartie *i)
 {
     uno = UNOSTATE_FAUX;
     points = 0;
     manche_courante = NULL;
     num_joueur = num;
+    carte_piochee = NULL;
+
+    infos = i;
 }
 
 
@@ -17,12 +20,13 @@ int Joueur::finir_manche()
 
     uno = UNOSTATE_FAUX;
 
+    // Les cartes sont comptabilisée et remises dans le tas.
     for(int i=0; i<nb_cartes_restantes; i++)
     {
         c = cmain.back();
         somme_cartes += c->valeur;
         cmain.pop_back();
-        manche_courante->pioche->ajouter(c);
+        manche_courante->pioche->poser(c);
     }
 
     manche_courante = NULL;
@@ -33,12 +37,25 @@ int Joueur::finir_manche()
 
 void Joueur::appuie_uno()
 {
-    uno = UNOSTATE_EN_ATTENTE;
+    if(manche_courante != NULL)
+    {
+        if(manche_courante->joueur_courant == num_joueur && cmain.size() == 1)
+        {
+            uno = UNOSTATE_VRAI;
+        }
+        else if(manche_courante->joueur_courant == num_joueur)
+        {
+            uno = UNOSTATE_EN_ATTENTE;
+        }
+    }
 }
 
 
 bool Joueur::appuie_contre_uno()
 {
+    // NOTE : Le test 'uno != UNOSTATE_PENALITE' est probablement inutile car si le
+    // joueur a déjà pris une pénalité, il ne lui reste pas qu'une seule Carte
+    // dans son jeu.
     if(cmain.size() == 1 && uno != UNOSTATE_VRAI && uno != UNOSTATE_PENALITE)
     {
         piocher(2);
@@ -52,27 +69,81 @@ bool Joueur::appuie_contre_uno()
 }
 
 
-void Joueur::piocher()
+bool Joueur::piocher(bool possibilitee_poser)
 {
-    piocher(manche_courante->prends_toi_ca);
-    manche_courante->joueur_pioche();
+    bool posable;
+
+    // Fait piocher au joueur le nombre de Cartes necessaire.
+    posable = piocher(manche_courante->prends_toi_ca, possibilitee_poser);
+
+    if(!posable)
+    {
+        // Indique à la manche que le joueur courant a pioché.
+        manche_courante->joueur_pioche();
+    }
+
+    return posable;
 }
 
 
-void Joueur::piocher(int nb_cartes)
+bool Joueur::piocher(int nb_cartes, bool possibilitee_poser)
 {
-    for(int i=0; i<nb_cartes; i++)
-    {
-        cmain.push_back(manche_courante->pioche->tirer_carte());
-        std::cerr << "Le joueur " << num_joueur
-                  << " a pioché : " << cmain.back() << std::endl;
-    }
+    Carte *tiree;
 
     uno = UNOSTATE_FAUX;
 
-    trier_main();
+    if(nb_cartes == 1)
+    {
+        tiree = manche_courante->pioche->tirer_carte();
+        if(possibilitee_poser && manche_courante->est_jouable(tiree))
+        {
+            carte_piochee = tiree;
+            return true;
+        }
+        else
+        {
+            cmain.push_back(tiree);
+            std::cerr << "Le joueur " << num_joueur
+                      << " a pioché : " << cmain.back() << std::endl;
+            trier_main();
+            return false;
+        }
+    }
+    else
+    {
+        for(int i=0; i<nb_cartes; i++)
+        {
+            cmain.push_back(manche_courante->pioche->tirer_carte());
+            std::cerr << "Le joueur " << num_joueur
+                      << " a pioché : " << cmain.back() << std::endl;
+        }
+        trier_main();
+        return false;
+    }
 }
 
+
+void Joueur::joue_carte_piochee(bool jouer_la_carte)
+{
+    if(carte_piochee == NULL)
+    {
+        std::cerr << "Erreur : la carte piochée n'était pas jouable." << std::endl;
+        return;
+    }
+
+    if(jouer_la_carte)
+    {
+        manche_courante->joueur_joue(carte_piochee);
+        carte_piochee = NULL;
+    }
+    else
+    {
+        cmain.push_back(carte_piochee);
+        manche_courante->joueur_pioche();
+        carte_piochee = NULL;
+        trier_main();
+    }
+}
 
 void Joueur::trier_main()
 {
@@ -80,15 +151,9 @@ void Joueur::trier_main()
 }
 
 
-bool Joueur::gagne()
-{
-    return cmain.empty();
-}
-
-
 void Joueur::choisir_couleur(Couleur c)
 {
-    if(c < ROUGE || c > JAUNE)
+    if(c != ROUGE && c != VERT && c != JAUNE && c != BLEU)
     {
         std::cerr << "Couleur non valide. La couleur active reste le "
                   << couleur_to_string(manche_courante->couleur_active)
@@ -98,6 +163,8 @@ void Joueur::choisir_couleur(Couleur c)
     else
     {
         manche_courante->couleur_active = c;
+        std::cout << "Le joueur " << num_joueur << " a choisit une nouvelle couleur"
+                  << ", le " << couleur_to_string(c) << std::endl;
     }
 }
 
@@ -106,15 +173,21 @@ Couleur Joueur::choisir_couleur_defaut()
 {
     Couleur l_couleurs_candidates[4] = {ROUGE, VERT, BLEU, JAUNE};
     Couleur choix;
+
     if(cmain.empty() || cmain[0]->couleur == NOIR)
     {
-        choix = l_couleurs_candidates[rand()%4];
+        choix = l_couleurs_candidates[my_rand()%4];
     }
     else
     {
         choix = cmain[0]->couleur;
     }
+
+    std::cout << "Le joueur " << num_joueur << " a choisit une nouvelle couleur"
+              << ", le " << couleur_to_string(choix) << std::endl;
+
     manche_courante->couleur_active = choix;
+
     return choix;
 }
 
@@ -124,43 +197,11 @@ std::vector<int> Joueur::recherche_cartes_jouables()
     std::vector<int> cartes_jouables;
     int nb_cartes = cmain.size();
 
-    if(manche_courante->plus2_actif)
+    for(int i=0; i<nb_cartes; i++)
     {
-        for(int i=0; i<nb_cartes; i++)
+        if(manche_courante->est_jouable(cmain[i]))
         {
-            if(cmain[i]->type == PLUS_DEUX)
-            {
-                cartes_jouables.push_back(i);
-            }
-        }
-    }
-    else if(manche_courante->plus4_actif)
-    {
-        for(int i=0; i<nb_cartes; i++)
-        {
-            if(cmain[i]->type == PLUS_QUATRE)
-            {
-                cartes_jouables.push_back(i);
-            }
-        }
-    }
-    else
-    {
-        // TODO : Refactoriser ces conditions.
-        for(int i=0; i<nb_cartes; i++)
-        {
-            if(cmain[i]->couleur == manche_courante->couleur_active
-                    || cmain[i]->couleur == NOIR)
-            {
-                cartes_jouables.push_back(i);
-            }
-            else if(cmain[i]->couleur != NOIR && cmain[i]->type == manche_courante->active->type)
-            {
-                if(cmain[i]->type != NUMERO || cmain[i]->valeur == manche_courante->active->valeur)
-                {
-                    cartes_jouables.push_back(i);
-                }
-            }
+            cartes_jouables.push_back(i);
         }
     }
 
@@ -174,6 +215,8 @@ bool Joueur::jouer(int indice_carte)
     bool indice_valide = false;
     int nb_cartes_jouables = cartes_jouables.size();
 
+    Carte * carte_jouee;
+
     for(int i=0; i<nb_cartes_jouables; i++)
     {
         if(cartes_jouables[i] == indice_carte)
@@ -183,16 +226,30 @@ bool Joueur::jouer(int indice_carte)
         }
     }
 
+    // Si la Carte est jouable, elle est supprimée de sa main, on verifie si il
+    // lui reste encore des cartes, si il a dit 'uno' et qu'il pose son
+    // avant-dernière Carte, puis la manche est informée de la carte qu'à joué
+    // le joueur.
     if(indice_valide)
     {
         std::cerr << "Le joueur " << num_joueur << " a joué : "
                   << cmain[indice_carte] << std::endl;
-        manche_courante->joueur_joue(cmain[indice_carte]);
+        carte_jouee = cmain[indice_carte];
         cmain.erase(cmain.begin()+indice_carte);
+
         if(cmain.size()==1 && uno == UNOSTATE_EN_ATTENTE)
         {
             uno = UNOSTATE_VRAI;
         }
+
+        if(cmain.size() == 0)
+        {
+            manche_courante->joueur_gagnant = num_joueur;
+            manche_courante->statut_manche = MANCHE_TERMINEE;
+            infos->add_message({FIN_MANCHE, num_joueur});
+        }
+
+        manche_courante->joueur_joue(carte_jouee);
     }
 
     return indice_valide;
@@ -217,13 +274,13 @@ void Joueur::afficher_main()
 {
     int nb_cartes = cmain.size();
 
-    std::cerr << "Cartes en main du joueur " << num_joueur
+    std::cout << "\nCartes en main du joueur " << num_joueur
               << " :" << std::endl;
 
     for(int i=0; i<nb_cartes; i++)
     {
-       std::cerr << cmain[i] << std::endl;
+       std::cout << "Indice " << i << " : " << cmain[i] << std::endl;
     }
 
-    std::cerr << std::endl;
+    std::cout << std::endl;
 }
