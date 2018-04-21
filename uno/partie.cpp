@@ -214,6 +214,15 @@ Message *Partie::update_and_get_next_message()
     }
     else
     {
+        for(int i=0; i<nb_joueur; i++)
+        {
+            if(joueurs[i]->uno == UNOSTATE_PENALITE)
+            {
+                joueurs[i]->piocher(2);
+                joueurs[i]->uno = UNOSTATE_FAUX;
+            }
+        }
+
         m = &infos.messages[infos.num_next_message];
 
         if(m->type == DEBUT_PARTIE)

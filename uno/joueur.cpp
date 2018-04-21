@@ -58,7 +58,7 @@ bool Joueur::appuie_contre_uno()
     // dans son jeu.
     if(cmain.size() == 1 && uno != UNOSTATE_VRAI && uno != UNOSTATE_PENALITE)
     {
-        piocher(2);
+        //piocher(2);
         uno = UNOSTATE_PENALITE;
         return true;
     }
