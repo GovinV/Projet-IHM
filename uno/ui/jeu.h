@@ -40,6 +40,7 @@ public:
     /**
      * @brief player pick a card, function trigger core function and update
      * player hand in QML
+     * @bug impossible de jouer une carte piochée (aaaaargh)
      * @param i id of player
      */
     Q_INVOKABLE void drawCard(int i);
@@ -47,12 +48,13 @@ public:
     /**
      * @brief Le joueur joue une carte, utilise une fonction du noyau
      * Exemple de prog evenementiel qui marche
+     * @bug impossible de jouer une carte piochée (aaaaargh)
      * @param i indice de la carte
      */
     Q_INVOKABLE void playCard(int i);
 
     /**
-      * L'idée avec cette fonction c'est de reprendre la boucle initialement écrite
+      * @brief L'idée avec cette fonction c'est de reprendre la boucle initialement écrite
       * dans le main du noyau. Comme on ne peux pas attendre une simple entrée clavier,
       * on doit attendre une input depuis QML
       * pour remplacer, on se sert de waitForBtPressed qui retourne le code boutton
@@ -131,9 +133,8 @@ private:
     (voir main et le binding qml, et main.qml) ).
     Lors de la distribution des cartes, si je suis joueur 1, il faudrai appliquer un modulo
     sur le compteur pour que hands[0] recoive le jeu de joueur[1]
-
-    u_int mon_numero;
     /****/
+    u_int mon_numero;
 
     Partie *m_partie;
 
