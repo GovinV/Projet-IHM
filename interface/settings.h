@@ -5,6 +5,7 @@
 #include <QDebug>
 #include <QSettings>
 #include "network.h"
+#include "translation.h"
 
 class Settings : public QObject
 {
@@ -13,6 +14,8 @@ class Settings : public QObject
     public:
         explicit Settings(QObject *parent = nullptr);
         void setClient(Network* cl);
+
+        Translation translate;
 
     signals:
         void loadSize(int width, int height);

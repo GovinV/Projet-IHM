@@ -33,6 +33,7 @@ void Settings::loadSettings()
     if(client!=NULL)
         client->changeNickname(setting.value("nickname").toString());
     emit loadLangage(setting.value("langage").toString());
+    translate.selectLanguage(setting.value("langage").toString());
     emit loadCardStyle(setting.value("card").toString());
     emit loadVolume(setting.value("volume").toDouble());
     setting.endGroup();
@@ -69,10 +70,13 @@ void Settings::changeNickname(QString mess)
 
 void Settings::changeLangage(QString mess)
 {
+    qDebug()<< "changeLangage" << mess;
     QSettings setting("Uno","Settings");
     setting.beginGroup("Infos");
     setting.setValue("langage", mess);
     setting.endGroup();
+
+    translate.selectLanguage(mess);
 
     qDebug() << "Langage Changed";
 

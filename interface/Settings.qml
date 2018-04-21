@@ -39,8 +39,8 @@ SettingsForm {
 
         onLoadLangage: //(QString mess);
         {
-            print("zbleu");
-            rootItem.selectLanguage("en");
+            print(mess);
+            rootItem.selectLanguage("fr");
         }
 
     }
@@ -167,7 +167,7 @@ SettingsForm {
         }
 
         ComboBox {
-            id: comboBox1
+            id: langageComboBox
             x: 135
             y: 209
 
@@ -347,6 +347,10 @@ SettingsForm {
                 settings.changeSize(widthEdit.text,heightEdit.text);
                 settings.changeVolume(volumeSlider.value);
                 settings.loadSettings();
+                if(langageComboBox.currentText=="Français")
+                    settings.changeLangage("fr");
+                else if(langageComboBox.currentText=="English")
+                    settings.changeLangage("en");
             }
             anchors.horizontalCenterOffset: 0
             anchors.horizontalCenter: parent.horizontalCenter

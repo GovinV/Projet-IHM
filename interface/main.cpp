@@ -14,7 +14,6 @@
 #include "playerlist.h"
 #include "playermodel.h"
 
-#include "translation.h"
 
 int main(int argc, char *argv[])
 {
@@ -34,9 +33,6 @@ int main(int argc, char *argv[])
     Network network;
     Settings settings;
 
-    Translation tr;
-
-
 
     settings.setClient(&network);
 
@@ -53,12 +49,7 @@ int main(int argc, char *argv[])
     ctx->setContextProperty(QStringLiteral("serversList"), &network.serverList);
     ctx->setContextProperty(QStringLiteral("playerList"), &network.playerList);
 
-    ctx->setContextProperty(QStringLiteral("rootItem"), &tr);
-
-    QTranslator tv;
-    tv.load("qrc:/resources/translation/uno_en.qm");
-    app.installTranslator(&tv);
-    engine.retranslate();
+    ctx->setContextProperty(QStringLiteral("rootItem"), &settings.translate);
 
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     if (engine.rootObjects().isEmpty())

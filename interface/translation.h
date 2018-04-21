@@ -20,7 +20,7 @@ signals:
     void languageChanged();
 
 private:
- QTranslator *translator_en;
+ QTranslator *translator;
 
 };
 
