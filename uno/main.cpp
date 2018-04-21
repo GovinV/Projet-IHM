@@ -78,9 +78,9 @@ int simu_partie(unsigned int seed)
     jeu.set_seed(seed);
 
     jeu.changer_joueur(0, new JoueurIA(jeu.joueurs[0], MOYEN, &jeu));
-    /*jeu.changer_joueur(1, new JoueurIA(jeu.joueurs[1], MOYEN, &jeu));
-    jeu.changer_joueur(2, new JoueurIA(jeu.joueurs[2], SIMPLET, &jeu));
-    jeu.changer_joueur(3, new JoueurIA(jeu.joueurs[3], MOYEN, &jeu));*/
+    /*jeu.changer_joueur(1, new JoueurIA(jeu.joueurs[1], SIMPLET, &jeu));
+    jeu.changer_joueur(2, new JoueurIA(jeu.joueurs[2], MOYEN, &jeu));
+    jeu.changer_joueur(3, new JoueurIA(jeu.joueurs[3], SIMPLET, &jeu));*/
 
     // Récupération du premier message.
     // Le premier message indique le debut de la partie et la lance.
@@ -221,7 +221,7 @@ int simu_partie(unsigned int seed)
 int main()
 {
 
-    int NB_PARTIES = 1000;
+    int NB_PARTIES = 5000;
 
     int gagnees[4] = {0, 0, 0, 0};
 

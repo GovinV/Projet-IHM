@@ -5,8 +5,8 @@ Pioche::Pioche()
 {
     pile.reserve(108);
 
-    // Ajout des cartes numeros
-    // (1 à 9 deux fois par couleur et le 0 une fois par couleur).
+    /// Ajout des cartes numeros
+    /// (1 à 9 deux fois par couleur et le 0 une fois par couleur).
     for(int i=1; i<20; i++)
     {
         pile.push_back(new Carte(ROUGE, NUMERO, i/2));
@@ -15,8 +15,8 @@ Pioche::Pioche()
         pile.push_back(new Carte(JAUNE, NUMERO, i/2));
     }
 
-    // Ajout des cartes pieges de couleurs (deux par couleur) :
-    // '+2', 'changement de sens' et 'passe ton tour'.
+    /// Ajout des cartes pieges de couleurs (deux par couleur) :
+    /// '+2', 'changement de sens' et 'passe ton tour'.
     for(int i=0; i<2; i++)
     {
         pile.push_back(new Carte(ROUGE, PLUS_DEUX, VALEUR_PLUS_DEUX));
@@ -35,7 +35,7 @@ Pioche::Pioche()
         pile.push_back(new Carte(JAUNE, TA_GUEULE, VALEUR_TA_GUEULE));
     }
 
-    // Ajout des +4 et changement de couleur (quatre chacun).
+    /// Ajout des +4 et changement de couleur (quatre chacun).
     for(int i=0; i<4; i++)
     {
         pile.push_back(new Carte(NOIR, PLUS_QUATRE, VALEUR_PLUS_QUATRE));
@@ -45,7 +45,6 @@ Pioche::Pioche()
 
 void Pioche::melanger()
 {
-    //std::random_shuffle(pile.begin(), pile.end());
     int nb_cartes = pile.size();
     int new_pos;
     Carte *save_card;
@@ -88,9 +87,9 @@ void Pioche::poser(Carte *c)
 
 void Pioche::ramasser()
 {
-    // Fait des push bask dans pile pour toutes les Carte du tas.
+    /// Fait des push bask dans pile pour toutes les Carte du tas.
     std::copy(tas.begin(), tas.end(), std::back_inserter(pile));
-    // Vide le tas.
+    /// Vide le tas.
     tas.clear();
 }
 
@@ -115,7 +114,7 @@ Pioche::~Pioche()
 {
     int nb_cartes;
 
-    // On regroupe toutes les cartes dans la pile.
+    /// On regroupe toutes les cartes dans la pile.
     ramasser();
 
     nb_cartes = pile.size();

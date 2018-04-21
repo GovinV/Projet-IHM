@@ -1,10 +1,8 @@
 #include "manche.h"
 
-
-
 Manche::Manche(InfoPartie *i, Pioche *p, int nb_j, u_int joueur_debut)
 {
-    // Initialisation des paramètres et objets de la manche.
+    /// Initialisation des paramètres et objets de la manche.
     pioche = p;
     nb_joueur = nb_j;
     sens = 1;
@@ -19,9 +17,8 @@ Manche::Manche(InfoPartie *i, Pioche *p, int nb_j, u_int joueur_debut)
 
     active = pioche->tirer_carte();
 
-    // La première carte ne peux pas être un '+4', alors on la remet dans le
-    // paquet jusqu'à avoir une Carte n'étant pas un +4.
-    while(active->type == PLUS_QUATRE)
+    /// Par simplicité la première carte doit être un NUMERO.
+    while(active->type != NUMERO)
     {
         pioche->poser(active);
         active = pioche->tirer_carte();
@@ -29,6 +26,7 @@ Manche::Manche(InfoPartie *i, Pioche *p, int nb_j, u_int joueur_debut)
 
     couleur_active = active->couleur;
 
+    /// Création d'un message indiquant que c'est au joueur_courant de jouer.
     infos->add_message({JOUEUR_ACTION, joueur_courant});
 
     std::cout << "Le joueur " << joueur_courant << " commmence." << std::endl;
@@ -37,19 +35,20 @@ Manche::Manche(InfoPartie *i, Pioche *p, int nb_j, u_int joueur_debut)
 
 void Manche::joueur_pioche()
 {
-    // Si il pioche et qu'il y avait des '+2' ou '+4' de posés, alors il a
-    // pioché en conséquence, donc les deux effets sont remis à faux.
+    /// Si il pioche et qu'il y avait des '+2' ou '+4' de posés, alors il a
+    /// pioché en conséquence, donc les deux effets sont remis à faux.
     plus2_actif = false;
     plus4_actif = false;
 
-    // Nombre de cartes à piocher par défault.
+    /// Nombre de cartes à piocher par défault.
     prends_toi_ca = 1;
 
-    // Calcul du joueur suivant.
+    /// Calcul du joueur suivant.
     joueur_courant = (joueur_courant + nb_joueur + sens) % nb_joueur;
 
     if(statut_manche == MANCHE_EN_COURS)
     {
+        /// Création d'un message indiquant à qui c'est de jouer.
         infos->add_message({JOUEUR_ACTION, joueur_courant});
     }
 }
@@ -57,12 +56,12 @@ void Manche::joueur_pioche()
 
 void Manche::joueur_joue(Carte *c)
 {
-    // Pose la carte active sur le tas, la carte jouée devient la carte active.
+    /// Pose la carte active sur le tas, la carte jouée devient la carte active.
     pioche->poser(active);
     active = c;
     couleur_active = active->couleur;
 
-    // Prise en compte de la carte jouée si elle a un effet particulier.
+    /// Prise en compte de la carte jouée si elle a un effet particulier.
     switch(active->type)
     {
         case INVERSION:
@@ -92,6 +91,8 @@ void Manche::joueur_joue(Carte *c)
         case JOKER:
             if(statut_manche == MANCHE_EN_COURS)
             {
+                /// Création d'un message indiquant que le joueur doit
+                /// choisir une nouvelle couleur.
                 infos->add_message({JOUEUR_CHOIX_COULEUR, joueur_courant});
             }
 
@@ -115,7 +116,7 @@ void Manche::joueur_joue(Carte *c)
             break;
     }
 
-    // Calcul du joueur suivant.
+    /// Calcul du joueur suivant.
     joueur_courant = (joueur_courant + nb_joueur + sens) % nb_joueur;
 
     if(statut_manche == MANCHE_EN_COURS)
@@ -133,6 +134,7 @@ void Manche::joueur_change_couleur(Couleur couleur, u_int num_joueur)
     action.num_joueur = num_joueur;
     action.couleur = couleur;
 
+    /// Enregistre l'action dans l'historique.
     historique.push_back(action);
 
     couleur_active = couleur;
@@ -147,18 +149,18 @@ int Manche::joueur_suivant()
 
 bool Manche::est_jouable(Carte *c)
 {
-    // Si un '+2' est posé, il ne peux poser qu'un autre '+2'
+    /// Si un '+2' est posé, il ne peux poser qu'un autre '+2'
     if(plus2_actif)
     {
         return c->type == PLUS_DEUX;
     }
-    // Si un '+4' est posé, il ne peux poser qu'un autre '+4'
+    /// Si un '+4' est posé, il ne peux poser qu'un autre '+4'
     else if(plus4_actif)
     {
         return c->type == PLUS_QUATRE;
     }
-    // Sinon il peux poser toutes les Cartes de même couleur ou de même type
-    // que la Carte active, ainsi que les '+4' et 'JOKER'.
+    /// Sinon il peux poser toutes les Cartes de même couleur ou de même type
+    /// que la Carte active, ainsi que les '+4' et 'JOKER'.
     else
     {
         if(c->couleur == couleur_active || c->couleur == NOIR)
