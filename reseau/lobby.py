@@ -15,13 +15,13 @@ class Lobby:
 
     def welcome_new(self, new_player):
         self.players.append(new_player)
-        new_player.socket.sendall(b"infos:: <name>\n")
+        self.send_player(new_player,b"infos:: <name>\n")
 
     def list_rooms(self, player):
         
         if len(self.rooms) == 0:
             msg = "List::<no room>\n" 
-            player.socket.sendall(msg.encode())
+            self.send_player(player,msg.encode())
         else:
             msg = "List::"
             for room in self.rooms:
@@ -32,18 +32,19 @@ class Lobby:
             msg+="\n"
             if msg == "List::\n":
                 msg = "List::<no room>\n" 
-            player.socket.sendall(msg.encode())
+            self.send_player(player,msg.encode())
     
     def handle_msg(self, player, msg):
-        
-        instructions = b"infos:: trouve\n"
+        if msg == "":
+            return
 
-        print(player.id + " says: " + msg)
+        instructions = b"infos:: trouve\n"
+        print(player.id + " says: " + msg+"\n")
         if "name:" in msg:
             name = (msg.split("\n")[0]).split(":")[1]
             player.name = name
             print("New connection from:", player.name)
-            player.socket.sendall(instructions)
+            self.send_player(player,b"yourid::"+ player.id.encode()+ b"\n")
 
         elif "<create>" in msg:
             if len(msg.split(">")) >= 2: # error check
@@ -58,13 +59,13 @@ class Lobby:
                 new_msg="newroom::" + room_id + ":" + room_name +"\n"
                 self.broadcast(player,new_msg)  
             else:
-                player.socket.sendall(instructions)
+                self.send_player(player,instructions)
 
         elif "<join>" in msg:
             if len(msg.split()) >= 2: # error check
                 room_id = msg.split()[1]
                 if not room_id in self.rooms: # new room:
-                    player.socket.sendall(b"error::This Room is not created: <list> to see.\n")
+                    self.send_player(player,b"error::This Room is not created: <list> to see.\n")
                 elif self.rooms[room_id].status != "game" or \
                      self.rooms[room_id].length < self.rooms[room_id].capacity:
                     self.rooms[room_id].players.append(player)
@@ -74,15 +75,19 @@ class Lobby:
                     new_msg="roomjoin::" + room_id + ":" + player.id +"\n"
                     self.broadcast(player,new_msg)                     
                 else:
-                    player.socket.sendall(b"error::This Room is full. Choose another one: <list> to see.\n")
+                    self.send_player(player,b"error::This Room is full. Choose another one: <list> to see.\n")
             else:
-                player.socket.sendall(instructions)
+                self.send_player(player,instructions)
 
         elif "<leave>" in msg:
             if player.id in self.room_player_map: 
                 old_room = self.room_player_map[player.id]
                 self.rooms[old_room].remove_player(player)
-                del self.room_player_map[player.id]
+                if player == self.rooms[old_room].owner:
+                    for o in self.id_others(old_room):
+                        del self.room_player_map[o]
+                else:
+                    del self.room_player_map[player.id]
                 player.status = "inlobby"
                 player.is_ready = False
                 if self.rooms[old_room].length == 0:
@@ -92,13 +97,10 @@ class Lobby:
                     new_msg = "playerleave::" + old_room + ":" + player.id +"\n"
                 self.broadcast(player,new_msg)                                  
             else:
-                player.socket.sendall(b"error::You are not currently in a room\n")
+                self.send_player(player,b"error::You are not currently in a room\n")
 
         elif "<list>" in msg:
-            self.list_rooms(player) 
-
-        elif "<manual>" in msg:
-            player.socket.sendall(instructions)
+            self.list_rooms(player)
 
         elif "<ready>" in msg:
             if player.id in self.room_player_map:
@@ -110,7 +112,7 @@ class Lobby:
                     player.is_ready = True  
                     self.rooms[room].infogame(player,b"playerready::" + player.id.encode() + b":1\n") 
             else:
-                player.socket.sendall(b"error::You are not currently in a room\n")
+                self.send_player(player,b"error::You are not currently in a room\n")
 
         elif "<startgame>" in msg:
             if player.id in self.room_player_map:
@@ -119,22 +121,23 @@ class Lobby:
                     if self.rooms[room].all_ready():                  
                         self.rooms[room].infogame(player,b"startgame::1")
                     else:
-                        player.socket.sendall(b"error:: not all ready\n")
+                        self.send_player(player,b"error:: not all ready\n")
                 else:
-                    player.socket.sendall(b"startgame:: not owner\n")
+                    self.send_player(player,b"startgame:: not owner\n")
             else:
-                player.socket.sendall(b"error::You are not currently in a room\n")
+                self.send_player(player,b"error::You are not currently in a room\n")
 
         elif "<quit>" in msg:
-            player.socket.sendall(QUIT_STRING.encode())
+            self.send_player(player,QUIT_STRING.encode())
             self.remove_player(player)
 
         elif "<players>" in msg:
             if player.id in self.room_player_map:
+                print("ouais")
                 room = self.room_player_map[player.id]
                 self.rooms[room].send_players_list(player)
             else:
-                player.socket.sendall(b"error::You are not currently in a room\n")
+                self.send_player(player,b"error::You are not currently in a room\n")
 
         elif "<changeroomname>" in msg:
             if len(msg.split(">")) >= 2: # error check
@@ -147,11 +150,11 @@ class Lobby:
                         self.broadcast(player,new_msg)
                         #self.rooms[room].infogame(player,b"room"+new_msh.encode())
                     else:
-                        player.socket.sendall(b"changeroomname:: not owner\n")
+                        self.send_player(player,b"changeroomname:: not owner\n")
                 else:
-                    player.socket.sendall(b"error::You are not currently in a room\n")
+                    self.send_player(player,b"error::You are not currently in a room\n")
             else:
-                player.socket.sendall(instructions)
+                self.send_player(player,instructions)
 
         elif "<changemaxplayer>" in msg:
             if len(msg.split()) >= 2: # error check
@@ -164,11 +167,11 @@ class Lobby:
                             new_msg = "changemaxplayer::" + room + ":" + room_MP +"\n"
                             self.broadcast(player,new_msg)
                     else:
-                        player.socket.sendall(b"changemaxplayer:: not owner\n")
+                        self.send_player(player,b"changemaxplayer:: not owner\n")
                 else:
-                    player.socket.sendall(b"error::You are not currently in a room\n")
+                    self.send_player(player,b"error::You are not currently in a room\n")
             else:
-                player.socket.sendall(instructions)
+                self.send_player(player,instructions)
 
         else:
             # check if in a room or not first
@@ -176,29 +179,44 @@ class Lobby:
                 self.rooms[self.room_player_map[player.id]].broadcast(player, msg.encode())
             else:
                 msg = "error:: You are currently not in any room! \n"
-                player.socket.sendall(msg.encode())
+                self.send_player(player,msg.encode())
     
     def remove_player(self, player):
         self.players.remove(player)
         if player.id in self.room_player_map:
             room = self.room_player_map[player.id]
             self.rooms[room].remove_player(player)
+            if player == self.rooms[room].owner:
+                for o in self.id_others(room):
+                    del self.room_player_map[o]
+            else:
+                del self.room_player_map[player.id]
             if self.rooms[room].length == 0:
                 del self.rooms[room]
-            del self.room_player_map[player.id]
+                new_msg ="roomdel::" + room + "\n"
+            else:
+                new_msg = "playerleave::" + room + ":" + player.id +"\n"
+            self.broadcast(player,new_msg)
         print("Player: " + player.id + " has left\n")
 
     def broadcast(self, from_player, msg):
         for player in self.players:
             if player != from_player:
                 if player.status == "inlobby":
-                    try:
-                        player.socket.sendall(msg.encode())
-                    except:
-                        try:
-                            self.remove_player(from_player)
-                        except:
-                            pass
+                    self.send_player(player,msg.encode())
+
+    def id_others(self,room):
+        ret = []
+        for k,v in self.room_player_map.items():
+            if v == room:
+                ret.append(k)
+        return ret
+
+    def send_player(self,player,msg):
+        try:
+            player.socket.sendall(msg)
+        except:
+            pass
 
 class Room:
     def __init__(self, name, capacity, owner):
@@ -214,22 +232,30 @@ class Room:
         msg = "playerjoin::" + from_player.id + ":" + from_player.name + "\n"
         self.length+=1
         for player in self.players:
-            player.socket.sendall(msg.encode())
+            self.send_player(player,msg.encode())
     
     def broadcast(self, from_player, msg):
         msg = b"ingame::" + from_player.name.encode() + b":" + msg
         for player in self.players:
             if player != from_player:
-                player.socket.sendall(msg)
+                self.send_player(player,msg)
 
     def infogame(self, from_player, msg):
         if msg == b"startgame::1":
             self.status = "game"
         for player in self.players:
             if player != from_player:
-                player.socket.sendall(msg)
+                self.send_player(player,msg)
 
     def remove_player(self, player):
+        if player == self.owner:
+            for p in self.players:
+                if p != self.owner:
+                    self.players.remove(p)
+                    p.status = "inlobby"
+                    p.is_ready = False
+                    self.length-=1
+                    self.send_player(p,b"playerleave::"+ p.id.encode() + b":"+ p.name.encode() + b"\n")
         self.players.remove(player)
         self.length-=1
         leave_msg = b"playerleave::"+ player.id.encode() + b": "+ player.name.encode() + b"\n"
@@ -240,7 +266,8 @@ class Room:
         for player in self.players:
             msg += player.id + ":" + player.name +">"
         msg+="\n"
-        player.socket.sendall(msg.encode())
+        print("alllez")
+        self.send_player(player,msg.encode())
 
     def all_ready(self):
         ret=True
@@ -249,3 +276,9 @@ class Room:
                 ret=False
                 break
         return ret
+
+    def send_player(self,player,msg):
+        try:
+            player.socket.sendall(msg)
+        except:
+            pass

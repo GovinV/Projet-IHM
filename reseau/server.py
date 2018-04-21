@@ -17,8 +17,8 @@ signal.signal(signal.SIGINT, signal_handler)
 
 READ_BUFFER = 4096
 
-host = "127.0.0.1"
-port = 8888 
+host = "0.0.0.0"
+port = 2213
 MAX_CLIENTS = 30
 
 listen_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -48,7 +48,8 @@ while True:
                 continue
             if msg:
                 msg = msg.decode().lower()
-                lobby.handle_msg(player, msg)
+                for m in msg.split("\n")
+                    lobby.handle_msg(player, m)
             else:
                 player.socket.close()
                 connection_list.remove(player)
