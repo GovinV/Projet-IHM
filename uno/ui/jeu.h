@@ -124,6 +124,17 @@ private:
 
     // attributs
 
+    /****
+    On a ici le numero du joueur. Il est evidement préférable d'avoir son propre jeu
+    en bas de l'ecran. Or les listes de carte envoyées à qml (hands) ne peuvent pas
+    changer d'emplacement (actuellement, hands[0] est en bas, et hands[1] est en haut
+    (voir main et le binding qml, et main.qml) ).
+    Lors de la distribution des cartes, si je suis joueur 1, il faudrai appliquer un modulo
+    sur le compteur pour que hands[0] recoive le jeu de joueur[1]
+
+    u_int mon_numero;
+    /****/
+
     Partie *m_partie;
 
     QObject *unoBt, *contreUnoBt, *drawCardBt, *playCardBt;

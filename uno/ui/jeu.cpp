@@ -53,17 +53,11 @@ void Jeu::test()
     qDebug()<<"exit value:";
 }
 
-int Jeu::waitForBtPressed()
-{
-    // exec retourne avec le code de exit (voir xBtPressed)
-    return eventLoop.exec();
-}
-
 void Jeu::gameLoop()
 {
     // Déclaration des variables necessaires.
     Message *message;
-    u_int mon_numero;
+
     //int action;
     int saisie_nb;
     bool fin_tour;
@@ -78,10 +72,11 @@ void Jeu::gameLoop()
     ///mon_numero = 1;
 
     // Création de la partie.
+    //(inutile ici on le met dans le constructeur)
     ///Partie m_partie(MANCHE_UNIQUE, 2);
 
     // Parametrage personnalisé de la partie.
-
+    //(idem)
     ///m_partie->set_seed(seed);
 
     ///m_partie->changer_joueur(0, new JoueurIA(m_partie->joueurs[0], MOYEN, &m_partie));
@@ -111,32 +106,35 @@ void Jeu::gameLoop()
                     ///std::cout << "Carte sur la table : "
                        ///       << m_partie->manche_courante->active << "\n" << std::endl;
                     std::cout << "Choix de l'action : ";
+                    ///std::cin >> action;
+                    ///switch(action)
                     switch(waitForBtPressed())
                     {
                     // on récupère le code boutton et on agis en fonction
-                    case BT_PLAY:
-                        //std::cout << "Saisir la carte à jouer : ";
-                        //std::cin >> saisie_nb;
-                        //std::cout << std::endl;
+                    case BT_PLAY:///'p'
+                        ///std::cout << "Saisir la carte à jouer : ";
+                        ///std::cin >> saisie_nb;
+                        ///std::cout << std::endl;
                         if(m_partie->joueurs[mon_numero]->jouer(current_card_nb))
                         {
                             fin_tour = true;
                         }
                         break;
                     case BT_DRAW:
-                        //std::cout << std::endl;
-                        //m_partie->joueurs[mon_numero]->piocher();
+                        ///std::cout << std::endl;
+                        ///m_partie->joueurs[mon_numero]->piocher();
 
                         //piocher est déjà activer par un elem QML, mais normalement
                         //elle devrait être trigger ici (ne marche pas a cause du bug connect)
                         drawCard(mon_numero);
+
                         fin_tour = true;
                         break;
                     case BT_UNO:
                         m_partie->joueurs[mon_numero]->appuie_uno();
                         break;
                     case BT_CUNO:
-                        /*std::cout << "Saisir le joueur : " << std::endl;
+                        /** std::cout << "Saisir le joueur : " << std::endl;
                         std::cin >> saisie_nb;
                         m_partie->joueurs[saisie_nb]->appuie_contre_uno();*/
                         break;
@@ -148,7 +146,7 @@ void Jeu::gameLoop()
             }
             else
             {
-                //m_partie->joueurs[message->num_joueur]->afficher_main();
+                ///m_partie->joueurs[message->num_joueur]->afficher_main();
                 m_partie->joueurs[message->num_joueur]->action_par_defaut();
             }
 
@@ -279,6 +277,8 @@ void Jeu::updateCurCard()
 
 void Jeu::updateHand(int id_joueur)
 {
+    // parcour la main du joueur noyau pour la mettre dans hand correspondante
+    // offset avec mon_numero ?
     hands[id_joueur].clear();
     for(unsigned int j = 0; j<m_partie->joueurs.at(id_joueur)->cmain.size();j++)
     {
@@ -289,12 +289,18 @@ void Jeu::updateHand(int id_joueur)
     }
 }
 
+int Jeu::waitForBtPressed()
+{
+    // exec retourne avec le code de exit (voir xBtPressed)
+    return eventLoop.exec();
+}
+
 void Jeu::unoBtPressed()
 {
     // evenement à trigger si on est en attente d'une input
     if(eventLoop.isRunning()){
         // some event
-        // exit donne un code retour specifique à exec() (voir waitForBtPressed)
+        // exit() donne un code retour specifique à exec() (voir waitForBtPressed)
         eventLoop.exit(BT_UNO);
     }
     qDebug()<<"boutton uno pressé";
