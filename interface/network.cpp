@@ -14,6 +14,14 @@ void Network::receiveFromServer(QString mess)
     if(option.at(0)=="List")
         parseRoomList(option.at(1));
 
+    else if(option.at(0)=="yourid")
+    {
+        std::string sv=(option.at(1).toStdString());
+        sv.pop_back();
+        myId=QString::fromStdString(sv);
+        qDebug()<< "My network ID: " << myId;
+    }
+
     else if(option.at(0)=="newroom")
         addRoom(option.at(1)+":1:4");
     else if(option.at(0)=="roomdel")
@@ -151,8 +159,13 @@ void Network::updateRoomPlace(QString room, int nb)
     QStringList infos = room.split(":");
     if(inRoom && nb==-1)
     {
-        int id=playerList.findItem(infos.at(0));
-        playerList.removeItems(id);
+        if(infos.at(0)==myId)
+            emit hostLeave();
+        else
+        {
+            int id=playerList.findItem(infos.at(0));
+            playerList.removeItems(id);
+        }
     }
     else
         serverList.editPlayer(infos.at(0), nb);

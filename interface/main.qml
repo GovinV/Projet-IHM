@@ -22,6 +22,15 @@ Window {
         }
     }
 
+    Connections{
+        target: network
+        onHostLeave:
+        {
+            network.roomList();
+            swipeHorizontalServeur.currentIndex=1;
+        }
+    }
+
     Image {
         id: background
         anchors.fill: parent

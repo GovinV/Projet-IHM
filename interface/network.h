@@ -36,6 +36,7 @@ class Network : public QObject
         void serverlistChanged();
 
         void tmpReady();
+        void hostLeave();
 
         void playerlistChanged();
 
@@ -68,6 +69,7 @@ class Network : public QObject
 
         bool inRoom;
         bool isHost;
+        QString myId;
         ClientTcp client;
 };
 
