@@ -46,6 +46,8 @@ public:
 
     void setupBt(QQmlApplicationEngine *engine);
 
+    void updateHand(int i);
+
     QObject *unoBt, *drawCardBt, *playCardBt;
 
 signals:
