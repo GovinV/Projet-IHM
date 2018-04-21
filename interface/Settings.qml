@@ -12,11 +12,13 @@ SettingsForm {
 
         onLoadSize: //(int width, int height);
         {
-            window.visibility=Window.Windowed;
-            fullscreenCheckBox.checked=false;
-
             window.width=width;
             window.height=height;
+
+            if(fullscreenCheckBox.checked)
+                window.visibility=Window.FullScreen;
+            else
+                window.visibility=Window.Windowed;
 
             widthEdit.text=width;
             heightEdit.text=height;
@@ -37,7 +39,8 @@ SettingsForm {
 
         onLoadLangage: //(QString mess);
         {
-
+            print("zbleu");
+            rootItem.selectLanguage("en");
         }
 
     }
@@ -60,7 +63,7 @@ SettingsForm {
             x: 152
             height: 13
             color: "#e98515"
-            text: qsTr("Paramètres")
+            text: qsTr("Paramètres") + rootItem.emptyString
             anchors.horizontalCenterOffset: 0
             font.bold: true
             font.family: "Tahoma"
@@ -110,10 +113,6 @@ SettingsForm {
             onCheckedChanged:
             {
                 playClick.play();
-                if(fullscreenCheckBox.checked)
-                    window.visibility=Window.FullScreen;
-                else
-                    window.visibility=Window.Windowed;
             }
         }
 
@@ -121,6 +120,13 @@ SettingsForm {
             id: comboBox
             x: 135
             y: 330
+            model: ListModel {
+                id: cbItems
+                ListElement { text: "1280*800"; }
+                ListElement { text: "1280*800";}
+                ListElement { text: "1280*800";}
+                ListElement { text: "Personnalisé";}
+            }
         }
 
         Text {
@@ -164,7 +170,13 @@ SettingsForm {
             id: comboBox1
             x: 135
             y: 209
-            textRole: ""
+
+            model: ListModel {
+                id: langueItems
+                ListElement { text: "Français";}
+                ListElement { text: "English";}
+            }
+
         }
 
         Rectangle {

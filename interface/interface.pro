@@ -19,7 +19,8 @@ HEADERS += client/ClientTcp.h\
     serverlist.h \
     servermodel.h \
     playerlist.h \
-    playermodel.h
+    playermodel.h \
+    translation.h
 
 SOURCES += main.cpp \
     client/ClientTcp.cpp \
@@ -28,7 +29,8 @@ SOURCES += main.cpp \
     serverlist.cpp \
     servermodel.cpp \
     playerlist.cpp \
-    playermodel.cpp
+    playermodel.cpp \
+    translation.cpp
 
 RESOURCES += qml.qrc \
     resource.qrc

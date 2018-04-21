@@ -14,6 +14,8 @@
 #include "playerlist.h"
 #include "playermodel.h"
 
+#include "translation.h"
+
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -31,6 +33,8 @@ int main(int argc, char *argv[])
     Network network;
     Settings settings;
 
+    Translation tr;
+
     settings.setClient(&network);
 
     QList<QObject*> cardlist;
@@ -45,6 +49,13 @@ int main(int argc, char *argv[])
     ctx->setContextProperty("cardListModel", QVariant::fromValue(cardlist));
     ctx->setContextProperty(QStringLiteral("serversList"), &network.serverList);
     ctx->setContextProperty(QStringLiteral("playerList"), &network.playerList);
+
+    ctx->setContextProperty(QStringLiteral("rootItem"), &tr);
+
+    QTranslator tv;
+    tv.load("qrc:/resources/translation/uno_en.qm");
+    app.installTranslator(&tv);
+    engine.retranslate();
 
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     if (engine.rootObjects().isEmpty())

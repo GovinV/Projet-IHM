@@ -10,6 +10,15 @@ MenuBarForm {
         target: network
     }
 
+    Connections{
+        target: settings
+
+        onLoadNickname:
+        {
+            pseudo.text=mess;
+        }
+    }
+
     Rectangle {
         id: backgroundGris
         x: 0
@@ -209,14 +218,30 @@ MenuBarForm {
                color: "white"
                opacity : 0
              }
-
             Image {
                 id: optionLogo
                 anchors.fill: parent
                 source: "qrc:/resources/img/settings.png"
             }
-        }
 
+        }
+        Text {
+            id: pseudo
+            height: 13
+            color: "#e98515"
+            text: qsTr("Anonymous")
+            horizontalAlignment: Text.AlignRight
+            verticalAlignment: Text.AlignVCenter
+            font.pixelSize: 25
+            font.bold: true
+            font.family: "Tahoma"
+            anchors.top: parent.top
+            anchors.topMargin: 28
+            anchors.right: parent.right
+            anchors.rightMargin: 240
+            anchors.verticalCenter: parent.verticalCenter
+
+        }
 
     }
 

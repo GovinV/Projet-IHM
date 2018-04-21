@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="en_US">
+<TS version="2.1" language="en_US">
 <context>
     <name>CardEditor</name>
     <message>
@@ -12,15 +12,15 @@
     <name>MainMenu</name>
     <message>
         <source>Arrive bientôt</source>
-        <translation type="unfinished"></translation>
+        <translation>Coming Soon</translation>
     </message>
     <message>
         <source>Jouer</source>
-        <translation type="unfinished"></translation>
+        <translation>Play</translation>
     </message>
     <message>
         <source>Editeur</source>
-        <translation type="unfinished"></translation>
+        <translation>Editor</translation>
     </message>
 </context>
 <context>
@@ -89,12 +89,16 @@
         <source>Tuto</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Aucun salon de jeu trouvé</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Settings</name>
     <message>
         <source>Paramètres</source>
-        <translation type="unfinished"></translation>
+        <translation>Settings</translation>
     </message>
     <message>
         <source>Plein écran</source>
@@ -125,15 +129,15 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Quitter</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Sauvegarder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Volume</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Annuler</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

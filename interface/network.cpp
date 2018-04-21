@@ -3,6 +3,7 @@
 Network::Network(QObject *parent) : QObject(parent)
 {
     connect(&client,SIGNAL(readingComplete(QString)),this,SLOT(receiveFromServer(QString)));
+    connect(&playerList,SIGNAL(dataChanged()),this,SIGNAL(tmpReady()));
     inRoom=false;
 }
 
@@ -68,6 +69,7 @@ void Network::roomList()
 void Network::createRoom(QString room_name)
 {
     inRoom=true;
+    isHost=true;
     playerList.clear();
     client.UI_to_Soc("<create>"+ room_name +"\n");
     qDebug() << "createRoom";
@@ -76,6 +78,7 @@ void Network::createRoom(QString room_name)
 void Network::joinRoom(QString room_id)
 {
     inRoom=true;
+    isHost=false;
     client.UI_to_Soc("<join> " + room_id +"\n");
     qDebug() << "joinRoom";
 }
@@ -83,6 +86,7 @@ void Network::joinRoom(QString room_id)
 void Network::leaveRoom()
 {
     inRoom=false;
+    isHost=false;
     client.UI_to_Soc("<leave>\n");
     qDebug() << "leaveRoom";
 }
@@ -158,10 +162,14 @@ void Network::updateRoom(int type, QString room)
     QStringList infos = room.split(":");
     switch (type) {
     case 1:
-        serverList.editName(infos.at(0), infos.at(1));
+        if(inRoom)
+            emit changeMyRoomName(infos.at(1));
+        else
+            serverList.editName(infos.at(0), infos.at(1));
         break;
     case 2:
-        serverList.editMax(infos.at(0), infos.at(1).toInt());
+        if(!inRoom)
+            serverList.editMax(infos.at(0), infos.at(1).toInt());
         break;
     case 3:
         qDebug() << "playerjoin";

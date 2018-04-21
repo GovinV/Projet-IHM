@@ -243,10 +243,10 @@ ServerMenuForm {
         ListView {
             id: serverListView
             width: parent.width-(parent.parent.width / 2048) * 48
-            height: parent.height-60-(parent.parent.width / 2048) * 24
+            height: parent.height-(parent.parent.width / 2048) * 24
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.top: parent.top
-            anchors.topMargin: 60
+            anchors.topMargin: (parent.parent.width / 2048) * 48
 
             clip:true
 
@@ -264,15 +264,6 @@ ServerMenuForm {
                     playerMax: model.max
                 }
             }
-        }
-
-        Rectangle {
-            id: whiteBar
-            width: parent.width
-            height: 1
-            color: "#ffffff"
-            anchors.top: parent.top
-            anchors.topMargin: 60
         }
     }
 }

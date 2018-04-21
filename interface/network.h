@@ -30,6 +30,8 @@ class Network : public QObject
         void playerQuit(QString mess);
         void playerStatut(QString mess);
 
+        void changeMyRoomName(QString new_name);
+
         void serverStatut(bool online);
         void serverlistChanged();
 
@@ -64,6 +66,7 @@ class Network : public QObject
         void parsePlayerList(QString infos);
 
         bool inRoom;
+        bool isHost;
         ClientTcp client;
 };
 

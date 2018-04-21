@@ -3,6 +3,7 @@ import QtQuick.Controls 2.3
 import QtQml 2.2
 import QtQuick.Controls.Styles 1.4
 
+
 MainMenuForm {
     id: mainMenuForm
     width: 1280
@@ -53,7 +54,7 @@ MainMenuForm {
             y: 120
             width: 147
             height: 71
-            text: qsTr("Arrive bientôt")
+            text: qsTr("Arrive bientôt") + rootItem.emptyString
             verticalAlignment: Text.AlignVCenter
             font.bold: true
             font.family: "Tahoma"
@@ -114,7 +115,7 @@ MainMenuForm {
             y: 120
             width: 147
             height: 71
-            text: qsTr("Jouer")
+            text: qsTr("Jouer") + rootItem.emptyString
             verticalAlignment: Text.AlignVCenter
             font.bold: true
             font.family: "Tahoma"
@@ -173,7 +174,7 @@ MainMenuForm {
             y: 120
             width: 147
             height: 71
-            text: qsTr("Editeur")
+            text: qsTr("Editeur") + rootItem.emptyString
             verticalAlignment: Text.AlignVCenter
             font.bold: true
             font.family: "Tahoma"

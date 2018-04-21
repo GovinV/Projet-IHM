@@ -31,6 +31,7 @@ public:
         void postItemAppended();
 
         void readyEdited(int index, bool ready);
+        void dataChanged();
 
         void preItemRemoved(int index);
         void postItemRemoved();

@@ -54,6 +54,7 @@ bool PlayerModel::setData(const QModelIndex &index, const QVariant &value, int r
     if (_list->setItemAt(index.row(), item)) {
         qDebug() << "dataChanged";
         emit dataChanged(index, index, QVector<int>() << role);
+        list()->dataChanged();
         return true;
     }
 

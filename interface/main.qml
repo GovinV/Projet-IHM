@@ -139,8 +139,11 @@ Window {
                     swipeVertical.currentIndex=1;
                 else
                 {
-                    network.leaveRoom();
-                    network.roomList();
+                    if(swipeHorizontalServeur.currentIndex==2)
+                    {
+                        network.leaveRoom();
+                        network.roomList();
+                    }
                     swipeHorizontalServeur.currentIndex=1;
                 }
             }
