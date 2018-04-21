@@ -55,6 +55,7 @@ void Jeu::test()
 
 int Jeu::waitForBtPressed()
 {
+    // exec retourne avec le code de exit (voir xBtPressed)
     return eventLoop.exec();
 }
 
@@ -291,9 +292,11 @@ void Jeu::updateHand(int id_joueur)
 void Jeu::unoBtPressed()
 {
     // evenement à trigger si on est en attente d'une input
-    if(eventLoop.isRunning())
+    if(eventLoop.isRunning()){
+        // some event
+        // exit donne un code retour specifique à exec() (voir waitForBtPressed)
         eventLoop.exit(BT_UNO);
-
+    }
     qDebug()<<"boutton uno pressé";
 }
 

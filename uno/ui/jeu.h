@@ -31,7 +31,7 @@ public:
      */
     Hand hands[4];
 
-    //action triggered from QML
+    //Q_INVOKABLE : fonction qui peut etre triggered depuis QML
     /**
      * @brief starts the game, initialize properties of this class
      */
@@ -59,27 +59,13 @@ public:
       */
     Q_INVOKABLE void gameLoop();
 
+    Q_INVOKABLE void test();
+
     /**
      * @brief bind les boutons QML aux attributs correspondant de la classe
      * @param engine Le moteur de l'application à explorer
      */
     void setupBt(QQmlApplicationEngine *engine);
-
-    /**
-     * @brief Mets à jour le jeu (QML) du joueur
-     * Quand les cartes dans le noyau changent, Jeu:: a aucun moyen de la savoir
-     * Il faut donc trigger une fonction  pour update la vue
-     * @param id_joueur l'id du joueur
-     */
-    void updateHand(int id_joueur);
-
-    Q_INVOKABLE void test();
-
-    /**
-     * @brief déclenche une QEvenLoop qui peut être libérée par un signal bt
-     * @return le code du boutton pressé
-     */
-    int waitForBtPressed();
 
     // curent card values getter
     QString curCardColor();
@@ -112,6 +98,23 @@ private:
     void init_deck();
 
     /**
+     * @brief Mets à jour le jeu (QML) du joueur
+     * Quand les cartes dans le noyau changent, Jeu:: a aucun moyen de la savoir
+     * Il faut donc trigger une fonction  pour update la vue
+     * @param id_joueur l'id du joueur
+     */
+    void updateHand(int id_joueur);
+
+    /**
+     * @brief déclenche une QEvenLoop qui peut être libérée par un signal bt
+     * Elle bloque l'exécution du scope appellant (exec bloque cette fonction
+     * donc le scope de la fonction)
+     * C'est cette fonction qui est censé remplacer le std::cin du prog console
+     * @return le code du boutton pressé
+     */
+    int waitForBtPressed();
+
+    /**
      * @brief converti une couleur en son équivalent text
      * les équivalents correspondent aux noms de dossier des cartes
      * @param c couleur à convertir
@@ -126,8 +129,8 @@ private:
     QObject *unoBt, *contreUnoBt, *drawCardBt, *playCardBt;
 
     QEventLoop eventLoop;
+
     int current_card_nb ;
-    int btPressed;
 };
 
 #endif // JEU_H
