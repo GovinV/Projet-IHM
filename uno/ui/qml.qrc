@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>Carte.qml</file>
+        <file>CarteBase.qml</file>
     </qresource>
 </RCC>

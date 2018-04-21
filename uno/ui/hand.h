@@ -4,18 +4,19 @@
 #include <QObject>
 #include <QVector>
 
-#define TYPE_NB 0
-#define TYPE_S_P2 1
-#define TYPE_S_SW 2
-#define TYPE_S_SK 3
-#define TYPE_S_P4 4
-#define TYPE_S_CO 5
+#define TYPE_NB 0   // number
+#define TYPE_S_P2 1 // +2
+#define TYPE_S_SW 2 // switch
+#define TYPE_S_SK 3 // skip
+#define TYPE_S_P4 4 // +4
+#define TYPE_S_CO 5 // color
 
 struct HandItem
 {
     int type;
     QString color;
     int value;
+    // ajouter une var pour le style des cartes ?
 };
 
 class Hand : public QObject
