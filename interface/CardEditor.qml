@@ -190,7 +190,7 @@ CardEditorForm {
             id: sauvegarder
             color: "white"
             anchors.fill: parent
-            text: qsTr("Sauvegarder")
+            text: qsTr("Sauvegarder") + rootItem.emptyString
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
             font.bold: true

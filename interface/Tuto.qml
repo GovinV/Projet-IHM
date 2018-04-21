@@ -35,7 +35,7 @@ TutoForm {
                 width: parent.width
                 height: 22
                 color: "#e98515"
-                text: qsTr("Le Jeu")
+                text: qsTr("Le Jeu") + rootItem.emptyString
                 font.bold: true
                 font.family: "Tahoma"
                 font.pixelSize: 20
@@ -53,7 +53,7 @@ TutoForm {
                 text: qsTr("Le UNO est un célèbre jeu de cartes américain dont le vainqueur"+
                            " est la personne à s’être débarrassé de toutes ses cartes en pre"+
                            "mier. Dans cette application il est possible de faire des parties"+
-                           " de 2 à 4 participants.")
+                           " de 2 à 4 participants.") + rootItem.emptyString
                 anchors.leftMargin: 75
                 wrapMode: TextEdit.WordWrap
                 font.bold: true
@@ -67,7 +67,7 @@ TutoForm {
                 width: parent.width
                 height: 22
                 color: "#e98515"
-                text: qsTr("Les cartes")
+                text: qsTr("Les cartes") + rootItem.emptyString
                 anchors.top: parent.top
                 horizontalAlignment: Text.AlignHCenter
                 anchors.topMargin: 130
@@ -92,7 +92,7 @@ TutoForm {
                             "\t• 8 cartes «inversion» (2 de chaque couleur)\n"+
                             "\t• 8 cartes «passe ton tour» (2 de chaque couleur)\n"+
                             "\t• 4 cartes «changement de couleur»\n"+
-                            "\t• 4 cartes «+4» ")
+                            "\t• 4 cartes «+4» ") + rootItem.emptyString
                 anchors.leftMargin: 75
                 wrapMode: TextEdit.WordWrap
                 font.bold: true
@@ -106,7 +106,7 @@ TutoForm {
                 width: parent.width
                 height: 22
                 color: "#e98515"
-                text: qsTr("Les Règles")
+                text: qsTr("Les Règles") + rootItem.emptyString
                 anchors.top: parent.top
                 horizontalAlignment: Text.AlignHCenter
                 anchors.topMargin: 335
@@ -137,7 +137,7 @@ TutoForm {
                            " joueurs. S’il oublie de le faire et qu’un joueur s’en aperçoit, il "+
                            "devra piocher 2 cartes en pénalité."+
                            "\nLe premier des joueurs à s’être débarrassé de toutes ses cartes gagne "+
-                           "et la partie contenue jusqu’à ce qu’il ne reste plus que 1 joueur.")
+                           "et la partie contenue jusqu’à ce qu’il ne reste plus que 1 joueur.") + rootItem.emptyString
                 anchors.leftMargin: 75
                 wrapMode: TextEdit.WordWrap
                 font.bold: true

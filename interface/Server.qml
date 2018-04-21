@@ -25,7 +25,7 @@ ServerForm {
         id: button
         x: 492
         y: 10
-        text: qsTr("Se connecter")
+        text: qsTr("Se connecter") + rootItem.emptyString
         height: parent.height*0.6
         width: parent.height*1.5
         anchors.verticalCenterOffset: 0

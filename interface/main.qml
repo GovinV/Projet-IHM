@@ -9,7 +9,7 @@ Window {
     visible: true
     width: 1280
     height: 800
-    title: qsTr("Uno")
+    title: qsTr("Uno") + rootItem.emptyString
 
     flags: Qt.Window | Qt.FramelessWindowHint
 
@@ -172,7 +172,7 @@ Window {
             id: text1
             y: 11
             color: "#ffffff"
-            text: qsTr("Retour")
+            text: qsTr("Retour") + rootItem.emptyString
             anchors.verticalCenterOffset: -1
             anchors.left: parent.left
             anchors.leftMargin: (window.width / 2048) * 97

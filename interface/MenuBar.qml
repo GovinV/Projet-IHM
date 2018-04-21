@@ -51,7 +51,6 @@ MenuBarForm {
             id: quitButton
             width: 42
             height: 42
-            text: qsTr("")
             anchors.right: parent.right
             anchors.rightMargin: 0
             anchors.top: parent.top
@@ -229,7 +228,7 @@ MenuBarForm {
             id: pseudo
             height: 13
             color: "#e98515"
-            text: qsTr("Anonymous")
+            text: qsTr("Anonymous") + rootItem.emptyString
             horizontalAlignment: Text.AlignRight
             verticalAlignment: Text.AlignVCenter
             font.pixelSize: 25

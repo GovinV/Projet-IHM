@@ -12,7 +12,7 @@ PlayerForm {
         {
             print("non non non");
             print(ready);
-            text2.text=ready?qsTr("Prêt"):qsTr("En attente")
+            text2.text=ready?qsTr("Prêt") + rootItem.emptyString:qsTr("En attente") + rootItem.emptyString
             text2.color=ready?"#3ff826":"#b31919"
         }
     }
@@ -59,7 +59,7 @@ PlayerForm {
         width: 73
         height: 40
         color: ready?"#3ff826":"#b31919"
-        text: ready?qsTr("Prêt"):qsTr("En attente")
+        text: ready?qsTr("Prêt") + rootItem.emptyString:qsTr("En attente") + rootItem.emptyString
         font.bold: true
         anchors.right: parent.right
         anchors.rightMargin: 8

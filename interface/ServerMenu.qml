@@ -60,7 +60,7 @@ ServerMenuForm {
                  id: soloText
                  color: "white"
                  anchors.fill: parent
-                 text: qsTr("Solo")
+                 text: qsTr("Solo") + rootItem.emptyString
                  verticalAlignment: Text.AlignVCenter
                  horizontalAlignment: Text.AlignHCenter
                  font.bold: true
@@ -109,7 +109,7 @@ ServerMenuForm {
                  id: serverText
                  color: "white"
                  anchors.fill: parent
-                 text: qsTr("Créer Salon")
+                 text: qsTr("Créer Salon") + rootItem.emptyString
                  verticalAlignment: Text.AlignVCenter
                  horizontalAlignment: Text.AlignHCenter
                  font.bold: true
@@ -156,7 +156,7 @@ ServerMenuForm {
                  id: tutoText
                  color: "white"
                  anchors.fill: parent
-                 text: qsTr("Tuto")
+                 text: qsTr("Tuto") + rootItem.emptyString
                  verticalAlignment: Text.AlignVCenter
                  horizontalAlignment: Text.AlignHCenter
                  font.bold: true
@@ -212,7 +212,7 @@ ServerMenuForm {
             id: noRoom
             color: "white"
             anchors.fill: parent
-            text: qsTr("Aucun salon de jeu trouvé")
+            text: qsTr("Aucun salon de jeu trouvé") + rootItem.emptyString
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
             font.bold: true

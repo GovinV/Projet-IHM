@@ -89,7 +89,7 @@ SettingsForm {
             x: 15
             y: 293
             color: "#ffffff"
-            text: qsTr("Plein écran")
+            text: qsTr("Plein écran") + rootItem.emptyString
             font.bold: false
             font.family: "Tahoma"
             font.pixelSize: 20
@@ -100,7 +100,7 @@ SettingsForm {
             x: 15
             y: 338
             color: "#ffffff"
-            text: qsTr("Résolution")
+            text: qsTr("Résolution") + rootItem.emptyString
             font.family: "Tahoma"
             font.bold: false
             font.pixelSize: 20
@@ -134,7 +134,7 @@ SettingsForm {
             x: 55
             y: 392
             color: "#ffffff"
-            text: qsTr("Largeur")
+            text: qsTr("Largeur") + rootItem.emptyString
             anchors.horizontalCenterOffset: -67
             anchors.horizontalCenter: parent.horizontalCenter
             font.bold: false
@@ -147,7 +147,7 @@ SettingsForm {
             x: 194
             y: 392
             color: "#ffffff"
-            text: qsTr("Hauteur")
+            text: qsTr("Hauteur") + rootItem.emptyString
             anchors.horizontalCenterOffset: 67
             anchors.horizontalCenter: parent.horizontalCenter
             font.family: "Tahoma"
@@ -160,7 +160,7 @@ SettingsForm {
             x: 15
             y: 217
             color: "#ffffff"
-            text: qsTr("Langue")
+            text: qsTr("Langue") + rootItem.emptyString
             font.family: "Tahoma"
             font.bold: false
             font.pixelSize: 20
@@ -221,7 +221,7 @@ SettingsForm {
             width: 92
             height: 29
             color: "#ffffff"
-            text: qsTr("Pseudo")
+            text: qsTr("Pseudo") + rootItem.emptyString
             verticalAlignment: Text.AlignTop
             font.pixelSize: 20
             font.bold: false
@@ -231,7 +231,7 @@ SettingsForm {
             id: button
             x: 100
             y: 652
-            text: qsTr("Réinitialiser")
+            text: qsTr("Réinitialiser") + rootItem.emptyString
 
             onHoveredChanged:
             {
@@ -279,7 +279,7 @@ SettingsForm {
                 playClick.play();
                 settingsRect.isActive=false;
             }
-            text: qsTr("Annuler")
+            text: qsTr("Annuler") + rootItem.emptyString
             width: settingsForm.width/2.3
             font.pointSize: 15
             anchors.horizontalCenterOffset: -72
@@ -323,7 +323,7 @@ SettingsForm {
             y: 589
             height: 34
             width: settingsForm.width/1.1
-            text: qsTr("Sauvegarder")
+            text: qsTr("Sauvegarder") + rootItem.emptyString
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 87
             background:
@@ -373,7 +373,7 @@ SettingsForm {
             x: 15
             y: 512
             color: "#ffffff"
-            text: qsTr("Volume")
+            text: qsTr("Volume") + rootItem.emptyString
             font.pixelSize: 20
             font.family: "Tahoma"
             font.bold: false

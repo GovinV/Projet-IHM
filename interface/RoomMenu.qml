@@ -59,7 +59,7 @@ RoomMenuForm {
                 id: salonName
                 width: parent.width
                 height: 40
-                text: qsTr("Nom du Salon")
+                text: qsTr("Nom du Salon") + rootItem.emptyString
                 font.bold: true
                 font.family: "Tahoma"
                 font.pixelSize: 13
@@ -81,7 +81,7 @@ RoomMenuForm {
                     horizontalAlignment: Text.AlignHCenter
                     wrapMode: TextEdit.WordWrap
                     color: "#000000"
-                    text: qsTr("Nouveau salon de jeu")
+                    text: qsTr("Nouveau salon de jeu") + rootItem.emptyString
                     font.bold: true
                     font.family: "Tahoma"
                     font.pixelSize: 13
@@ -94,7 +94,7 @@ RoomMenuForm {
                 y: 100
                 width: parent.width
                 height: 40
-                text: qsTr("Nombre de joeurs (2-4)")
+                text: qsTr("Nombre de joeurs (2-4)") + rootItem.emptyString
                 font.bold: true
                 font.family: "Tahoma"
                 font.pixelSize: 13
@@ -123,7 +123,7 @@ RoomMenuForm {
                 y: 170
                 width: parent.width
                 height: 40
-                text: qsTr("Type de partie")
+                text: qsTr("Type de partie") + rootItem.emptyString
                 font.bold: true
                 font.family: "Tahoma"
                 font.pixelSize: 13
@@ -141,7 +141,7 @@ RoomMenuForm {
                     height: parent.height
                     anchors.left: parent.left
                     anchors.leftMargin: 50
-                    text: qsTr("Partie simple")
+                    text: qsTr("Partie simple") + rootItem.emptyString
                     font.bold: true
                     font.family: "Tahoma"
                     font.pixelSize: 13
@@ -162,7 +162,7 @@ RoomMenuForm {
                     height: parent.height
                     anchors.left: parent.left
                     anchors.leftMargin: 50
-                    text: qsTr("500 points")
+                    text: qsTr("500 points") + rootItem.emptyString
                     font.bold: true
                     font.family: "Tahoma"
                     font.pixelSize: 13
@@ -179,7 +179,7 @@ RoomMenuForm {
                 y: 290
                 width: parent.width
                 height: 40
-                text: qsTr("Activer les IA")
+                text: qsTr("Activer les IA") + rootItem.emptyString
                 font.bold: true
                 font.family: "Tahoma"
                 font.pixelSize: 13
@@ -201,7 +201,7 @@ RoomMenuForm {
             id: save
             Text {
                 id: saveText
-                text: qsTr("Sauvegarder")
+                text: qsTr("Sauvegarder") + rootItem.emptyString
                 font.bold: true
                 font.family: "Tahoma"
                 font.pixelSize: 15
@@ -298,7 +298,7 @@ RoomMenuForm {
 
             Text {
                 id: textProfil
-                text: host?qsTr("Demarer"):qsTr("Prêt")
+                text: host?qsTr("Demarer") + rootItem.emptyString:qsTr("Prêt") + rootItem.emptyString
                 font.bold: true
                 font.family: "Tahoma"
                 font.pixelSize: 20
