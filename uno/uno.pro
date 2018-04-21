@@ -11,7 +11,6 @@ SOURCES += main.cpp \
     core/partie.cpp \
     core/pioche.cpp \
     core/types.cpp \
-    tests/tests-main.cpp \
     ui/hand.cpp \
     ui/handmodel.cpp \
     ui/jeu.cpp \
@@ -29,7 +28,6 @@ HEADERS += \
     core/partie.h \
     core/pioche.h \
     core/types.h \
-    tests/catch.hpp \
     ui/hand.h \
     ui/handmodel.h \
     ui/jeu.h
