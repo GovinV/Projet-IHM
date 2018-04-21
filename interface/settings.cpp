@@ -8,12 +8,23 @@ Settings::Settings(QObject *parent) : QObject(parent)
 void Settings::setClient(Network *cl)
 {
     client=cl;
+
 }
 
 void Settings::loadSettings()
 {
 
     QSettings setting("Uno","Settings");
+
+    if(setting.allKeys().size()==0)
+    {
+        changeSize(1280,800);
+        changeNickname("anonymous");
+        changeLangage("fr");
+        changeCardStyle("none");
+        changeVolume("0.0");
+    }
+
     setting.beginGroup("Size");
     emit loadSize(setting.value("width").toInt(),setting.value("height").toInt());
     setting.endGroup();
