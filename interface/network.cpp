@@ -67,7 +67,7 @@ void Network::changeRoomName(QString name)
 
 void Network::changeMaxPlayer(int n)
 {
-    client.UI_to_Soc("<changemaxplayer> " + n +'\n');
+    client.UI_to_Soc("<changemaxplayer> "+ QString::number(n)+"\n");
     qDebug() << "changeMaxPlayer: " << n;
 }
 
