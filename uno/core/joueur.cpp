@@ -104,8 +104,8 @@ bool Joueur::piocher(int nb_cartes, bool possibilitee_poser)
         else
         {
             cmain.push_back(tiree);
-            /*std::cerr << "Le joueur " << num_joueur
-                      << " a pioché : " << cmain.back() << std::endl;*/
+            std::cout << "Le joueur " << num_joueur
+                      << " a pioché : " << cmain.back() << std::endl;
             trier_main();
             return false;
         }
@@ -115,8 +115,8 @@ bool Joueur::piocher(int nb_cartes, bool possibilitee_poser)
         for(int i=0; i<nb_cartes; i++)
         {
             cmain.push_back(manche_courante->pioche->tirer_carte());
-            /*std::cerr << "Le joueur " << num_joueur
-                      << " a pioché : " << cmain.back() << std::endl;*/
+            std::cout << "Le joueur " << num_joueur
+                      << " a pioché : " << cmain.back() << std::endl;
         }
         trier_main();
         return false;
@@ -164,8 +164,8 @@ void Joueur::choisir_couleur(Couleur c)
     else
     {
         manche_courante->joueur_change_couleur(c, num_joueur);
-        /*std::cout << "Le joueur " << num_joueur << " a choisit une nouvelle couleur"
-                  << ", le " << couleur_to_string(c) << std::endl;*/
+        std::cout << "Le joueur " << num_joueur << " a choisit une nouvelle couleur"
+                  << ", le " << couleur_to_string(c) << std::endl;
     }
 }
 
@@ -184,8 +184,8 @@ Couleur Joueur::choisir_couleur_defaut()
         choix = cmain[0]->couleur;
     }
 
-    /*std::cout << "Le joueur " << num_joueur << " a choisit une nouvelle couleur"
-              << ", le " << couleur_to_string(choix) << std::endl;*/
+    std::cout << "Le joueur " << num_joueur << " a choisit une nouvelle couleur"
+              << ", le " << couleur_to_string(choix) << std::endl;
 
     manche_courante->joueur_change_couleur(choix, num_joueur);
 
@@ -233,8 +233,8 @@ bool Joueur::jouer(int indice_carte)
     // le joueur.
     if(indice_valide)
     {
-        /*std::cerr << "Le joueur " << num_joueur << " a joué : "
-                  << cmain[indice_carte] << std::endl;*/
+        std::cout << "Le joueur " << num_joueur << " a joué : "
+                  << cmain[indice_carte] << std::endl;
         carte_jouee = cmain[indice_carte];
         cmain.erase(cmain.begin()+indice_carte);
 

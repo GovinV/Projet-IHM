@@ -5,7 +5,7 @@
 
 JoueurIA::JoueurIA(Joueur *j, StyleIA s, Partie *p) : Joueur(j->num_joueur, j->infos)
 {
-    //std::cerr << "Le joueur " << num_joueur << " est une IA" << std::endl;
+    std::cout << "Le joueur " << num_joueur << " est une IA" << std::endl;
 
     manche_courante = j->manche_courante;
     cmain = j->cmain;
@@ -161,6 +161,9 @@ Couleur JoueurIA::choisir_couleur_defaut()
         default:
             break;
     }
+
+    std::cout << "Le joueur " << num_joueur << " a choisit une nouvelle couleur"
+              << ", le " << couleur_to_string(choix) << std::endl;
 
     manche_courante->couleur_active = choix;
     return choix;

@@ -31,7 +31,7 @@ Manche::Manche(InfoPartie *i, Pioche *p, int nb_j, u_int joueur_debut)
 
     infos->add_message({JOUEUR_ACTION, joueur_courant});
 
-    ///std::cerr << "Le joueur " << joueur_courant << " commmence." << std::endl;
+    std::cout << "Le joueur " << joueur_courant << " commmence." << std::endl;
 }
 
 
