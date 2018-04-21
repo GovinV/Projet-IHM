@@ -17,6 +17,7 @@ RoomMenuForm {
     property int player: 1
     property int playerMax: 4
 
+    property bool allready: true
     Connections{
         target: network
 
@@ -27,6 +28,7 @@ RoomMenuForm {
             name=new_name;
             roomName=new_name;
         }
+
     }
 
     Rectangle {
@@ -314,6 +316,17 @@ RoomMenuForm {
                 isReady=!isReady;
             }
 
+            onHoveredChanged: {
+                if(host)
+                {
+                    allready=true;
+                    for(var player in playerListView.contentItem.children) {
+                        if(!playerListView.contentItem.children[player].ready)
+                            allready=false;
+                    }
+                }
+            }
+
             width: parent.width- (parent.parent.width / 2048) * 48
             height: 50
             anchors.bottom: parent.bottom
@@ -327,7 +340,7 @@ RoomMenuForm {
                         if()
                             button.hovered?"#e98515":"#484848";
                         else*/
-                        "#484848";
+                        (button.hovered && allready)?"#e98515":"#484848";
                     }
                     else
                         button.hovered?"#e98515":"#484848";

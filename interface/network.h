@@ -26,9 +26,6 @@ class Network : public QObject
 
     signals:
         void loadRoom(QString mess,int id, int player, int maxPlayer);
-        void playerJoin(QString mess);
-        void playerQuit(QString mess);
-        void playerStatut(QString mess);
 
         void changeMyRoomName(QString new_name);
 

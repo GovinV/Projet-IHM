@@ -198,6 +198,8 @@ void Network::updateRoom(int type, QString room)
     case 3:
         qDebug() << "playerjoin";
         playerList.appendItem(infos.at(0),infos.at(1));
+        if(infos.at(0)==myId)
+            playerList.editReady(myId, 1);
         emit playerlistChanged();
         break;
     default:

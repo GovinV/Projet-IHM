@@ -39,8 +39,10 @@ SettingsForm {
 
         onLoadLangage: //(QString mess);
         {
-            print(mess);
-            rootItem.selectLanguage("fr");
+            if(mess=="en")
+                langageComboBox.currentIndex=1;
+            else
+                langageComboBox.currentIndex=0;
         }
 
     }
