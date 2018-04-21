@@ -201,6 +201,7 @@ Window {
             onClicked: {
                 console.log("draw card")
                 drawCardBt.qdrawCardBtPressed()
+                game.drawCard(0)
             }
         }
     }

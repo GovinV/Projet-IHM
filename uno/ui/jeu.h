@@ -42,7 +42,7 @@ public:
      * player hand in QML
      * @param i id of player
      */
-    Q_INVOKABLE void piocher(int i);
+    Q_INVOKABLE void drawCard(int i);
 
     /**
      * @brief Le joueur joue une carte, utilise une fonction du noyau

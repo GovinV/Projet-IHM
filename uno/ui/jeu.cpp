@@ -32,17 +32,18 @@ void Jeu::init_deck()
 }
 
 
-
-void Jeu::piocher(int i)
+// i indice du joueur receveur
+void Jeu::drawCard(int id_joueur)
 {
     Carte *c = m_partie->pioche->tirer_carte();
-    hands[i].appendItem(c->type,couleur_to_string2(c->couleur),c->valeur);
+    hands[id_joueur].appendItem(c->type,couleur_to_string2(c->couleur),c->valeur);
 }
 
-void Jeu::playCard(int i)
+// i indice de la carte
+void Jeu::playCard(int index)
 {
-    if(m_partie->joueurs.at(0)->jouer(i)){
-        hands[0].removeItem(i);
+    if(m_partie->joueurs.at(0)->jouer(index)){
+        hands[0].removeItem(index);
     }
     updateCurCard();
 }
@@ -111,6 +112,7 @@ void Jeu::gameLoop()
                     std::cout << "Choix de l'action : ";
                     switch(waitForBtPressed())
                     {
+                    // on récupère le code boutton et on agis en fonction
                     case BT_PLAY:
                         //std::cout << "Saisir la carte à jouer : ";
                         //std::cin >> saisie_nb;
@@ -123,7 +125,10 @@ void Jeu::gameLoop()
                     case BT_DRAW:
                         //std::cout << std::endl;
                         //m_partie->joueurs[mon_numero]->piocher();
-                        piocher(mon_numero);
+
+                        //piocher est déjà activer par un elem QML, mais normalement
+                        //elle devrait être trigger ici (ne marche pas a cause du bug connect)
+                        drawCard(mon_numero);
                         fin_tour = true;
                         break;
                     case BT_UNO:
@@ -243,6 +248,7 @@ void Jeu::setupBt(QQmlApplicationEngine *engine)
 
     connect(unoBt,SIGNAL(unoBtPressed()),this,SLOT(unoBtPressed()));
     connect(contreUnoBt,SIGNAL(contreUnoBtPressed()),this,SLOT(contreUnoBtPressed()));
+    // wtf les deux connect play et draw bug ???
     connect(playCardBt,SIGNAL(qplayCardBtPressed(int)),this,SLOT(playCardBtPressed(int)));
     connect(drawCardBt,SIGNAL(qdrawCardBtPressed()),this,SLOT(drawCardBtPressed()));
 }
