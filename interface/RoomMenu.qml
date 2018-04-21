@@ -312,8 +312,16 @@ RoomMenuForm {
             }
 
             onClicked: {
-                network.setReady(!isReady);
-                isReady=!isReady;
+                if(host)
+                {
+                    if(allready)
+                        ;// start game
+                }
+                else
+                {
+                    network.setReady(!isReady);
+                    isReady=!isReady;
+                }
             }
 
             onHoveredChanged: {
@@ -336,10 +344,7 @@ RoomMenuForm {
             background: Rectangle{
                 color: {
                     if(host)
-                    {/*
-                        if()
-                            button.hovered?"#e98515":"#484848";
-                        else*/
+                    {
                         (button.hovered && allready)?"#e98515":"#484848";
                     }
                     else

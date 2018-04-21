@@ -8,7 +8,10 @@ Settings::Settings(QObject *parent) : QObject(parent)
 void Settings::setClient(Network *cl)
 {
     client=cl;
-
+/*
+    QSettings setting("Uno","Settings");
+    setting.clear();
+*/
 }
 
 void Settings::loadSettings()

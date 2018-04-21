@@ -15,6 +15,8 @@ SettingsForm {
             window.width=width;
             window.height=height;
 
+            comboResol.currentIndex=3;
+
             if(fullscreenCheckBox.checked)
                 window.visibility=Window.FullScreen;
             else
@@ -119,14 +121,15 @@ SettingsForm {
         }
 
         ComboBox {
-            id: comboBox
+            id: comboResol
             x: 135
             y: 330
+
             model: ListModel {
                 id: cbItems
                 ListElement { text: "1280*800"; }
-                ListElement { text: "1280*800";}
-                ListElement { text: "1280*800";}
+                ListElement { text: "1600*900";}
+                ListElement { text: "1920*1080";}
                 ListElement { text: "Personnalisé";}
             }
         }
@@ -345,14 +348,23 @@ SettingsForm {
             {
                 playClick.play();
                 settings.changeNickname(nicknameInput.text);
-                //settings.changeLangage();
-                settings.changeSize(widthEdit.text,heightEdit.text);
                 settings.changeVolume(volumeSlider.value);
-                settings.loadSettings();
                 if(langageComboBox.currentText=="Français")
                     settings.changeLangage("fr");
                 else if(langageComboBox.currentText=="English")
                     settings.changeLangage("en");
+
+                print("comboResol.currentIndex " + comboResol.currentIndex);
+                if(comboResol.currentIndex!=3)
+                {
+                    var str=comboResol.currentText;
+                    var size=str.split("*");
+                    settings.changeSize(size[0],size[1]);
+                }
+                else
+                    settings.changeSize(widthEdit.text,heightEdit.text);
+
+                settings.loadSettings();
             }
             anchors.horizontalCenterOffset: 0
             anchors.horizontalCenter: parent.horizontalCenter

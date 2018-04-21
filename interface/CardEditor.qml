@@ -47,7 +47,7 @@ CardEditorForm {
             clip: true
 
                 ListModel {
-                    id: fruitModel
+                    id: cardModel
 
                     ListElement {
                         style: "none"
@@ -88,7 +88,7 @@ CardEditorForm {
 
 
                     Repeater {
-                        model: fruitModel
+                        model: cardModel
                         delegate:
                             Rectangle
                             {
