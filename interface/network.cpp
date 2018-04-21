@@ -80,6 +80,7 @@ void Network::joinRoom(QString room_id)
     inRoom=true;
     isHost=false;
     client.UI_to_Soc("<join> " + room_id +"\n");
+    client.UI_to_Soc("<players>\n");
     qDebug() << "joinRoom";
 }
 

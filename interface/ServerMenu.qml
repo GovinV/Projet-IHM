@@ -15,25 +15,6 @@ ServerMenuForm {
             noRoom.visible=none;
         }
 
-        onPlayerJoin:   //(QString mess)
-        {
-
-        }
-
-        onPlayerQuit:   //(QString mess)
-        {
-
-        }
-
-        onPlayerStatut: //(QString mess)
-        {
-
-        }
-
-        onServerStatut: //(bool online)
-        {
-
-        }
         onServerlistChanged:
         {
             print("ta mère");
@@ -243,10 +224,10 @@ ServerMenuForm {
         ListView {
             id: serverListView
             width: parent.width-(parent.parent.width / 2048) * 48
-            height: parent.height-(parent.parent.width / 2048) * 24
+            height: parent.height-(parent.parent.width / 2048) * 48
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.top: parent.top
-            anchors.topMargin: (parent.parent.width / 2048) * 48
+            anchors.topMargin: (parent.parent.width / 2048) * 24
 
             clip:true
 
