@@ -9,7 +9,9 @@
 #include "types.h"
 
 
-
+/**
+ * @brief La classe pioche représente la paquet de cartes d'une partie de Uno.
+ */
 class Pioche
 {
 public:
@@ -61,6 +63,7 @@ public:
 public:
     /// Vector représentant la pile d'une partie (cartes à piocher).
     std::vector<Carte*> pile;
+
     /// Vector représentant le tas d'une partie (cartes jouées).
     std::vector<Carte*> tas;
 };

@@ -8,8 +8,6 @@
 #include "manche.h"
 #include "types.h"
 
-
-
 /**
  * @brief Permet la gestion des différents cas concernant la nécessité de dire
  *        'uno' quand il ne nous reste plus qu'une carte en main.
@@ -26,7 +24,8 @@
  * UNOSTATE_PENALITE : 'uno' n'as pas été prononcé la pénalité a été
  *                     prise en compte.
  */
-enum UnoState { UNOSTATE_FAUX, UNOSTATE_EN_ATTENTE, UNOSTATE_VRAI, UNOSTATE_PENALITE };
+enum UnoState { UNOSTATE_FAUX, UNOSTATE_EN_ATTENTE, UNOSTATE_VRAI,
+                UNOSTATE_PENALITE };
 
 /**
  * @brief La classe Joueur représente un participant d'une partie de Uno.
@@ -37,9 +36,13 @@ public:
     /**
      * @brief Constructeur de la classe Joueur.
      * @param num le numeros du joueur dans la partie.
+     * @param i un pointeur vers les informations de la partie (voir InfoPartie).
      */
     Joueur(u_int num, InfoPartie *i);
 
+    /**
+     * @brief Destructeur de la classe Joueur.
+     */
     virtual ~Joueur();
 
     /**
@@ -48,7 +51,7 @@ public:
      * Finit la manche courante en comptant les points de sa main et en
      * remettant dans la pioche ses cartes restantes.
      *
-     * @return le nombre de nombre de points calculé a partir de ses cartes restantes.
+     * @return le nombre de nombre de points des cartes restantes.
      */
     int finir_manche();
 
@@ -67,7 +70,7 @@ public:
      * Le 'contre-uno' ne fait piocher le joueur que s'il ne lui reste qu'une
      * Carte et qu'il n'as pas validé le uno.
      *
-     * @return vrai si le joueur adverse avait raison de dire 'contre-uno', faux sinon.
+     * @return vrai si le joueur subit une penalité, faux sinon.
      */
     bool appuie_contre_uno();
 
@@ -76,7 +79,12 @@ public:
      *
      * Le joueur pioche (par défaut ou non) le nombre de Carte indiqué dans la
      * manche courante (comprenant les éventuels malus).
-     * Cette fonction appelle piocher(int nb_cartes) pour faire piocher le joueur.s
+     * Cette fonction appelle piocher(int nb_cartes) pour faire piocher le joueur.
+     *
+     * @param possibilitee_poser indique si la règle du jeu lui autorise à
+     *        poser sa carte s'il n'en pioche qu'une.
+     * @return vrai si le joueur peut et a le droit de poser la carte piochée,
+     *         faux sinon.
      */
     bool piocher(bool possibilitee_poser=false);
 
@@ -88,12 +96,20 @@ public:
      * ainsi que pour lui infliger les malus du 'contre-uno'.
      *
      * @param nb_cartes le nombre de Carte que le Joueur doit piocher.
+     * @param possibilitee_poser indique si la règle du jeu lui autorise à
+     *        poser sa carte s'il n'en pioche qu'une.
+     * @return vrai si le joueur peut et a le droit de poser la carte piochée,
+     *         faux sinon.
      */
     bool piocher(int nb_cartes, bool possibilitee_poser=false);
 
     /**
-     * @brief joue_carte_piochee
-     * @param joue
+     * @brief Fait joueur ou non la carte piochée.
+     *
+     * Si il joue la carte, alors elle est posée sur le tas, sinon elle est
+     * mise avec ses autres cartes.
+     *
+     * @param jouer_la_carte indique si le joueur pose la carte piochée.
      */
     void joue_carte_piochee(bool jouer_la_carte);
 
@@ -153,17 +169,23 @@ public:
 public:
     /// Manche en cours pendant une partie.
     Manche* manche_courante;
-    /// Les cartes qu'a en main le joueur.
+
+    /// Les cartes qu'à en main le joueur.
     std::vector<Carte*> cmain;
-    ///
+
+    /// La carte piochée si il peut et à le droit de la poser.
     Carte *carte_piochee;
+
     /// Voir enum UnoState pour plus de précisions.
     UnoState uno;
+
     /// Nombre de points du joueur dans la partie.
     u_int points;
+
     /// Numero du joueur dans la partie.
     u_int num_joueur;
 
+    /// Informations de la partie (voir struct InfoPartie).
     InfoPartie *infos;
 };
 

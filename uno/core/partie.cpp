@@ -18,6 +18,7 @@ Partie::Partie(TypePartie t, unsigned int nb_j, unsigned int limite)
         joueurs.push_back(new Joueur(i, &infos));
     }
 
+    /// Verification du type de la partie.
     if(t != CLASSIQUE && t != MANCHE_UNIQUE)
     {
         std::cerr << "Type de partie non implémenté. La partie sera de type "
@@ -29,28 +30,33 @@ Partie::Partie(TypePartie t, unsigned int nb_j, unsigned int limite)
         type = t;
     }
 
+    /// Création du message indiquant le lancement de la partie.
     infos.add_message({DEBUT_PARTIE, nb_joueur});
-    infos.add_message({DEBUT_MANCHE, my_rand()%nb_joueur});
 }
 
 
 void Partie::start()
 {
     statut_partie = PARTIE_EN_COURS;
+
+    /// Initialise l'aléatoire de la Partie.
     my_srand(seed);
+
+    /// Créé le message de debut de manche en choisissant le joueur commençant.
+    infos.add_message({DEBUT_MANCHE, my_rand()%nb_joueur});
 }
 
 
 bool Partie::finir_partie()
 {
-    // Si la partie n'est pas lancée, ou déjà terminée, elle ne peux pas être finie.
+    /// Si la partie n'est pas lancée, ou déjà terminée, elle ne peux pas être finie.
     if(statut_partie == PARTIE_TERMINEE || statut_partie == PARTIE_ATTENTE_LANCEMENT)
     {
         return false;
     }
 
-    // Vérifie qu'il n'y ai pas une manche a finir. Si finir_manche ne s'est
-    // pas terminé normalement, la partie n'est pas considérée comme finie.
+    /// Vérifie qu'il n'y ai pas une manche a finir. Si finir_manche ne s'est
+    /// pas terminé normalement, la partie n'est pas considérée comme finie.
     if(manche_courante != NULL && manche_courante->statut_manche != MANCHE_TERMINEE)
     {
         return false;
@@ -92,8 +98,8 @@ bool Partie::finir_partie()
 
 Manche* Partie::nouvelle_manche(u_int joueur_debut)
 {
-    // Vérifie qu'il n'y ai pas une manche a finir. Si finir_manche ne s'est
-    // pas terminé normalement, alors aucune manche ne peut être commencée.
+    /// Vérifie qu'il n'y ai pas une manche a finir. Si finir_manche ne s'est
+    /// pas terminé normalement, alors aucune manche ne peut être commencée.
     if(manche_courante != NULL)
     {
         return NULL;
@@ -101,11 +107,14 @@ Manche* Partie::nouvelle_manche(u_int joueur_debut)
 
     pioche->melanger();
     manche_courante = new Manche(&infos, pioche, nb_joueur, joueur_debut);
+
     for(u_int i=0; i<nb_joueur; i++)
     {
         joueurs[i]->manche_courante = manche_courante;
     }
+
     distribution(nb_cartes_debut);
+
     for(u_int i=0; i<nb_joueur; i++)
     {
         joueurs[i]->trier_main();
@@ -144,6 +153,7 @@ int Partie::finir_manche(bool force)
         }
         else
         {
+            /// TODO : La fin de la manche ne dépend pas du type de la partie.
             switch(type) {
                 case CLASSIQUE:
                     for(u_int i=0; i<nb_joueur; i++)
@@ -174,7 +184,6 @@ int Partie::finir_manche(bool force)
             manche_courante = NULL;
         }
     }
-    //infos.add_message({});
 
     return valeur_retour;
 }
@@ -200,13 +209,16 @@ Message *Partie::update_and_get_next_message()
         finir_manche();
         if(finir_partie())
         {
+            /// Créé le message indiquant que la partie est terminée.
             infos.add_message({FIN_PARTIE, nb_joueur});
         }
         else
         {
+            /// Créé un message indiquant le début d'une manche.
             infos.add_message({DEBUT_MANCHE, my_rand()%nb_joueur});
         }
     }
+
     if(infos.num_next_message >= infos.nb_messages)
     {
         return NULL;
