@@ -11,6 +11,7 @@ class Player:
         self.name = name
         self.id = str(uuid.uuid4())
         self.status = status
+        self.is_ready = False
 
     def fileno(self):
         return self.socket.fileno()

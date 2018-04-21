@@ -54,9 +54,9 @@ class Lobby:
                 self.rooms[room_id].players.append(player)
                 self.rooms[room_id].welcome_new(player)
                 self.room_player_map[player.id] = room_id
-                player.status = "ready"
+                player.status = "inroom"
                 new_msg="newroom::" + room_id + ":" + room_name +"\n"
-                self.broadcast(player,new_msg)
+                self.broadcast(player,new_msg)  
             else:
                 player.socket.sendall(instructions)
 
@@ -72,7 +72,7 @@ class Lobby:
                     self.room_player_map[player.id] = room_id
                     player.status = "inroom"
                     new_msg="roomjoin::" + room_id + ":" + player.id +"\n"
-                    self.broadcast(player,new_msg)                    
+                    self.broadcast(player,new_msg)                     
                 else:
                     player.socket.sendall(b"error::This Room is full. Choose another one: <list> to see.\n")
             else:
@@ -84,12 +84,13 @@ class Lobby:
                 self.rooms[old_room].remove_player(player)
                 del self.room_player_map[player.id]
                 player.status = "inlobby"
+                player.is_ready = False
                 if self.rooms[old_room].length == 0:
                     del self.rooms[old_room]
                     new_msg ="roomdel::" + old_room + "\n"
                 else:
                     new_msg = "playerleave::" + old_room + ":" + player.id +"\n"
-                self.broadcast(player,new_msg)                                    
+                self.broadcast(player,new_msg)                                  
             else:
                 player.socket.sendall(b"error::You are not currently in a room\n")
 
@@ -102,8 +103,12 @@ class Lobby:
         elif "<ready>" in msg:
             if player.id in self.room_player_map:
                 room = self.room_player_map[player.id]
-                player.status="ready"
-                self.rooms[room].broadcast(player,b"ready\n")    
+                if player.is_ready:
+                    player.is_ready = False
+                    self.rooms[room].infogame(player,b"playerready::" + player.id.encode() + b":0\n")
+                else:
+                    player.is_ready = True  
+                    self.rooms[room].infogame(player,b"playerready::" + player.id.encode() + b":1\n") 
             else:
                 player.socket.sendall(b"error::You are not currently in a room\n")
 
@@ -112,7 +117,7 @@ class Lobby:
                 room = self.room_player_map[player.id]
                 if player == self.rooms[room].owner:
                     if self.rooms[room].all_ready():                  
-                        self.rooms[room].infogame(player,b"1")
+                        self.rooms[room].infogame(player,b"startgame::1")
                     else:
                         player.socket.sendall(b"error:: not all ready\n")
                 else:
@@ -140,6 +145,7 @@ class Lobby:
                         self.rooms[room].name = room_name
                         new_msg = "changeroomname::" + room + ":" + room_name +"\n"
                         self.broadcast(player,new_msg)
+                        #self.rooms[room].infogame(player,b"room"+new_msh.encode())
                     else:
                         player.socket.sendall(b"changeroomname:: not owner\n")
                 else:
@@ -217,9 +223,8 @@ class Room:
                 player.socket.sendall(msg)
 
     def infogame(self, from_player, msg):
-        if msg == b"1":
+        if msg == b"startgame::1":
             self.status = "game"
-        msg = b"startgame::" + msg
         for player in self.players:
             if player != from_player:
                 player.socket.sendall(msg)
@@ -228,7 +233,7 @@ class Room:
         self.players.remove(player)
         self.length-=1
         leave_msg = b"playerleave::"+ player.id.encode() + b": "+ player.name.encode() + b"\n"
-        self.broadcast(player, leave_msg)
+        self.infogame(player, leave_msg)
 
     def send_players_list(self, player):
         msg ="players::"
@@ -240,6 +245,7 @@ class Room:
     def all_ready(self):
         ret=True
         for player in self.players:
-            if player.status != "ready":
+            if not player.is_ready:
                 ret=False
+                break
         return ret
