@@ -77,8 +77,9 @@ void Network::roomList()
     qDebug() << "roomList";
 }
 
-void Network::setReady()
+void Network::setReady(bool ready)
 {
+    playerList.editReady(myId, ready);
     client.UI_to_Soc("<ready>\n");
     qDebug() << "setReady";
 }

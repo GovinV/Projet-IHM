@@ -50,7 +50,7 @@ class Network : public QObject
         void changeRoomName(QString name);
         void changeMaxPlayer(int n);
         void roomList();
-        void setReady();
+        void setReady(bool ready);
         void createRoom(QString room_name);
         void joinRoom(QString room_id);
         void leaveRoom();

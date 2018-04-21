@@ -310,7 +310,8 @@ RoomMenuForm {
             }
 
             onClicked: {
-                network.setReady();
+                network.setReady(!isReady);
+                isReady=!isReady;
             }
 
             width: parent.width- (parent.parent.width / 2048) * 48
