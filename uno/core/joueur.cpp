@@ -1,6 +1,7 @@
 #include "joueur.h"
 
 
+
 Joueur::Joueur(u_int num, InfoPartie *i)
 {
     num_joueur = num;
@@ -115,8 +116,10 @@ bool Joueur::piocher(int nb_cartes, bool possibilitee_poser)
         {
             /// Si il ne peut pas la jouer alors elle est ajoutée à son jeu.
             cmain.push_back(tiree);
+#ifdef DEBUG_NOYAU
             std::cout << "Le joueur " << num_joueur
                       << " a pioché : " << cmain.back() << std::endl;
+#endif
             trier_main();
             return false;
         }
@@ -133,8 +136,10 @@ bool Joueur::piocher(int nb_cartes, bool possibilitee_poser)
             manche_courante->add_action_pioche(num_joueur, tiree);
 
             cmain.push_back(tiree);
+#ifdef DEBUG_NOYAU
             std::cout << "Le joueur " << num_joueur
                       << " a pioché : " << cmain.back() << std::endl;
+#endif
         }
         trier_main();
         return false;
@@ -184,8 +189,10 @@ void Joueur::choisir_couleur(Couleur c)
     else
     {
         manche_courante->joueur_change_couleur(c, num_joueur);
+#ifdef DEBUG_NOYAU
         std::cout << "Le joueur " << num_joueur << " a choisit une nouvelle couleur"
                   << ", le " << couleur_to_string(c) << std::endl;
+#endif
     }
 }
 
@@ -204,8 +211,10 @@ Couleur Joueur::choisir_couleur_defaut()
         choix = cmain[0]->couleur;
     }
 
+#ifdef DEBUG_NOYAU
     std::cout << "Le joueur " << num_joueur << " a choisit une nouvelle couleur"
               << ", le " << couleur_to_string(choix) << std::endl;
+#endif
 
     manche_courante->joueur_change_couleur(choix, num_joueur);
 
@@ -238,8 +247,10 @@ bool Joueur::jouer(int indice_carte)
     /// Si la Carte est jouable, elle est supprimée de sa main
     if(indice_valide)
     {
+#ifdef DEBUG_NOYAU
         std::cout << "Le joueur " << num_joueur << " a joué : "
                   << cmain[indice_carte] << std::endl;
+#endif
         carte_jouee = cmain[indice_carte];
 
         /// Enregistre l'action dans l'historique.

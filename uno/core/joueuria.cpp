@@ -13,7 +13,9 @@ JoueurIA::JoueurIA(Joueur *j, StyleIA s, Partie *p) : Joueur(j->num_joueur, j->i
     uno = j->uno;
     points = j->points;
 
+#ifdef DEBUG_NOYAU
     std::cout << "Le joueur " << num_joueur << " est une IA." << std::endl;
+#endif
 }
 
 void JoueurIA::action_par_defaut()
@@ -173,8 +175,10 @@ Couleur JoueurIA::choisir_couleur_defaut()
             break;
     }
 
+#ifdef DEBUG_NOYAU
     std::cout << "Le joueur " << num_joueur << " a choisit une nouvelle couleur"
               << ", le " << couleur_to_string(choix) << std::endl;
+#endif
 
     manche_courante->joueur_change_couleur(choix, num_joueur);
 

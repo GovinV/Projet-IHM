@@ -1,6 +1,7 @@
 #include "catch.hpp"
 
-#include "../../core/carte.h"
+#include "../carte.h"
+
 
 TEST_CASE("Test des cartes", "[Carte]")
 {

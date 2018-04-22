@@ -29,7 +29,9 @@ Manche::Manche(InfoPartie *i, Pioche *p, int nb_j, u_int joueur_debut)
     /// Création d'un message indiquant que c'est au joueur_courant de jouer.
     infos->add_message({JOUEUR_ACTION, joueur_courant});
 
+#ifdef DEBUG_NOYAU
     std::cout << "Le joueur " << joueur_courant << " commmence." << std::endl;
+#endif
 }
 
 
