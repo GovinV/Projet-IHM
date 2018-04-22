@@ -20,7 +20,7 @@ void Jeu::start()
     //hands[0].appendItem(TYPE_NB,"v",5);
     //qDebug()<<"hello";
     init_deck();
-    gameLoop();
+    QtConcurrent::run(this, &Jeu::gameLoop);
 }
 
 void Jeu::test()
@@ -43,7 +43,7 @@ void Jeu::gameLoop()
               << std::endl;*/
 
     // Définit arbitrairement ici (qui je suis dans le jeu).
-    ///mon_numero = 1;
+    mon_numero = 0;
 
     // Création de la partie.
     //(inutile ici on le met dans le constructeur)
@@ -61,7 +61,8 @@ void Jeu::gameLoop()
     // Récupération du premier message.
     // Le premier message indique le debut de la partie et la lance.
     message = m_partie->update_and_get_next_message();
-
+    Carte *c = m_partie->manche_courante->active;
+    emit curCardChange(c->type,couleur_to_string2(c->couleur),c->valeur);
     // Boucle du m_partie tant que la partie n'est pas terminée.
     // Si message est un pointeur NULL, il y a eu une erreur.
     while(message != NULL && message->type != FIN_PARTIE)
@@ -71,6 +72,7 @@ void Jeu::gameLoop()
         // Si le message indique l'attente de l'action d'un joueur.
         case JOUEUR_ACTION:
         {
+            qDebug() << "joueur:" << message->num_joueur;
             // Si c'est à moi de jouer.
             if(message->num_joueur == mon_numero)
             {
@@ -85,6 +87,7 @@ void Jeu::gameLoop()
                     {
                         QThread::msleep(250);
                     }
+                    qDebug() << "oui";
                     ///std::cout << "Carte sur la table : "
                        ///       << m_partie->manche_courante->active << "\n" << std::endl;
                     std::cout << "Choix de l'action : ";
@@ -100,8 +103,11 @@ void Jeu::gameLoop()
                         if(m_partie->joueurs[mon_numero]->jouer(current_card_nb))
                         {
                             playCard(current_card_nb,mon_numero);
+                            Carte *c = m_partie->manche_courante->active;
                             emit playCardOk();
+                            emit curCardChange(c->type,couleur_to_string2(c->couleur),c->valeur);
                             updateHand(mon_numero);
+                            myturn=false;
                             fin_tour = true;
                         }
                         break;
@@ -112,7 +118,9 @@ void Jeu::gameLoop()
                         //piocher est déjà activer par un elem QML, mais normalement
                         //elle devrait être trigger ici (ne marche pas a cause du bug connect)
                         drawCard(mon_numero);
-
+                        updateHand(mon_numero);
+                        emit playCardOk();
+                        myturn=false;
                         fin_tour = true;
                         break;
                     case BT_UNO:
@@ -134,7 +142,6 @@ void Jeu::gameLoop()
                 m_partie->joueurs[message->num_joueur]->action_par_defaut();
                 updateHand(message->num_joueur);
                 Carte *c = m_partie->manche_courante->active;
-                qDebug() << "type:" << c->type << " couleur:" << couleur_to_string2(c->couleur) << " valeur:" << c->valeur;
                 emit curCardChange(c->type,couleur_to_string2(c->couleur),c->valeur);
                 /*if(hands[message->num_joueur] == m_partie->joueurs.at(message->num_joueur)->cmain.size()+1)
                     hands[message->num_joueur].removeItem(0);
@@ -247,7 +254,7 @@ void Jeu::unoBtPressed()
     if(myturn)
     {
         action=BT_UNO;
-        waiting=true;
+        waiting=false;
         qDebug()<<"boutton uno pressé";
     }
 }
@@ -257,7 +264,7 @@ void Jeu::contreUnoBtPressed()
     if(myturn)
     {
         action=BT_CUNO;
-        waiting=true;
+        waiting=false;
         qDebug()<<"boutton contre uno pressé";
     }
 }
@@ -268,7 +275,7 @@ void Jeu::playCardBtPressed(int i)
     {
         current_card_nb = i;
         action=BT_PLAY;
-        waiting=true;
+        waiting=false;
         qDebug()<<"essaye de jouer une carte";
     }
 }
@@ -278,7 +285,7 @@ void Jeu::drawCardBtPressed()
     if(myturn)
     {
         action=BT_DRAW;
-        waiting=true;
+        waiting=false;
         qDebug()<<"tire une carte";
     }
 }

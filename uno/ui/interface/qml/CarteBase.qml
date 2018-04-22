@@ -20,19 +20,19 @@ Item {
                return "qrc:/cartes/cartes/"+cl+"/"+vl+".png"
            }
            else if(tp === 1){//+2
-              return "qrc:/cartes/cartes/"+cl+"/+2.png"
-           }
-           else if(tp === 2){//changement de sens
               return "qrc:/cartes/cartes/"+cl+"/s.png"
            }
-           else if(tp === 3){//passe
+           else if(tp === 2){//changement de sens
               return "qrc:/cartes/cartes/"+cl+"/p.png"
            }
+           else if(tp === 3){//passe
+              return "qrc:/cartes/cartes/"+cl+"/+2.png"
+           }
            else if(tp === 4){//+4
-              return "qrc:/cartes/cartes/"+cl+"/+4.png"
+              return "qrc:/cartes/cartes/"+cl+"/c.png"
            }
            else if(tp === 5){//couleur
-              return "qrc:/cartes/cartes/"+cl+"/c.png"
+              return "qrc:/cartes/cartes/"+cl+"/+4.png"
            }
     }
 

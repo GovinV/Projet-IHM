@@ -18,12 +18,20 @@ GameForm {
         target: game
         onCurCardChange:
         {
+            print("onCurCardChange");
             playCardBt.changecrd(cl, index, value,0);
         }
         onMyTurn:
         {
+            print("onMyTurn");
             myturn=true;
         }
+        onPlayCardOk:
+        {
+            print("onPlayCardOk");
+            gameForm.myturn=false;
+        }
+
     }
 
     function startGame()

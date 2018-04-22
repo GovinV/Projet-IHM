@@ -52,7 +52,7 @@ Item{
         }
         onDoubleClicked: {
             //game.playCard(index)
-            playCardBt.changecrd(model.color, model.type,model.value);
+            game.playCardBtPressed(index);
         }
 
     }

@@ -1,6 +1,6 @@
 #TEMPLATE = app
 #CONFIG += console
-QT += quick
+QT += quick concurrent
 CONFIG += c++11
 
 DEFINES += QT_DEPRECATED_WARNINGS

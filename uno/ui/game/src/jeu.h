@@ -7,6 +7,7 @@
 #include <QQmlComponent>
 #include <QEventLoop>
 #include <QDebug>
+#include <QtConcurrent>
 
 #include <QThread>
 #include "core/partie.h"
