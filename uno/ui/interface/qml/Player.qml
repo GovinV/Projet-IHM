@@ -10,7 +10,6 @@ PlayerForm {
         target: network
         onTmpReady:
         {
-            print("non non non");
             print(ready);
             text2.text=ready?qsTr("Prêt") + rootItem.emptyString:qsTr("En attente") + rootItem.emptyString
             text2.color=ready?"#3ff826":"#b31919"
@@ -24,7 +23,7 @@ PlayerForm {
 
     onReadyChanged:
     {
-        print("oui oui oui");
+        print("onReadyChanged");
     }
 
     Rectangle {

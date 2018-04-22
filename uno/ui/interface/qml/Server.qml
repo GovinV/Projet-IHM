@@ -37,7 +37,7 @@ ServerForm {
             Rectangle {
                 anchors.fill: parent
                 radius: 20
-                color:  button.hovered?"#e98515":"#ffffff"
+                color:  player<playerMax?(button.hovered?"#e98515":"#ffffff"):"#ffffff"
         }
 
         onHoveredChanged:
@@ -47,14 +47,17 @@ ServerForm {
         }
 
         onClicked: {
-            playClick.play();
-            network.joinRoom(serverId);
-            swipeHorizontalServeur.setCurrentIndex(2);
-            room.host=false;
-            room.name=name;
-            room.roomId=serverId;
-            room.player=player;
-            room.playerMax=playerMax;
+            if(player<playerMax)
+            {
+                playClick.play();
+                network.joinRoom(serverId);
+                swipeHorizontalServeur.setCurrentIndex(2);
+                room.host=false;
+                room.name=name;
+                room.roomId=serverId;
+                room.player=player;
+                room.playerMax=playerMax;
+            }
         }
 
     }

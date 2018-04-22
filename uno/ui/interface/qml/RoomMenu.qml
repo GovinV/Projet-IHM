@@ -22,7 +22,7 @@ RoomMenuForm {
         target: network
 
         onTmpReady: {
-            print("ca a changé !")
+            print("onTmpReady")
         }
         onChangeMyRoomName:{
             name=new_name;

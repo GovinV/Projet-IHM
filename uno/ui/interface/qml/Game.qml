@@ -1,16 +1,18 @@
+
 import QtQuick 2.0
 import QtQuick.Window 2.1
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.0
+
 import game.backend 1.0
 import game.handmodel 1.0
 
-Window {
-    id: window
+
+GameForm {
+    id: gameForm
     visible: true
     width: 1280
     height: 800
-    title: qsTr("Hello World")
 
     Image{
         id:background

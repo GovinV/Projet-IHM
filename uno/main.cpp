@@ -15,6 +15,9 @@
 #include "ui/interface/src/playermodel.h"
 
 
+#include <ui/game/src/jeu.h>
+#include <ui/game/src/handmodel.h>
+
 int main(int argc, char *argv[])
 {
 
@@ -28,6 +31,11 @@ int main(int argc, char *argv[])
     qmlRegisterType<ServerModel>("Server", 1, 0, "ServerModel");
     qmlRegisterUncreatableType<ServerList>("Server", 1, 0, "ServerList",
         QStringLiteral("ServerList should not be created in QML"));
+
+
+    qmlRegisterType<HandModel>("game.handmodel",1,0,"HandModel");
+    qmlRegisterUncreatableType<Hand>("game.handmodel",1,0,"Hand","Hand should never be created in QML");
+    qmlRegisterType<Jeu>("game.backend", 1,0,"BackEnd");
 
     QQmlApplicationEngine engine;
     Network network;

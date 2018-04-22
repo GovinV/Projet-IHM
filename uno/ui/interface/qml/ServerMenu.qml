@@ -17,7 +17,7 @@ ServerMenuForm {
 
         onServerlistChanged:
         {
-            print("ta mère");
+            print("onServerlistChanged");
         }
     }
 
@@ -46,7 +46,8 @@ ServerMenuForm {
             background: Rectangle { color: Qt.rgba(0,0,0,0)}
 
             onClicked: {
-                playClick.play();
+                playClick.play();                
+                swipeVertical.setCurrentIndex(0);
             }
 
             Rectangle{

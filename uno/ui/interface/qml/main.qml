@@ -49,7 +49,7 @@ Window {
         SwipeView
         {
             id: swipeVertical
-            currentIndex: 1
+            currentIndex: 2
 
             orientation: Qt.Vertical
             interactive: false
@@ -57,6 +57,12 @@ Window {
             anchors.fill: parent
 
             onCurrentIndexChanged: changedReturnButton()
+            Item {
+                id: nameItem
+                GameForm{
+
+                }
+            }
 
             SwipeView {
                 id: swipeHorizontalServeur
@@ -95,28 +101,27 @@ Window {
 
     function changedReturnButton()
     {
-        if(swipeVertical.currentIndex==1)
+        if(swipeVertical.currentIndex==2)
         {
             backLogo.rotation=0;
-            if(swipeHorizontalMenu.currentIndex==0)
-                returnButton.visible=false;
-            else
+            if(swipeHorizontalMenu.currentIndex==1)
                 returnButton.visible=true;
+            else
+                returnButton.visible=false;
+        }
+        else if(swipeVertical.currentIndex==1)
+        {
+            returnButton.visible=true;
+            if(swipeHorizontalServeur.currentIndex==2)
+                backLogo.rotation=0;
+            else if(swipeHorizontalServeur.currentIndex==1)
+                    backLogo.rotation=-90;
+            else
+                    backLogo.rotation=180;
         }
         else
         {
-            returnButton.visible=true;
-            if(swipeHorizontalServeur.currentIndex==1)
-            {
-                backLogo.rotation=-90;
-            }
-            else
-            {
-                if(swipeHorizontalServeur.currentIndex==0)
-                    backLogo.rotation=180;
-                else
-                    backLogo.rotation=0;
-            }
+            backLogo.rotation=-90;
         }
 
     }
@@ -144,8 +149,16 @@ Window {
             playClick.play();
             if(swipeVertical.currentIndex==0)
             {
+                network.leaveRoom();
+                network.roomList();
+                swipeVertical.currentIndex=1;
+                swipeHorizontalServeur.currentIndex=1;
+            }
+
+            else if(swipeVertical.currentIndex==1)
+            {
                 if(swipeHorizontalServeur.currentIndex==1)
-                    swipeVertical.currentIndex=1;
+                    swipeVertical.currentIndex=2;
                 else
                 {
                     if(swipeHorizontalServeur.currentIndex==2)

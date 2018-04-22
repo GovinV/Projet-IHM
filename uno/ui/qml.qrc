@@ -2,7 +2,7 @@
     <qresource prefix="/game">
         <file>game/qml/Carte.qml</file>
         <file>game/qml/CarteBase.qml</file>
-        <file>game/qml/main.qml</file>
+        <file>game/qml/game.qml</file>
     </qresource>
     <qresource prefix="/interface">
         <file>interface/qml/Card.qml</file>
@@ -26,5 +26,9 @@
         <file>interface/qml/SettingsForm.ui.qml</file>
         <file>interface/qml/Tuto.qml</file>
         <file>interface/qml/TutoForm.ui.qml</file>
+        <file>interface/qml/Carte.qml</file>
+        <file>interface/qml/CarteBase.qml</file>
+        <file>interface/qml/Game.qml</file>
+        <file>interface/qml/GameForm.ui.qml</file>
     </qresource>
 </RCC>
