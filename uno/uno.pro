@@ -1,5 +1,5 @@
-TEMPLATE = app
-CONFIG += console
+#TEMPLATE = app
+#CONFIG += console
 QT += quick
 CONFIG += c++11
 

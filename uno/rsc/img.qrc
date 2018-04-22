@@ -2,9 +2,7 @@
     <qresource prefix="/resources">
         <file>img/back.png</file>
         <file>img/bg.jpg</file>
-        <file>img/card.png</file>
         <file>img/full.png</file>
-        <file>img/icon.png</file>
         <file>img/less.png</file>
         <file>img/logo.png</file>
         <file>img/quit.png</file>
@@ -77,6 +75,7 @@
         <file>cartes/v/bg.png</file>
         <file>cartes/v/p.png</file>
         <file>cartes/v/s.png</file>
+        <file>cartes/dos.png</file>
     </qresource>
     <qresource prefix="/translation">
         <file>translation/uno_en.qm</file>

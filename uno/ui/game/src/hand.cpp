@@ -42,6 +42,11 @@ void Hand::appendItem(int type, QString color, int value)
     emit postItemAppended();
 }
 
+HandItem Hand::getItem(int index)
+{
+    return _items.at(index);
+}
+
 void Hand::removeItem(int index)
 {
     emit preItemRemoved(index);

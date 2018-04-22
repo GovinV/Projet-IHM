@@ -60,6 +60,9 @@ Window {
             Item {
                 id: nameItem
                 Game{
+                    id: gameform
+                    width: parent.width
+                    height: parent.height
                 }
             }
 

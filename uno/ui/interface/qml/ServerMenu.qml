@@ -48,6 +48,7 @@ ServerMenuForm {
             onClicked: {
                 playClick.play();                
                 swipeVertical.setCurrentIndex(0);
+                gameform.startGame();
             }
 
             Rectangle{

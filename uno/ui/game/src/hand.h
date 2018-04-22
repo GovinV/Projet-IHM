@@ -39,6 +39,7 @@ signals:
 
 public slots:
     void appendItem(int type, QString color, int value);
+    HandItem getItem(int index);
     void removeItem(int index);
     void clear();
 

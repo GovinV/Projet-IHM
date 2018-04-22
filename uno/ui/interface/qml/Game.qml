@@ -12,24 +12,9 @@ GameForm {
     width: 1280
     height: 800
 
-    Image{
-        id:background
-        source:"qrc:/img/bg.jpg"
-        anchors.fill: parent
-        fillMode: Image.PreserveAspectCrop
-    }
-
-    Rectangle{
-        height: 25; width:20
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.bottom: list0.top
-        color: "black"
-    }
-    Rectangle{
-        height: 25; width:20
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.top: list1.bottom
-        color: "black"
+    function startGame()
+    {
+        game.start();
     }
 
     // PLAYER 0
@@ -44,6 +29,7 @@ GameForm {
         preferredHighlightEnd: width / 2 + 20-150*0.65*0.2
         //interactive:false
         anchors.bottom: parent.bottom
+        anchors.bottomMargin: 5;
         orientation:ListView.Horizontal
         //spacing: -50
         //clip:true;
@@ -53,7 +39,8 @@ GameForm {
             list:hand_j0
         }
         delegate:Component{
-            Carte{listdata:list0}
+            Carte{listdata:list0
+            show:true}
         }
 
     }
@@ -64,14 +51,15 @@ GameForm {
         id:list1
 
         //STYLE
-        width:parent.width
+        width:parent.width/2
         height:150
         anchors.horizontalCenter: parent.horizontalCenter
         highlightRangeMode: ListView.StrictlyEnforceRange
-        preferredHighlightBegin: width / 2 - 20-150*0.65*0.2
-        preferredHighlightEnd: width / 2 + 20-150*0.65*0.2
         //interactive:false
+        anchors.left: parent.left
+        anchors.leftMargin:parent.width/4
         anchors.top: parent.top
+        anchors.topMargin: -75
         orientation:ListView.Horizontal
         //spacing: -50
         //clip:true;
@@ -80,37 +68,13 @@ GameForm {
         model:HandModel{
             list:hand_j1
         }
-        delegate:Component{
+        delegate:Rectangle{
+            width: list1.width/7
             Carte{listdata:list1}
         }
     }
 
     // START GAME BUTTON
-
-    Rectangle{
-        anchors.left: parent.left
-        anchors.verticalCenter: parent.verticalCenter
-        height: 20
-        width:100
-        color: "white"
-        Text{
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.verticalCenter: parent.verticalCenter
-            text: "Start Game"
-            font.pixelSize: 20
-        }
-        Frame{
-            anchors.fill:parent
-        }
-        MouseArea{
-            anchors.fill:parent
-            onClicked: {
-                console.log("click");
-                game.start();
-                //game.test();
-            }
-        }
-    }
 
     // UNO !
 
@@ -182,7 +146,7 @@ GameForm {
         anchors.verticalCenter: parent.verticalCenter
         x:parent.width/2 + 15
         Image{
-            source:"qrc:/img/cartes/n/bg.png"
+            source:"qrc:/cartes/cartes/n/bg.png"
             anchors.fill:parent
             fillMode: Image.Stretch
         }
@@ -209,8 +173,6 @@ GameForm {
     // PLAY CARD & carte active
 
     Rectangle{
-        objectName: "playCardBt"
-        //visible: false
         id:playCardBt
         height:150
         width:height*0.65
@@ -224,26 +186,5 @@ GameForm {
             type:game.curCardType
             value:game.curCardValue
         }
-
-        Text{
-            rotation: {originX:width/2;originY:height;angle:90}
-            text:"PLAY"
-            font.pixelSize: 40
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.verticalCenter: parent.verticalCenter
-        }
-        Frame{
-            anchors.fill:parent
-        }
-        signal qplayCardBtPressed(int i);
-        MouseArea{
-            anchors.fill:parent
-            onClicked: {
-                console.log("play card")
-                playCardBt.qplayCardBtPressed(list0.currentIndex)
-                game.playCard(list0.currentIndex)
-            }
-        }
-
     }
 }

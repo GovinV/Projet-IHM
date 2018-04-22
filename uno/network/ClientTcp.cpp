@@ -4,7 +4,7 @@ ClientTcp::ClientTcp()
 {
     port=2213;
     IP="130.79.49.198";
-	soc.connectToHost(IP,port); 
+    soc.connectToHost(IP,port);
     QObject::connect(&soc,SIGNAL(connected()),this,SLOT(connec_OK()));
 	// signal emit when co
     QObject:: connect(&soc, SIGNAL(readyRead()), this, SLOT(reading()));

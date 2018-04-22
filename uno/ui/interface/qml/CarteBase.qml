@@ -4,16 +4,19 @@ Item {
     property string color
     property int value
     property int type
+    property bool showCard: true
     anchors.fill:parent
+
     Image{
         id: underlayer
         source:"qrc:/cartes/cartes/"+color+"/bg.png"
         anchors.fill:parent
+        visible: showCard
         fillMode: Image.Stretch
     }
     Image{
         id: circle
-        source:"qrc:/cartes/cartes/bg.png"
+        source:showCard?"qrc:/cartes/cartes/bg.png":"qrc:/cartes/cartes/dos.png"
         anchors.fill:parent
         fillMode: Image.Stretch
     }
@@ -39,6 +42,7 @@ Item {
                }
 
         anchors.fill:parent
+        visible: showCard
         fillMode: Image.Stretch
     }
 }
