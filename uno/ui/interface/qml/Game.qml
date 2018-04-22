@@ -1,4 +1,3 @@
-
 import QtQuick 2.0
 import QtQuick.Window 2.1
 import QtQuick.Layouts 1.3
@@ -10,7 +9,6 @@ import game.handmodel 1.0
 
 GameForm {
     id: gameForm
-    visible: true
     width: 1280
     height: 800
 

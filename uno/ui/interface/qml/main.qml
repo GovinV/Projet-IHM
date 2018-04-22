@@ -59,8 +59,7 @@ Window {
             onCurrentIndexChanged: changedReturnButton()
             Item {
                 id: nameItem
-                GameForm{
-
+                Game{
                 }
             }
 
@@ -262,11 +261,10 @@ Window {
     SoundEffect {
         id: playClick
         volume: 1
-        source: "qrc:/sons/sons/click.wav"
+        source: "qrc:/sounds/sounds/click.wav"
     }
     SoundEffect {
         id: playSnap
-        source: "qrc:/sons/sons/snap.wav"
+        source: "qrc:/sounds/sounds/snap.wav"
     }
-
 }

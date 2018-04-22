@@ -82,4 +82,10 @@
         <file>translation/uno_en.qm</file>
         <file>translation/uno_en.ts</file>
     </qresource>
+    <qresource prefix="/sounds">
+        <file>sounds/click.mp3</file>
+        <file>sounds/click.wav</file>
+        <file>sounds/snap.mp3</file>
+        <file>sounds/snap.wav</file>
+    </qresource>
 </RCC>
