@@ -1,7 +1,30 @@
 <RCC>
-    <qresource prefix="/">
-        <file>main.qml</file>
-        <file>Carte.qml</file>
-        <file>CarteBase.qml</file>
+    <qresource prefix="/game">
+        <file>game/qml/Carte.qml</file>
+        <file>game/qml/CarteBase.qml</file>
+        <file>game/qml/main.qml</file>
+    </qresource>
+    <qresource prefix="/interface">
+        <file>interface/qml/Card.qml</file>
+        <file>interface/qml/CardEditor.qml</file>
+        <file>interface/qml/CardEditorForm.ui.qml</file>
+        <file>interface/qml/CardForm.ui.qml</file>
+        <file>interface/qml/main.qml</file>
+        <file>interface/qml/MainMenu.qml</file>
+        <file>interface/qml/MainMenuForm.ui.qml</file>
+        <file>interface/qml/MenuBar.qml</file>
+        <file>interface/qml/MenuBarForm.ui.qml</file>
+        <file>interface/qml/Player.qml</file>
+        <file>interface/qml/PlayerForm.ui.qml</file>
+        <file>interface/qml/RoomMenu.qml</file>
+        <file>interface/qml/RoomMenuForm.ui.qml</file>
+        <file>interface/qml/Server.qml</file>
+        <file>interface/qml/ServerForm.ui.qml</file>
+        <file>interface/qml/ServerMenu.qml</file>
+        <file>interface/qml/ServerMenuForm.ui.qml</file>
+        <file>interface/qml/Settings.qml</file>
+        <file>interface/qml/SettingsForm.ui.qml</file>
+        <file>interface/qml/Tuto.qml</file>
+        <file>interface/qml/TutoForm.ui.qml</file>
     </qresource>
 </RCC>

@@ -7,12 +7,12 @@
 #include <QQmlEngine>
 #include <QQmlComponent>
 
-#include "ui/interface/src/network.h"
-#include "ui/interface/src/settings.h"
-#include "ui/interface/src/serverlist.h"
-#include "ui/interface/src/servermodel.h"
-#include "ui/interface/src/playerlist.h"
-#include "ui/interface/src/playermodel.h"
+#include "network.h"
+#include "settings.h"
+#include "serverlist.h"
+#include "servermodel.h"
+#include "playerlist.h"
+#include "playermodel.h"
 
 
 int main(int argc, char *argv[])
@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
 
     ctx->setContextProperty(QStringLiteral("rootItem"), &settings.translate);
 
-    engine.load(QUrl(QStringLiteral("qrc:/interface/interface/qml/main.qml")));
+    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     if (engine.rootObjects().isEmpty())
         return -1;
 

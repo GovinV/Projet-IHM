@@ -133,7 +133,7 @@ private:
     (voir main et le binding qml, et main.qml) ).
     Lors de la distribution des cartes, si je suis joueur 1, il faudrai appliquer un modulo
     sur le compteur pour que hands[0] recoive le jeu de joueur[1]
-    /****/
+    ****/
     u_int mon_numero;
 
     Partie *m_partie;
