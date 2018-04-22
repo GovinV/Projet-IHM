@@ -133,6 +133,8 @@ void Jeu::gameLoop()
                 ///m_partie->joueurs[message->num_joueur]->afficher_main();
                 m_partie->joueurs[message->num_joueur]->action_par_defaut();
                 updateHand(message->num_joueur);
+                Carte *c = m_partie->manche_courante->active;
+                emit curCardChange(c.type,c.color,c.value);
                 /*if(hands[message->num_joueur] == m_partie->joueurs.at(message->num_joueur)->cmain.size()+1)
                     hands[message->num_joueur].removeItem(0);
                 else if(hands[num_joueur] == m_partie->joueurs.at(message->num_joueur)->cmain.size()+1)
