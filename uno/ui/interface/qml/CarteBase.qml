@@ -1,11 +1,52 @@
 import QtQuick 2.0
 
 Item {
-    property string color
-    property int value
-    property int type
-    property bool showCard: true
+    property string color : "b"
+    property int value : 0
+    property int type : 0
+    property bool showCard: false
+
+    property string str
+
     anchors.fill:parent
+
+    onShowCardChanged: {
+        changecrd(color,type,value);
+    }
+
+    function returnPath(cl, tp,vl)
+    {
+        if(tp === 0){
+               return "qrc:/cartes/cartes/"+cl+"/"+vl+".png"
+           }
+           else if(tp === 1){//+2
+              return "qrc:/cartes/cartes/"+cl+"/+2.png"
+           }
+           else if(tp === 2){//changement de sens
+              return "qrc:/cartes/cartes/"+cl+"/s.png"
+           }
+           else if(tp === 3){//passe
+              return "qrc:/cartes/cartes/"+cl+"/p.png"
+           }
+           else if(tp === 4){//+4
+              return "qrc:/cartes/cartes/"+cl+"/+4.png"
+           }
+           else if(tp === 5){//couleur
+              return "qrc:/cartes/cartes/"+cl+"/c.png"
+           }
+    }
+
+    function changecrd(cl,tp,vl)
+    {
+        color=cl;
+        type=tp;
+        value=vl;
+        underlayer.source="qrc:/cartes/cartes/"+cl+"/bg.png";
+        var src=returnPath(cl,tp,vl);
+        figure.source=src;
+
+    }
+
 
     Image{
         id: underlayer
@@ -22,24 +63,7 @@ Item {
     }
     Image{
         id: figure
-        source:if(type === 0){//numero
-                   return "qrc:/cartes/cartes/"+color+"/"+value+".png"
-               }
-               else if(type === 1){//+2
-                   return "qrc:/cartes/cartes/"+color+"/+2.png"
-               }
-               else if(type === 2){//changement de sens
-                   return "qrc:/cartes/cartes/"+color+"/s.png"
-               }
-               else if(type === 3){//passe
-                   return "qrc:/cartes/cartes/"+color+"/p.png"
-               }
-               else if(type === 4){//+4
-                   return "qrc:/cartes/cartes/"+color+"/+4.png"
-               }
-               else if(type === 5){//couleur
-                   return "qrc:/cartes/cartes/"+color+"/c.png"
-               }
+        source:returnPath("b",0,0);
 
         anchors.fill:parent
         visible: showCard

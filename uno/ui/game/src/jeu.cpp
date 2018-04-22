@@ -134,7 +134,8 @@ void Jeu::gameLoop()
                 m_partie->joueurs[message->num_joueur]->action_par_defaut();
                 updateHand(message->num_joueur);
                 Carte *c = m_partie->manche_courante->active;
-                emit curCardChange(c.type,c.color,c.value);
+                qDebug() << "type:" << c->type << " couleur:" << couleur_to_string2(c->couleur) << " valeur:" << c->valeur;
+                emit curCardChange(c->type,couleur_to_string2(c->couleur),c->valeur);
                 /*if(hands[message->num_joueur] == m_partie->joueurs.at(message->num_joueur)->cmain.size()+1)
                     hands[message->num_joueur].removeItem(0);
                 else if(hands[num_joueur] == m_partie->joueurs.at(message->num_joueur)->cmain.size()+1)

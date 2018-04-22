@@ -12,11 +12,17 @@ GameForm {
     width: 1280
     height: 800
 
+    property bool myturn: false
+
     Connections{
         target: game
         onCurCardChange:
         {
-            playCardBt(cl, index, value,0);
+            playCardBt.changecrd(cl, index, value,0);
+        }
+        onMyTurn:
+        {
+            myturn=true;
         }
     }
 
@@ -194,18 +200,18 @@ GameForm {
         anchors.horizontalCenter: parent.horizontalCenter
         color:"transparent"
         rotation: -5
+        visible:false;
 
         function changecrd(cl, tp, vl,rt)
         {
             playCardBt2.visible=true;
             playCardBt2.rotation=rt;
-            card3.color=cl;
-            card3.type=tp;
-            card3.value=vl;
+            card1.changecrd(cl,tp,vl);
         }
 
         CarteBase{
             id: card3
+            showCard: true
         }
     }
     // PLAY CARD & carte active
@@ -218,19 +224,19 @@ GameForm {
         anchors.horizontalCenter: parent.horizontalCenter
         color:"transparent"
         rotation: 10
+        visible:false;
 
         function changecrd(cl, tp, vl,rt)
         {
             visible=true;
             playCardBt2.changecrd(card2.color,card2.type,card2.value,playCardBt1.rotation)
             playCardBt1.rotation=rt;
-            card2.color=cl;
-            card2.type=tp;
-            card2.value=vl;
+            card1.changecrd(cl,tp,vl);
         }
 
         CarteBase{
             id: card2
+            showCard: true
         }
     }
 
@@ -248,13 +254,15 @@ GameForm {
         {
             playCardBt1.changecrd(card1.color,card1.type,card1.value,playCardBt.rotation)
             playCardBt.rotation=Math.floor(Math.random() * Math.floor(30))-15;
-            card1.color=cl;
-            card1.type=tp;
-            card1.value=vl;
+            card1.changecrd(cl,tp,vl);
         }
 
         CarteBase{
             id: card1
+            color:"b"
+            type:0
+            value:0
+            showCard: true
         }
     }
 
