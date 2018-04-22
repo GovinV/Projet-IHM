@@ -21,15 +21,13 @@ GameForm {
     ListView{
         id:list0
         //STYLE
-        width:parent.width
+        width:parent.width-200
         height:150
-        anchors.horizontalCenter: parent.horizontalCenter
-        highlightRangeMode: ListView.StrictlyEnforceRange
-        preferredHighlightBegin: width / 2 - 20-150*0.65*0.2
-        preferredHighlightEnd: width / 2 + 20-150*0.65*0.2
         //interactive:false
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 5;
+        anchors.left: parent.left
+        anchors.leftMargin:200
         orientation:ListView.Horizontal
         //spacing: -50
         //clip:true;
@@ -38,7 +36,8 @@ GameForm {
         model:HandModel{
             list:hand_j0
         }
-        delegate:Component{
+        delegate:Rectangle{
+            width: (list0.width/list0.count>150*0.65)?150*0.65:list0.width/list0.count
             Carte{listdata:list0
             show:true}
         }
@@ -64,13 +63,73 @@ GameForm {
         //spacing: -50
         //clip:true;
 
+        interactive: false
+
         //DATA
         model:HandModel{
             list:hand_j1
         }
         delegate:Rectangle{
-            width: list1.width/7
+            width: list1.width/list1.count
             Carte{listdata:list1}
+        }
+    }
+
+    ListView{
+        rotation: {originX:width/2;originY:height/2;angle:180}
+        id:list2
+
+        //STYLE
+        width:150*0.65
+        height:parent.height/2
+        //interactive:false
+        anchors.left: parent.left
+        anchors.leftMargin:-75*0.65
+        anchors.top: parent.top
+        anchors.topMargin: parent.height/4
+        orientation:ListView.verticalCenter
+        //spacing: -50
+        //clip:true;
+
+        interactive: false
+
+        //DATA
+        model:HandModel{
+            list:hand_j2
+        }
+        delegate:Rectangle{
+            height:list2.height/list2.count
+            Carte{listdata:list2
+                rotation: 90}
+        }
+    }
+
+    ListView{
+        rotation: {originX:width/2;originY:height/2;angle:180}
+        id:list3
+
+        //STYLE
+        width:150*0.65
+        height:parent.height/2
+        //interactive:false
+        anchors.right: parent.right
+        anchors.rightMargin:-75*0.65
+        anchors.top: parent.top
+        anchors.topMargin: parent.height/4
+        orientation:ListView.verticalCenter
+        //spacing: -50
+        //clip:true;
+
+        interactive: false
+
+        //DATA
+        model:HandModel{
+            list:hand_j3
+        }
+        delegate:Rectangle{
+            height:list3.height/list3.count
+            Carte{listdata:list3
+                rotation: 90}
         }
     }
 
@@ -135,38 +194,25 @@ GameForm {
 
     // DRAW CARD
 
-    Rectangle{
-        signal qdrawCardBtPressed()
-        objectName: "drawCardBt"
+    Button{
         id:drawCardBt
-        height:150
-        width:height*0.65
-        radius: 15
-        color:"transparent"
+        height:164
+        width:108
         anchors.verticalCenter: parent.verticalCenter
         x:parent.width/2 + 15
-        Image{
-            source:"qrc:/cartes/cartes/n/bg.png"
-            anchors.fill:parent
-            fillMode: Image.Stretch
-        }
 
-        Text{
-            rotation: {originX:width/2;originY:height;angle:90}
-            color: "white"
-            text:"DRAW"
-            font.pixelSize: 40
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.verticalCenter: parent.verticalCenter
-        }
-
-        MouseArea{
-            anchors.fill:parent
-            onClicked: {
-                console.log("draw card")
-                drawCardBt.qdrawCardBtPressed()
-                game.drawCard(0)
+        background: Rectangle{
+            color: "#00000000"
+            Image{
+                source:"qrc:/cartes/cartes/pioche.png"
+                anchors.fill:parent
+                fillMode: Image.Stretch
             }
+        }
+        onClicked: {
+            console.log("draw card")
+            drawCardBt.qdrawCardBtPressed()
+            game.drawCard(0)
         }
     }
 

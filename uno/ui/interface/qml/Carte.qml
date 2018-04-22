@@ -5,12 +5,17 @@ Item{
     property var listdata
     property bool show: false
 
+    property bool isSelected: false
+
     height: 150
     width: 150*0.65
 
     Button{
         id: cardbtn
         anchors.fill:parent
+
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: isSelected?40:0
         CarteBase{
             color:model.color
             type:model.type

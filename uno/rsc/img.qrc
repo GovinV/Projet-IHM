@@ -76,6 +76,7 @@
         <file>cartes/v/p.png</file>
         <file>cartes/v/s.png</file>
         <file>cartes/dos.png</file>
+        <file>cartes/pioche.png</file>
     </qresource>
     <qresource prefix="/translation">
         <file>translation/uno_en.qm</file>

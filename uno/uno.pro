@@ -56,7 +56,7 @@ RESOURCES = \
 TRANSLATIONS = translation/uno_en.ts
 
 lupdate_only{
-#    SOURCES = *.qml \
+#    SOURCES =  ui/interface/qml/*.qml \
 }
 
 

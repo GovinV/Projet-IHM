@@ -9,7 +9,7 @@
 Jeu::Jeu(QObject *parent) :
     QObject(parent)
 {
-    m_partie = new Partie(MANCHE_UNIQUE,2);
+    m_partie = new Partie(MANCHE_UNIQUE,4);
     m_partie->set_seed(42);
     m_partie->nouvelle_manche(0);
     qDebug()<<"init";
