@@ -7,6 +7,7 @@
         <file>img/logo.png</file>
         <file>img/quit.png</file>
         <file>img/settings.png</file>
+        <file>img/uno.png</file>
     </qresource>
     <qresource prefix="/cartes">
         <file>cartes/bg.png</file>
@@ -77,6 +78,7 @@
         <file>cartes/v/s.png</file>
         <file>cartes/dos.png</file>
         <file>cartes/pioche.png</file>
+        <file>cartes/color.png</file>
     </qresource>
     <qresource prefix="/translation">
         <file>translation/uno_en.qm</file>

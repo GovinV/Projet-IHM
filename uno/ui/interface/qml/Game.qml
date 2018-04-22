@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.7
 import QtQuick.Window 2.1
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.0
@@ -87,7 +87,6 @@ GameForm {
         anchors.leftMargin:-75*0.65
         anchors.top: parent.top
         anchors.topMargin: parent.height/4
-        orientation:ListView.verticalCenter
         //spacing: -50
         //clip:true;
 
@@ -116,7 +115,6 @@ GameForm {
         anchors.rightMargin:-75*0.65
         anchors.top: parent.top
         anchors.topMargin: parent.height/4
-        orientation:ListView.verticalCenter
         //spacing: -50
         //clip:true;
 
@@ -136,70 +134,38 @@ GameForm {
     // START GAME BUTTON
 
     // UNO !
+    Button{
+        id:unobtn
 
-    Rectangle{
-        objectName: "unoBt"
-        id:unoBt
-        height:100
-        width:100
-        radius: 15
-        color:"red"
-        anchors.right: parent.right
-        anchors.bottom: parent.bottom
-        Text{
-            text:"UNO"
-            font.pixelSize: 40
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.verticalCenter: parent.verticalCenter
-        }
+        height:gameForm.width/1280*100
+        width:(gameForm.width/1280)*100
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.horizontalCenterOffset: playCardBt.width+30
 
-        signal unoBtPressed()
-
-        MouseArea{
+        background:Rectangle{
             anchors.fill:parent
-            onClicked: {
-                console.log("UNO");
-                unoBt.unoBtPressed()
+            color: "#00000000"
+            Image {
+                id: name
+                anchors.fill:parent
+                source: "qrc:/resources/img/uno.png"
             }
         }
     }
 
-    Rectangle{
-        signal contreUnoBtPressed()
-        objectName: "contreUnoBt"
-        id:contreUnoBt
-        height:100
-        width:200
-        radius: 15
-        color:"orange"
-        anchors.right: unoBt.left
-        anchors.bottom: parent.bottom
-        Text{
-            text:"CONTRE !"
-            font.pixelSize: 40
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.verticalCenter: parent.verticalCenter
-        }
-
-
-
-        MouseArea{
-            anchors.fill:parent
-            onClicked: {
-                console.log("CONTRE !");
-                contreUnoBt.contreUnoBtPressed()
-            }
-        }
-    }
-
-    // DRAW CARD
 
     Button{
         id:drawCardBt
-        height:164
-        width:108
-        anchors.verticalCenter: parent.verticalCenter
-        x:parent.width/2 + 15
+        signal qdrawCardBtPressed()
+        objectName: "drawCardBt"
+        height:gameForm.width/1280*164
+        width:gameForm.width/1280*108
+        anchors.left: parent.left
+        anchors.leftMargin:gameForm.width/1280*200
+        anchors.top: parent.top
+        anchors.topMargin: gameForm.width/1280*100
+        rotation: -35
 
         background: Rectangle{
             color: "#00000000"
@@ -220,17 +186,55 @@ GameForm {
 
     Rectangle{
         id:playCardBt
-        height:150
-        width:height*0.65
+        height:gameForm.width/1280*150
+        width:(gameForm.width/1280)*150*0.65
         radius: 15
-        color:"transparent"
         anchors.verticalCenter: parent.verticalCenter
-        x:parent.width/2 - width
+        anchors.horizontalCenter: parent.horizontalCenter
+        color:"transparent"
 
         CarteBase{
             color:game.curCardColor
             type:game.curCardType
             value:game.curCardValue
+        }
+    }
+
+    Rectangle{
+        id:changeColor
+        height:gameForm.width/1280*300
+        width:gameForm.width/1280*300
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.horizontalCenter: parent.horizontalCenter
+        color:"#00000000"
+
+        visible: false
+
+        Image {
+            anchors.fill:parent
+            source: "qrc:/cartes/cartes/color.png"
+        }
+
+        MouseArea{
+            anchors.fill:parent
+            onClicked: {
+                console.log("change color ! x:" + mouse.x + " y:" +mouse.y);
+                if(mouse.x<width/2)
+                {
+                    if(mouse.y<height/2)
+                        print("bleu");
+                    else
+                        print("jaune");
+                }
+                else
+                {
+                    if(mouse.y<height/2)
+                        print("vert");
+                    else
+                        print("rouge");
+                }
+                changeColor.visible=false;
+            }
         }
     }
 }
