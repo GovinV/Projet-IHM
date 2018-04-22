@@ -22,7 +22,7 @@ void Translation::selectLanguage(QString language)
     }
     else
     {
-        if (translator->load("uno_"+language, ":/resources/translation"))
+        if (translator->load("uno_"+language, ":/translation/translation"))
             qApp->installTranslator(translator);
 
     }
