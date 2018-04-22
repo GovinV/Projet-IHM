@@ -51,7 +51,8 @@ Item{
             console.log("select");
         }
         onDoubleClicked: {
-            game.playCard(index)
+            //game.playCard(index)
+            playCardBt.changecrd(model.color, model.type,model.value);
         }
 
     }

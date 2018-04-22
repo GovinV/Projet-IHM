@@ -8,6 +8,7 @@
 #include <QEventLoop>
 #include <QDebug>
 
+#include <QThread>
 #include "core/partie.h"
 #include "core/pioche.h"
 #include "core/carte.h"
@@ -18,9 +19,6 @@
 class Jeu : public QObject
 {
     // read only
-    Q_PROPERTY(QString curCardColor READ curCardColor NOTIFY curCardColorChanged)
-    Q_PROPERTY(int curCardType READ curCardType NOTIFY curCardTypeChanged)
-    Q_PROPERTY(int curCardValue READ curCardValue NOTIFY curCardValueChanged)
     Q_OBJECT
 public:
     explicit Jeu(QObject *parent = nullptr);
@@ -31,60 +29,17 @@ public:
      */
     Hand hands[4];
 
-    //Q_INVOKABLE : fonction qui peut etre triggered depuis QML
-    /**
-     * @brief starts the game, initialize properties of this class
-     */
-    Q_INVOKABLE void start();
-
-    /**
-     * @brief player pick a card, function trigger core function and update
-     * player hand in QML
-     * @bug impossible de jouer une carte piochée (aaaaargh)
-     * @param i id of player
-     */
-    Q_INVOKABLE void drawCard(int i);
-
-    /**
-     * @brief Le joueur joue une carte, utilise une fonction du noyau
-     * Exemple de prog evenementiel qui marche
-     * @bug impossible de jouer une carte piochée (aaaaargh)
-     * @param i indice de la carte
-     */
-    Q_INVOKABLE void playCard(int i);
-
-    /**
-      * @brief L'idée avec cette fonction c'est de reprendre la boucle initialement écrite
-      * dans le main du noyau. Comme on ne peux pas attendre une simple entrée clavier,
-      * on doit attendre une input depuis QML
-      * pour remplacer, on se sert de waitForBtPressed qui retourne le code boutton
-      */
-    Q_INVOKABLE void gameLoop();
-
-    Q_INVOKABLE void test();
-
-    /**
-     * @brief bind les boutons QML aux attributs correspondant de la classe
-     * @param engine Le moteur de l'application à explorer
-     */
-    void setupBt(QQmlApplicationEngine *engine);
-
-    // curent card values getter
-    QString curCardColor();
-    int curCardType();
-    int curCardValue();
-    void updateCurCard();
-
+    void test();
 signals:
     // current card values change notif
-    void curCardColorChanged();
-    void curCardTypeChanged();
-    void curCardValueChanged();
+    void curCardChange(int index, QString cl,int value);
+    void myTurn();
+    void playCardOk();
 
 public slots:
 
     // slots executés lorsque le bouton xBt est pressé
-
+    void start();
     void unoBtPressed();
     void contreUnoBtPressed();
     void playCardBtPressed(int i); // i porte l'indice de la carte active
@@ -93,6 +48,8 @@ public slots:
 private:
 
     //fonctions de transition entre la classe et le core
+
+    void gameLoop();
 
     /**
      * @brief initialisation des cartes dans qml
@@ -115,6 +72,10 @@ private:
      * @return le code du boutton pressé
      */
     int waitForBtPressed();
+
+    void playCard(int index, int joueur);
+
+    void drawCard(int id_joueur);
 
     /**
      * @brief converti une couleur en son équivalent text
@@ -143,6 +104,12 @@ private:
     QEventLoop eventLoop;
 
     int current_card_nb ;
+
+    bool myturn;
+
+    bool waiting;
+
+    int action;
 };
 
 #endif // JEU_H

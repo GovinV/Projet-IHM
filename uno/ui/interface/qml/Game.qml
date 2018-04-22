@@ -12,9 +12,17 @@ GameForm {
     width: 1280
     height: 800
 
+    Connections{
+        target: game
+        onCurCardChange:
+        {
+            playCardBt(cl, index, value,0);
+        }
+    }
+
     function startGame()
     {
-        game.start();
+       game.start();
     }
 
     // PLAYER 0
@@ -145,7 +153,7 @@ GameForm {
 
         background:Rectangle{
             anchors.fill:parent
-            color: "#00000000"
+            color:"#00000000"
             Image {
                 id: name
                 anchors.fill:parent
@@ -157,8 +165,6 @@ GameForm {
 
     Button{
         id:drawCardBt
-        signal qdrawCardBtPressed()
-        objectName: "drawCardBt"
         height:gameForm.width/1280*164
         width:gameForm.width/1280*108
         anchors.left: parent.left
@@ -177,12 +183,56 @@ GameForm {
         }
         onClicked: {
             console.log("draw card")
-            drawCardBt.qdrawCardBtPressed()
-            game.drawCard(0)
         }
     }
+    Rectangle{
+        id:playCardBt2
+        height:gameForm.width/1280*150
+        width:(gameForm.width/1280)*150*0.65
+        radius: 15
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.horizontalCenter: parent.horizontalCenter
+        color:"transparent"
+        rotation: -5
 
+        function changecrd(cl, tp, vl,rt)
+        {
+            playCardBt2.visible=true;
+            playCardBt2.rotation=rt;
+            card3.color=cl;
+            card3.type=tp;
+            card3.value=vl;
+        }
+
+        CarteBase{
+            id: card3
+        }
+    }
     // PLAY CARD & carte active
+    Rectangle{
+        id:playCardBt1
+        height:gameForm.width/1280*150
+        width:(gameForm.width/1280)*150*0.65
+        radius: 15
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.horizontalCenter: parent.horizontalCenter
+        color:"transparent"
+        rotation: 10
+
+        function changecrd(cl, tp, vl,rt)
+        {
+            visible=true;
+            playCardBt2.changecrd(card2.color,card2.type,card2.value,playCardBt1.rotation)
+            playCardBt1.rotation=rt;
+            card2.color=cl;
+            card2.type=tp;
+            card2.value=vl;
+        }
+
+        CarteBase{
+            id: card2
+        }
+    }
 
     Rectangle{
         id:playCardBt
@@ -192,11 +242,19 @@ GameForm {
         anchors.verticalCenter: parent.verticalCenter
         anchors.horizontalCenter: parent.horizontalCenter
         color:"transparent"
+        rotation: 0
+
+        function changecrd(cl,tp,vl,rt)
+        {
+            playCardBt1.changecrd(card1.color,card1.type,card1.value,playCardBt.rotation)
+            playCardBt.rotation=Math.floor(Math.random() * Math.floor(30))-15;
+            card1.color=cl;
+            card1.type=tp;
+            card1.value=vl;
+        }
 
         CarteBase{
-            color:game.curCardColor
-            type:game.curCardType
-            value:game.curCardValue
+            id: card1
         }
     }
 

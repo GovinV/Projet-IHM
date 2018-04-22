@@ -20,32 +20,7 @@ void Jeu::start()
     //hands[0].appendItem(TYPE_NB,"v",5);
     //qDebug()<<"hello";
     init_deck();
-}
-
-void Jeu::init_deck()
-{
-
-    for(unsigned int i = 0;i< m_partie->joueurs.size();i++)
-    {
-        updateHand(i);
-    }
-}
-
-
-// i indice du joueur receveur
-void Jeu::drawCard(int id_joueur)
-{
-    Carte *c = m_partie->pioche->tirer_carte();
-    hands[id_joueur].appendItem(c->type,couleur_to_string2(c->couleur),c->valeur);
-}
-
-// i indice de la carte
-void Jeu::playCard(int index)
-{
-    if(m_partie->joueurs.at(0)->jouer(index)){
-        hands[0].removeItem(index);
-    }
-    updateCurCard();
+    gameLoop();
 }
 
 void Jeu::test()
@@ -60,7 +35,6 @@ void Jeu::gameLoop()
 
     //int action;
     int saisie_nb;
-    bool fin_tour;
 
     /*std::cout << "Commandes :\nj : jouer une carte\np : piocher une carte\n"
               << "u : annoncer uno\nc : annoncer un contre uno\n"
@@ -92,6 +66,7 @@ void Jeu::gameLoop()
     // Si message est un pointeur NULL, il y a eu une erreur.
     while(message != NULL && message->type != FIN_PARTIE)
     {
+        bool fin_tour;
         switch(message->type) {
         // Si le message indique l'attente de l'action d'un joueur.
         case JOUEUR_ACTION:
@@ -99,16 +74,23 @@ void Jeu::gameLoop()
             // Si c'est à moi de jouer.
             if(message->num_joueur == mon_numero)
             {
+                emit myTurn();
+                myturn=true;
                 //m_partie->joueurs[mon_numero]->afficher_main();
                 fin_tour = false;
                 while(!fin_tour)
                 {
+                    waiting =true;
+                    while(waiting)
+                    {
+                        QThread::msleep(250);
+                    }
                     ///std::cout << "Carte sur la table : "
                        ///       << m_partie->manche_courante->active << "\n" << std::endl;
                     std::cout << "Choix de l'action : ";
                     ///std::cin >> action;
                     ///switch(action)
-                    switch(waitForBtPressed())
+                    switch(action)
                     {
                     // on récupère le code boutton et on agis en fonction
                     case BT_PLAY:///'p'
@@ -117,6 +99,9 @@ void Jeu::gameLoop()
                         ///std::cout << std::endl;
                         if(m_partie->joueurs[mon_numero]->jouer(current_card_nb))
                         {
+                            playCard(current_card_nb,mon_numero);
+                            emit playCardOk();
+                            updateHand(mon_numero);
                             fin_tour = true;
                         }
                         break;
@@ -141,13 +126,17 @@ void Jeu::gameLoop()
                     default:
                         break;
                     }
-
                 }
             }
             else
             {
                 ///m_partie->joueurs[message->num_joueur]->afficher_main();
                 m_partie->joueurs[message->num_joueur]->action_par_defaut();
+                updateHand(message->num_joueur);
+                /*if(hands[message->num_joueur] == m_partie->joueurs.at(message->num_joueur)->cmain.size()+1)
+                    hands[message->num_joueur].removeItem(0);
+                else if(hands[num_joueur] == m_partie->joueurs.at(message->num_joueur)->cmain.size()+1)
+                    hands[message->num_joueur].appendItem(0,'r',0);*/
             }
 
         }
@@ -227,52 +216,13 @@ void Jeu::gameLoop()
     //return m_partie->gagnants_partie[0];
 }
 
-void Jeu::setupBt(QQmlApplicationEngine *engine)
+void Jeu::init_deck()
 {
-    unoBt = engine->rootObjects()[0]->findChild<QObject*>("unoBt");
-    if(!unoBt)
-        qDebug()<<"unable to bind button unoBt";
 
-    contreUnoBt = engine->rootObjects()[0]->findChild<QObject*>("contreUnoBt");
-    if(!contreUnoBt)
-        qDebug()<<"unable to bind button contreUnoBt";
-
-    playCardBt = engine->rootObjects()[0]->findChild<QObject*>("drawCardBt");
-    if(!playCardBt)
-        qDebug()<<"unable to bind button playCardBt";
-
-    drawCardBt = engine->rootObjects()[0]->findChild<QObject*>("playCardBt");
-    if(!drawCardBt)
-        qDebug()<<"unable to bind button drawCardBt";
-
-    connect(unoBt,SIGNAL(unoBtPressed()),this,SLOT(unoBtPressed()));
-    connect(contreUnoBt,SIGNAL(contreUnoBtPressed()),this,SLOT(contreUnoBtPressed()));
-    // wtf les deux connect play et draw bug ???
-    connect(playCardBt,SIGNAL(qplayCardBtPressed(int)),this,SLOT(playCardBtPressed(int)));
-    connect(drawCardBt,SIGNAL(qdrawCardBtPressed()),this,SLOT(drawCardBtPressed()));
-}
-
-QString Jeu::curCardColor()
-{
-    return couleur_to_string2(m_partie->manche_courante->active->couleur);
-}
-int Jeu::curCardType()
-{
-    return m_partie->manche_courante->active->type;
-}
-int Jeu::curCardValue()
-{
-    return m_partie->manche_courante->active->valeur;
-}
-
-void Jeu::updateCurCard()
-{
-    emit curCardColorChanged();
-    emit curCardTypeChanged();
-    emit curCardValueChanged();
-    qDebug()<<m_partie->manche_courante->active->couleur;
-    qDebug()<<m_partie->manche_courante->active->type;
-    qDebug()<<m_partie->manche_courante->active->valeur;
+    for(unsigned int i = 0;i< m_partie->joueurs.size();i++)
+    {
+        updateHand(i);
+    }
 }
 
 void Jeu::updateHand(int id_joueur)
@@ -289,48 +239,62 @@ void Jeu::updateHand(int id_joueur)
     }
 }
 
-int Jeu::waitForBtPressed()
-{
-    // exec retourne avec le code de exit (voir xBtPressed)
-    return eventLoop.exec();
-}
-
 void Jeu::unoBtPressed()
 {
-    // evenement à trigger si on est en attente d'une input
-    if(eventLoop.isRunning()){
-        // some event
-        // exit() donne un code retour specifique à exec() (voir waitForBtPressed)
-        eventLoop.exit(BT_UNO);
+    if(myturn)
+    {
+        action=BT_UNO;
+        waiting=true;
+        qDebug()<<"boutton uno pressé";
     }
-    qDebug()<<"boutton uno pressé";
 }
 
 void Jeu::contreUnoBtPressed()
 {
-    if(eventLoop.isRunning())
-        eventLoop.exit(BT_CUNO);
-
-    qDebug()<<"boutton contre uno pressé";
+    if(myturn)
+    {
+        action=BT_CUNO;
+        waiting=true;
+        qDebug()<<"boutton contre uno pressé";
+    }
 }
 
 void Jeu::playCardBtPressed(int i)
 {
-    if(eventLoop.isRunning()){
+    if(myturn)
+    {
         current_card_nb = i;
-        eventLoop.exit(BT_PLAY);
+        action=BT_PLAY;
+        waiting=true;
+        qDebug()<<"essaye de jouer une carte";
     }
-
-    qDebug()<<"boutton contre uno pressé";
 }
 
 void Jeu::drawCardBtPressed()
 {
-    if(eventLoop.isRunning())
-        eventLoop.exit(BT_DRAW);
-
-    qDebug()<<"boutton contre uno pressé";
+    if(myturn)
+    {
+        action=BT_DRAW;
+        waiting=true;
+        qDebug()<<"tire une carte";
+    }
 }
+
+// i indice du joueur receveur
+void Jeu::drawCard(int id_joueur)
+{
+    Carte *c = m_partie->pioche->tirer_carte();
+    hands[id_joueur].appendItem(c->type,couleur_to_string2(c->couleur),c->valeur);
+}
+
+// i indice de la carte
+void Jeu::playCard(int index, int joueur)
+{
+    HandItem c = hands[joueur].getItem(index);
+    emit curCardChange(c.type,c.color,c.value);
+    hands[joueur].removeItem(index);
+}
+
 
 QString Jeu::couleur_to_string2(Couleur c)
 {
