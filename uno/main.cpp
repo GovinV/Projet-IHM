@@ -1,7 +1,7 @@
 #define UI  0
 #define CORE 1
 
-#define PROJECT UI
+#define PROJECT CORE
 
 #if(PROJECT == UI)
 
