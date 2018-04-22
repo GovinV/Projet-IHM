@@ -9,14 +9,16 @@
 Jeu::Jeu(QObject *parent) :
     QObject(parent)
 {
-    m_partie = new Partie(MANCHE_UNIQUE,4);
-    m_partie->set_seed(42);
-    m_partie->nouvelle_manche(0);
     qDebug()<<"init";
 }
 
 void Jeu::start()
 {
+
+    m_partie = new Partie(MANCHE_UNIQUE,4);
+    m_partie->set_seed(42);
+    m_partie->nouvelle_manche(0);
+
     //hands[0].appendItem(TYPE_NB,"v",5);
     //qDebug()<<"hello";
     init_deck();
@@ -57,12 +59,11 @@ void Jeu::gameLoop()
     /*m_partie->changer_joueur(1, new JoueurIA(m_partie->joueurs[1], MOYEN, &m_partie));
     m_partie->changer_joueur(2, new JoueurIA(m_partie->joueurs[2], SIMPLET, &m_partie));
     m_partie->changer_joueur(3, new JoueurIA(m_partie->joueurs[3], MOYEN, &m_partie));*/
-
+    Carte *c = m_partie->manche_courante->active;
+    emit curCardChange(c->type,couleur_to_string2(c->couleur),c->valeur);
     // Récupération du premier message.
     // Le premier message indique le debut de la partie et la lance.
     message = m_partie->update_and_get_next_message();
-    Carte *c = m_partie->manche_courante->active;
-    emit curCardChange(c->type,couleur_to_string2(c->couleur),c->valeur);
     // Boucle du m_partie tant que la partie n'est pas terminée.
     // Si message est un pointeur NULL, il y a eu une erreur.
     while(message != NULL && message->type != FIN_PARTIE)
@@ -138,6 +139,7 @@ void Jeu::gameLoop()
             }
             else
             {
+                QThread::msleep(1000);
                 ///m_partie->joueurs[message->num_joueur]->afficher_main();
                 m_partie->joueurs[message->num_joueur]->action_par_defaut();
                 updateHand(message->num_joueur);
@@ -293,8 +295,8 @@ void Jeu::drawCardBtPressed()
 // i indice du joueur receveur
 void Jeu::drawCard(int id_joueur)
 {
-    Carte *c = m_partie->pioche->tirer_carte();
-    hands[id_joueur].appendItem(c->type,couleur_to_string2(c->couleur),c->valeur);
+    m_partie->joueurs[mon_numero]->piocher();
+    qDebug() << "what ?!";
 }
 
 // i indice de la carte

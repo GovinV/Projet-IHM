@@ -3,7 +3,7 @@
 QT += quick concurrent
 CONFIG += c++11
 
-DEFINES += QT_DEPRECATED_WARNINGS
+DEFINES += QT_DEPRECATED_WARNINGS DEBUG_NOYAU
 
 SOURCES =\
     main.cpp \

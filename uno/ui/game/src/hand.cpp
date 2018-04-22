@@ -3,8 +3,6 @@
 Hand::Hand(QObject* parent):
     QObject(parent)
 {
-    _items.append({TYPE_NB,"r",1});
-    _items.append({TYPE_S_P2,"v",-1});
 }
 
 QVector<HandItem> Hand::items() const
@@ -58,7 +56,7 @@ void Hand::removeItem(int index)
 
 void Hand::clear()
 {
-    for(auto i = 0; i<_items.size();)
+    for(int i = 0; i<_items.size();)
     {
         removeItem(i);
     }

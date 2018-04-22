@@ -69,7 +69,7 @@ GameForm {
     // PLAYER 1
     ListView{
         rotation: {originX:width/2;originY:height/2;angle:180}
-        id:list1
+        id:list2
 
         //STYLE
         width:parent.width/2
@@ -89,17 +89,17 @@ GameForm {
 
         //DATA
         model:HandModel{
-            list:hand_j1
+            list:hand_j2
         }
         delegate:Rectangle{
-            width: list1.width/list1.count
-            Carte{listdata:list1}
+            width: list2.width/list2.count
+            Carte{listdata:list2}
         }
     }
 
     ListView{
         rotation: {originX:width/2;originY:height/2;angle:180}
-        id:list2
+        id:list3
 
         //STYLE
         width:150*0.65
@@ -116,18 +116,18 @@ GameForm {
 
         //DATA
         model:HandModel{
-            list:hand_j2
+            list:hand_j3
         }
         delegate:Rectangle{
-            height:list2.height/list2.count
-            Carte{listdata:list2
+            height:list3.height/list3.count
+            Carte{listdata:list3
                 rotation: 90}
         }
     }
 
     ListView{
         rotation: {originX:width/2;originY:height/2;angle:180}
-        id:list3
+        id:list1
 
         //STYLE
         width:150*0.65
@@ -144,11 +144,11 @@ GameForm {
 
         //DATA
         model:HandModel{
-            list:hand_j3
+            list:hand_j1
         }
         delegate:Rectangle{
-            height:list3.height/list3.count
-            Carte{listdata:list3
+            height:list1.height/list1.count
+            Carte{listdata:list1
                 rotation: 90}
         }
     }
@@ -196,7 +196,9 @@ GameForm {
             }
         }
         onClicked: {
-            console.log("draw card")
+            if(myturn)
+                game.drawCardBtPressed();
+            myturn=false;
         }
     }
     Rectangle{

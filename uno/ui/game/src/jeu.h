@@ -31,22 +31,6 @@ public:
     Hand hands[4];
 
     void test();
-signals:
-    // current card values change notif
-    void curCardChange(int index, QString cl,int value);
-    void myTurn();
-    void playCardOk();
-
-public slots:
-
-    // slots executés lorsque le bouton xBt est pressé
-    void start();
-    void unoBtPressed();
-    void contreUnoBtPressed();
-    void playCardBtPressed(int i); // i porte l'indice de la carte active
-    void drawCardBtPressed();
-
-private:
 
     //fonctions de transition entre la classe et le core
 
@@ -111,6 +95,20 @@ private:
     bool waiting;
 
     int action;
+signals:
+    // current card values change notif
+    void curCardChange(int index, QString cl,int value);
+    void myTurn();
+    void playCardOk();
+
+public slots:
+
+    // slots executés lorsque le bouton xBt est pressé
+    void start();
+    void unoBtPressed();
+    void contreUnoBtPressed();
+    void playCardBtPressed(int i); // i porte l'indice de la carte active
+    void drawCardBtPressed();
 };
 
 #endif // JEU_H
