@@ -34,7 +34,7 @@ typedef unsigned int u_int;
  *                        pour le jeu (arrive après avoir posé une carte changement
  *                        de couleur de type 'PLUS_QUATRE' ou 'JOKER').
  */
-enum TypeMessage { DEBUT_PARTIE, FIN_PARTIE, DEBUT_MANCHE, FIN_MANCHE,
+enum TypeMessage { DEBUT_PARTIE=0, FIN_PARTIE, DEBUT_MANCHE, FIN_MANCHE,
                    JOUEUR_ACTION, JOUEUR_CHOIX_COULEUR };
 
 /**

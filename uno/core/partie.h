@@ -21,7 +21,7 @@
  *
  * PARTIE_TERMINEE : Un joueur a remplit les conditions de victoire.
  */
-enum StatutPartie { PARTIE_ATTENTE_LANCEMENT, PARTIE_EN_COURS, PARTIE_TERMINEE };
+enum StatutPartie { PARTIE_ATTENTE_LANCEMENT=0, PARTIE_EN_COURS, PARTIE_TERMINEE };
 
 
 /// TODO : Implémenter les autres types de parties.
@@ -37,7 +37,7 @@ enum StatutPartie { PARTIE_ATTENTE_LANCEMENT, PARTIE_EN_COURS, PARTIE_TERMINEE }
  *
  * ...
  */
-enum TypePartie { CLASSIQUE, MANCHE_UNIQUE/*, DEUX_VS_DEUX_CLASSIQUE,
+enum TypePartie { CLASSIQUE=0, MANCHE_UNIQUE/*, DEUX_VS_DEUX_CLASSIQUE,
                   DEUX_VS_DEUX_MANCHE_UNIQUE, ELIMINATION*/ };
 
 /**
@@ -142,7 +142,7 @@ public:
      * @brief Permet de récupérer le seed de la partie.
      * @return le seed de la partie.
      */
-    int get_seed();
+    u_int get_seed();
 
     /**
      * @brief Modifie le nombre de cartes a distribuer en debut de manche.
@@ -154,7 +154,7 @@ public:
      * @brief Permet de choisir un seed en particulier pour la partie.
      * @param s le seed choisit.
      */
-    void set_seed(int s);
+    void set_seed(u_int s);
 
     /**
      * @brief Modifie la limite de points a atteindre pour gagner la partie.
@@ -187,7 +187,7 @@ public:
     int nb_cartes_debut;
 
     /// Valeur paramétrant l'aléatoire du jeu.
-    unsigned int seed;
+    u_int seed;
 
     /// Indique si la partie a été lancée.
     StatutPartie statut_partie;

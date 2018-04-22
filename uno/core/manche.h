@@ -8,12 +8,12 @@
 /**
  * @brief Permet d'indiquer le statut de la manche.
  */
-enum StatutManche { MANCHE_EN_COURS, MANCHE_TERMINEE };
+enum StatutManche { MANCHE_EN_COURS=0, MANCHE_TERMINEE };
 
 /**
  * @brief Permet d'indiquer l'action d'un joueur.
  */
-enum TypeActionJoueur { POSE_CARTE, PIOCHE, CHOISIT_COULEUR };
+enum TypeActionJoueur { POSE_CARTE=0, PIOCHE, CHOISIT_COULEUR };
 
 /**
  * @brief Permet de sauvegarder toutes les actions qui se passent.

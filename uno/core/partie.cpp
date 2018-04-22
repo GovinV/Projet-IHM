@@ -265,7 +265,7 @@ void Partie::changer_joueur(u_int num_j, Joueur *j)
 }
 
 
-int Partie::get_seed()
+u_int Partie::get_seed()
 {
     return seed;
 }
@@ -293,7 +293,7 @@ void Partie::set_nb_cartes_debut(int nb_cartes)
 }
 
 
-void Partie::set_seed(int s)
+void Partie::set_seed(u_int s)
 {
     if(statut_partie != PARTIE_ATTENTE_LANCEMENT)
     {

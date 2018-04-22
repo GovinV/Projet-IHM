@@ -24,7 +24,7 @@
  * UNOSTATE_PENALITE : 'uno' n'as pas été prononcé la pénalité a été
  *                     prise en compte.
  */
-enum UnoState { UNOSTATE_FAUX, UNOSTATE_EN_ATTENTE, UNOSTATE_VRAI,
+enum UnoState { UNOSTATE_FAUX=0, UNOSTATE_EN_ATTENTE, UNOSTATE_VRAI,
                 UNOSTATE_PENALITE };
 
 /**
