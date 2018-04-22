@@ -22,16 +22,6 @@ Item{
             value: model.value
             showCard:show
         }
-/*
-        Text{
-            id:textindex
-            text:index
-        }
-        Text{
-            anchors.top:textindex.bottom
-            text: parent.parent.ListView.isCurrentItem ? "selected" : ""
-        }
-*/
         Rectangle{
             id: cardBorder
             anchors.fill: parent
