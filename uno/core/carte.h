@@ -19,7 +19,7 @@
  *
  * La Couleur NOIR correspond aux cartes 'PLUS 4' et 'JOKER'.
  */
-enum Couleur { ROUGE, VERT, BLEU, JAUNE, NOIR };
+enum Couleur { ROUGE=0, VERT, BLEU, JAUNE, NOIR };
 
 /**
  * @enum TypeCarte
@@ -45,7 +45,7 @@ enum Couleur { ROUGE, VERT, BLEU, JAUNE, NOIR };
  *                changer la couleur du jeu et faisant piocher 4 cartes
  *                au joueur suivant.
  */
-enum TypeCarte { NUMERO, INVERSION, TA_GUEULE, PLUS_DEUX, JOKER, PLUS_QUATRE };
+enum TypeCarte { NUMERO=0, INVERSION, TA_GUEULE, PLUS_DEUX, JOKER, PLUS_QUATRE };
 
 /**
  * @class Carte

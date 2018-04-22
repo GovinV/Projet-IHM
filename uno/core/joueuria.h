@@ -9,7 +9,7 @@
 /**
  * @brief StyleIA caractérise le style de jeu ou le niveau de l'IA.
  */
-enum StyleIA { SIMPLET, MOYEN };
+enum StyleIA { SIMPLET=0, MOYEN };
 
 /**
  * @brief La classe JoueurIA représente un participant Intelligence Artificielle.
