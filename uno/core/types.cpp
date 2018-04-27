@@ -1,7 +1,7 @@
 #include "types.h"
 
 /// Paramètre à utiliser pour la génération pseudo-aléatoire des nombres.
-static unsigned long int next = 1;
+static uint32_t next = 1;
 
 int my_rand(void)
 {
