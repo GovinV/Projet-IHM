@@ -43,6 +43,36 @@ GameForm {
             card1.changeCl(cl);
         }
 
+        onWaitForIA:
+        {
+            setTimeout(game.nextStepIA,1000);
+        }
+
+    }
+    Timer
+    {
+        id: timer
+        running: false
+        repeat: false
+
+        property var callback
+
+        onTriggered: {
+        callback();
+    }
+    }
+    function setTimeout(callback, delay)
+    {
+        if (timer.running)
+        {
+            console.error("nested calls to setTimeout are not supported!", JSON.stringify(callback),
+            JSON.stringify(timer.callback));
+            return;
+        }
+        timer.callback = callback;
+        // note: an interval of 0 is directly triggered, so add a little padding	104
+        timer.interval = delay + 1;
+        timer.running = true;
     }
 
     function startGame()

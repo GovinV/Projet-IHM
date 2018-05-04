@@ -48,7 +48,6 @@ void Jeu::gameStep()
                 qDebug() << "step 3";
                 if(message->num_joueur == mon_numero)
                 {
-                    qDebug() << "mon_numero?";
                     myturn=true;
                     emit myTurn();
                 }
@@ -60,6 +59,7 @@ void Jeu::gameStep()
             case JOUEUR_CHOIX_COULEUR:
                 if(message->num_joueur == mon_numero)
                 {
+                    myturn=true;
                     emit selectColor();
                 }
                 else
@@ -158,6 +158,7 @@ void Jeu::playerLoop()
                 //updateHand(mon_numero);
                 myturn=false;
                 fin_tour = true;
+                emit waitForIA();
             }
             break;
         case BT_DRAW:
@@ -171,12 +172,14 @@ void Jeu::playerLoop()
             emit playCardOk();
             myturn=false;
             fin_tour = true;
+            emit waitForIA();
             break;
         case BT_UNO:
             m_partie->joueurs[mon_numero]->appuie_uno();
             break;
         case BT_COLOR:
             m_partie->joueurs[mon_numero]->choisir_couleur(static_cast<Couleur>(new_color));
+            emit playCardOk();
             myturn=false;
             fin_tour = true;
             break;
@@ -203,8 +206,13 @@ void Jeu::iaLoop()
 
     updateHand(message->num_joueur);
 
-    QThread::msleep(1000);
+    //QThread::msleep(1000);
+    //gameStep();
+    emit waitForIA();
+}
 
+void Jeu::nextStepIA()
+{
     gameStep();
 }
 

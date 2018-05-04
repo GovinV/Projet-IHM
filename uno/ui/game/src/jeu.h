@@ -67,6 +67,8 @@ public:
     void playerLoop();
     void iaLoop();
 
+    void waitThread();
+
     /**
      * @brief converti une couleur en son équivalent text
      * les équivalents correspondent aux noms de dossier des cartes
@@ -113,10 +115,12 @@ signals:
     void changeColor(QString cl);
     void playCardOk();
     void selectColor();
+    void waitForIA();
 
 public slots:
 
     // slots executés lorsque le bouton xBt est pressé
+    void nextStepIA();
     void start();
     void unoBtPressed();
     void contreUnoBtPressed();
