@@ -21,6 +21,7 @@ class Jeu : public QObject
 {
     // read only
     Q_OBJECT
+
 public:
     explicit Jeu(QObject *parent = nullptr);
 
@@ -34,7 +35,7 @@ public:
 
     //fonctions de transition entre la classe et le core
 
-    void gameLoop();
+    void gameLoop(Hand* hands_ptn);
 
     /**
      * @brief initialisation des cartes dans qml
@@ -62,6 +63,10 @@ public:
 
     void drawCard(int id_joueur);
 
+    void gameStep();
+    void playerLoop();
+    void iaLoop();
+
     /**
      * @brief converti une couleur en son équivalent text
      * les équivalents correspondent aux noms de dossier des cartes
@@ -83,6 +88,10 @@ public:
     u_int mon_numero;
 
     Partie *m_partie;
+
+    Message *message;
+
+    int saisie_nb;
 
     QObject *unoBt, *contreUnoBt, *drawCardBt, *playCardBt;
 

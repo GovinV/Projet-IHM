@@ -22,210 +22,192 @@ void Jeu::start()
     //hands[0].appendItem(TYPE_NB,"v",5);
     //qDebug()<<"hello";
     init_deck();
-    QtConcurrent::run(this, &Jeu::gameLoop);
-}
+    //gameLoop();
+    //QtConcurrent::run(this, &Jeu::gameLoop,&(hands[0]));
 
-void Jeu::test()
-{
-    qDebug()<<"exit value:";
-}
+    mon_numero=0;
 
-void Jeu::gameLoop()
-{
-    // Déclaration des variables necessaires.
-    Message *message;
-
-    //int action;
-    int saisie_nb;
-
-    /*std::cout << "Commandes :\nj : jouer une carte\np : piocher une carte\n"
-              << "u : annoncer uno\nc : annoncer un contre uno\n"
-              << "\nChoix des couleurs :\n1 : rouge\n2 : vert"
-              << "\n3 : bleu\n4 : jaune\n"
-              << std::endl;*/
-
-    // Définit arbitrairement ici (qui je suis dans le jeu).
-    mon_numero = 0;
-
-    // Création de la partie.
-    //(inutile ici on le met dans le constructeur)
-    ///Partie m_partie(MANCHE_UNIQUE, 2);
-
-    // Parametrage personnalisé de la partie.
-    //(idem)
-    ///m_partie->set_seed(seed);
-
-    ///m_partie->changer_joueur(0, new JoueurIA(m_partie->joueurs[0], MOYEN, &m_partie));
-    /*m_partie->changer_joueur(1, new JoueurIA(m_partie->joueurs[1], MOYEN, &m_partie));
-    m_partie->changer_joueur(2, new JoueurIA(m_partie->joueurs[2], SIMPLET, &m_partie));
-    m_partie->changer_joueur(3, new JoueurIA(m_partie->joueurs[3], MOYEN, &m_partie));*/
     Carte *c = m_partie->manche_courante->active;
     emit curCardChange(c->type,couleur_to_string2(c->couleur),c->valeur);
-    // Récupération du premier message.
-    // Le premier message indique le debut de la partie et la lance.
+
+    gameStep();
+
+}
+
+void Jeu::gameStep()
+{
     message = m_partie->update_and_get_next_message();
-    // Boucle du m_partie tant que la partie n'est pas terminée.
-    // Si message est un pointeur NULL, il y a eu une erreur.
-    while(message != NULL && message->type != FIN_PARTIE)
+    qDebug() << "step 1";
+    if(message != NULL && message->type != FIN_PARTIE)
     {
-        bool fin_tour;
-        switch(message->type) {
-        // Si le message indique l'attente de l'action d'un joueur.
-        case JOUEUR_ACTION:
+        qDebug() << "step 2";
+        switch(message->type)
         {
-            qDebug() << "joueur:" << message->num_joueur;
-            // Si c'est à moi de jouer.
-            if(message->num_joueur == mon_numero)
-            {
-                emit myTurn();
-                myturn=true;
-                //m_partie->joueurs[mon_numero]->afficher_main();
-                fin_tour = false;
-                while(!fin_tour)
+            case JOUEUR_ACTION:
+                qDebug() << "step 3";
+                if(message->num_joueur == mon_numero)
                 {
-                    waiting =true;
-                    while(waiting)
-                    {
-                        QThread::msleep(250);
-                    }
-                    qDebug() << "oui";
-                    ///std::cout << "Carte sur la table : "
-                       ///       << m_partie->manche_courante->active << "\n" << std::endl;
-                    std::cout << "Choix de l'action : ";
-                    ///std::cin >> action;
-                    ///switch(action)
-                    switch(action)
-                    {
-                    // on récupère le code boutton et on agis en fonction
-                    case BT_PLAY:///'p'
-                        ///std::cout << "Saisir la carte à jouer : ";
-                        ///std::cin >> saisie_nb;
-                        ///std::cout << std::endl;
-                        if(m_partie->joueurs[mon_numero]->jouer(current_card_nb))
-                        {
-                            playCard(current_card_nb,mon_numero);
-                            Carte *c = m_partie->manche_courante->active;
-                            emit playCardOk();
-                            emit curCardChange(c->type,couleur_to_string2(c->couleur),c->valeur);
-                            updateHand(mon_numero);
-                            myturn=false;
-                            fin_tour = true;
-                        }
-                        break;
-                    case BT_DRAW:
-                        ///std::cout << std::endl;
-                        ///m_partie->joueurs[mon_numero]->piocher();
-
-                        //piocher est déjà activer par un elem QML, mais normalement
-                        //elle devrait être trigger ici (ne marche pas a cause du bug connect)
-                        drawCard(mon_numero);
-                        updateHand(mon_numero);
-                        emit playCardOk();
-                        myturn=false;
-                        fin_tour = true;
-                        break;
-                    case BT_UNO:
-                        m_partie->joueurs[mon_numero]->appuie_uno();
-                        break;
-                    case BT_CUNO:
-                        /** std::cout << "Saisir le joueur : " << std::endl;
-                        std::cin >> saisie_nb;
-                        m_partie->joueurs[saisie_nb]->appuie_contre_uno();*/
-                        break;
-                    default:
-                        break;
-                    }
+                    qDebug() << "pourquoi?";
+                    myturn=true;
+                    emit myTurn();
                 }
-            }
-            else
-            {
-                QThread::msleep(1000);
-                ///m_partie->joueurs[message->num_joueur]->afficher_main();
-                m_partie->joueurs[message->num_joueur]->action_par_defaut();
+                else
+                    iaLoop();
                 updateHand(message->num_joueur);
-                Carte *c = m_partie->manche_courante->active;
-                emit curCardChange(c->type,couleur_to_string2(c->couleur),c->valeur);
-                /*if(hands[message->num_joueur] == m_partie->joueurs.at(message->num_joueur)->cmain.size()+1)
-                    hands[message->num_joueur].removeItem(0);
-                else if(hands[num_joueur] == m_partie->joueurs.at(message->num_joueur)->cmain.size()+1)
-                    hands[message->num_joueur].appendItem(0,'r',0);*/
-            }
+                break;
 
+            case JOUEUR_CHOIX_COULEUR:
+                if(message->num_joueur == mon_numero)
+                {
+                    qDebug() << "pourquoi?";
+                   /*myturn=true;
+                    emit myTurn();*/
+                }
+                else
+                {
+                     m_partie->joueurs[message->num_joueur]->choisir_couleur_defaut();
+                     gameStep();
+                }
+                break;
+
+            case DEBUT_PARTIE:
+                std::cout << "\nLa partie commence !" << std::endl;
+                gameStep();
+                break;
+
+            case DEBUT_MANCHE:
+                std::cout << "\nUne manche vient de commencer !" << std::endl;
+                std::cout << "Carte sur la table : "
+                      << m_partie->manche_courante->active << "\n" << std::endl;
+                gameStep();
+                break;
+
+            case FIN_MANCHE:
+                std::cout << "\nUne manche s'est terminée !\n" << std::endl;
+                std::cout << "Le gagnant de la manche est le joueur "
+                      << message->num_joueur << "." << std::endl;
+                std::cout << "\nPoints des joueurs dans la manche :" << std::endl;
+                for(u_int i=0; i<m_partie->nb_joueur; i++)
+                {
+                std::cout << "Joueur " << i << " : " << m_partie->joueurs[i]->points
+                          << "." << std::endl;
+                }
+                gameStep();
+                break;
+            default:
+                gameStep();
+                break;
         }
-            break;
-
-        case JOUEUR_CHOIX_COULEUR:
-            if(message->num_joueur == mon_numero)
+    }
+    else if(message != NULL && message->type != FIN_PARTIE)
+    {
+        if(message == NULL)
+        {
+            std::cerr << "La partie ne s'est pas terminée correctement." << std::endl;
+        }
+        else
+        {
+            std::cout << "\nLa partie est terminée !\n" << std::endl;
+            if(m_partie->gagnants_partie.size()==1)
             {
-                std::cin >> saisie_nb;
-                Couleur couleurs[4] = {ROUGE, VERT, BLEU, JAUNE};
-                m_partie->joueurs[mon_numero]->choisir_couleur(couleurs[saisie_nb-1]);
+                std::cout << "Le gagnant de la partie est le joueur "
+                          << m_partie->gagnants_partie[0] << "." << std::endl;
             }
             else
             {
-                m_partie->joueurs[message->num_joueur]->choisir_couleur_defaut();
+                std::cout << "Les gagnants sont les joueurs ";
+                for(u_int i=0; i<m_partie->gagnants_partie.size(); i++)
+                {
+                    std::cout << m_partie->gagnants_partie[i] << " ";
+                }
+                std::cout << "." << std::endl;
             }
-            break;
-
-        case DEBUT_PARTIE:
-            std::cout << "\nLa partie commence !" << std::endl;
-            break;
-
-        case DEBUT_MANCHE:
-            std::cout << "\nUne manche vient de commencer !" << std::endl;
-            std::cout << "Carte sur la table : "
-                      << m_partie->manche_courante->active << "\n" << std::endl;
-            break;
-
-        case FIN_MANCHE:
-            std::cout << "\nUne manche s'est terminée !\n" << std::endl;
-            std::cout << "Le gagnant de la manche est le joueur "
-                      << message->num_joueur << "." << std::endl;
-            std::cout << "\nPoints des joueurs dans la manche :" << std::endl;
+            std::cout << "\nPoints des joueurs dans la partie :" << std::endl;
             for(u_int i=0; i<m_partie->nb_joueur; i++)
             {
                 std::cout << "Joueur " << i << " : " << m_partie->joueurs[i]->points
                           << "." << std::endl;
             }
-            break;
+        }
+    }
+}
 
+
+void Jeu::playerLoop()
+{
+    qDebug() << "vraiment ?!";
+    //m_partie->joueurs[mon_numero]->afficher_main();
+    ///std::cout << "Carte sur la table : "
+    ///       << m_partie->manche_courante->active << "\n" << std::endl;
+    std::cout << "Choix de l'action : ";
+    ///std::cin >> action;
+    ///switch(action)
+    bool fin_tour = false;
+    switch(action)
+    {
+        // on récupère le code boutton et on agis en fonction
+        case BT_PLAY:///'p'
+            ///std::cout << "Saisir la carte à jouer : ";
+            ///std::cin >> saisie_nb;
+            ///std::cout << std::endl;
+            if(m_partie->joueurs[mon_numero]->jouer(current_card_nb))
+            {
+                playCard(current_card_nb,mon_numero);
+                Carte *c = m_partie->manche_courante->active;
+                emit playCardOk();
+                emit curCardChange(c->type,couleur_to_string2(c->couleur),c->valeur);
+                //updateHand(mon_numero);
+                myturn=false;
+                fin_tour = true;
+            }
+            break;
+        case BT_DRAW:
+            ///std::cout << std::endl;
+            ///m_partie->joueurs[mon_numero]->piocher();
+
+            //piocher est déjà activer par un elem QML, mais normalement
+            //elle devrait être trigger ici (ne marche pas a cause du bug connect)
+            drawCard(mon_numero);
+            //updateHand(mon_numero);
+            emit playCardOk();
+            myturn=false;
+            fin_tour = true;
+            break;
+        case BT_UNO:
+            m_partie->joueurs[mon_numero]->appuie_uno();
+            break;
+        case BT_CUNO:
+            /** std::cout << "Saisir le joueur : " << std::endl;
+            std::cin >> saisie_nb;
+            m_partie->joueurs[saisie_nb]->appuie_contre_uno();*/
+            break;
         default:
             break;
-        }
-
-        message = m_partie->update_and_get_next_message();
     }
-
-    if(message == NULL)
+    if(fin_tour)
     {
-        std::cerr << "La partie ne s'est pas terminée correctement." << std::endl;
+        qDebug() << "maybe ?";
+        gameStep();
     }
-    else
-    {
-        std::cout << "\nLa partie est terminée !\n" << std::endl;
-        if(m_partie->gagnants_partie.size()==1)
-        {
-            std::cout << "Le gagnant de la partie est le joueur "
-                      << m_partie->gagnants_partie[0] << "." << std::endl;
-        }
-        else
-        {
-            std::cout << "Les gagnants sont les joueurs ";
-            for(u_int i=0; i<m_partie->gagnants_partie.size(); i++)
-            {
-                std::cout << m_partie->gagnants_partie[i] << " ";
-            }
-            std::cout << "." << std::endl;
-        }
-        std::cout << "\nPoints des joueurs dans la partie :" << std::endl;
-        for(u_int i=0; i<m_partie->nb_joueur; i++)
-        {
-            std::cout << "Joueur " << i << " : " << m_partie->joueurs[i]->points
-                      << "." << std::endl;
-        }
-    }
+}
 
-    //return m_partie->gagnants_partie[0];
+void Jeu::iaLoop()
+{
+
+    m_partie->joueurs[message->num_joueur]->action_par_defaut();
+    Carte *c = m_partie->manche_courante->active;
+    emit curCardChange(c->type,couleur_to_string2(c->couleur),c->valeur);
+
+    updateHand(message->num_joueur);
+
+    QThread::msleep(1000);
+
+    gameStep();
+}
+
+void Jeu::test()
+{
+    qDebug()<<"exit value:";
 }
 
 void Jeu::init_deck()
@@ -258,6 +240,7 @@ void Jeu::unoBtPressed()
         action=BT_UNO;
         waiting=false;
         qDebug()<<"boutton uno pressé";
+        playerLoop();
     }
 }
 
@@ -268,34 +251,40 @@ void Jeu::contreUnoBtPressed()
         action=BT_CUNO;
         waiting=false;
         qDebug()<<"boutton contre uno pressé";
+        playerLoop();
     }
 }
 
 void Jeu::playCardBtPressed(int i)
 {
+    qDebug() <<"oui non ?";
     if(myturn)
     {
         current_card_nb = i;
         action=BT_PLAY;
         waiting=false;
         qDebug()<<"essaye de jouer une carte";
+        playerLoop();
     }
 }
 
 void Jeu::drawCardBtPressed()
 {
+    //addCard(0,0,"r",8);
+    qDebug() << "drawCardBtPressed";
     if(myturn)
     {
         action=BT_DRAW;
         waiting=false;
         qDebug()<<"tire une carte";
+        playerLoop();
     }
 }
 
 // i indice du joueur receveur
 void Jeu::drawCard(int id_joueur)
 {
-    m_partie->joueurs[mon_numero]->piocher();
+    m_partie->joueurs[id_joueur]->piocher();
     qDebug() << "what ?!";
 }
 
@@ -306,7 +295,6 @@ void Jeu::playCard(int index, int joueur)
     emit curCardChange(c.type,c.color,c.value);
     hands[joueur].removeItem(index);
 }
-
 
 QString Jeu::couleur_to_string2(Couleur c)
 {
