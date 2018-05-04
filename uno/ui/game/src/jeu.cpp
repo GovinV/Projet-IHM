@@ -172,7 +172,6 @@ void Jeu::playerLoop()
             emit playCardOk();
             myturn=false;
             fin_tour = true;
-            emit waitForIA();
             break;
         case BT_UNO:
             m_partie->joueurs[mon_numero]->appuie_uno();
@@ -308,7 +307,7 @@ void Jeu::drawCardBtPressed()
 void Jeu::drawCard(int id_joueur)
 {
     m_partie->joueurs[id_joueur]->piocher();
-    qDebug() << "what ?!";
+    updateHand(id_joueur);
 }
 
 // i indice de la carte
