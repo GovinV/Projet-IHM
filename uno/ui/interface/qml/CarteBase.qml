@@ -36,6 +36,12 @@ Item {
            }
     }
 
+    function changeCl(cl)
+    {
+        color=cl;
+        underlayer.source="qrc:/cartes/cartes/"+cl+"/bg.png";
+    }
+
     function changecrd(cl,tp,vl)
     {
         color=cl;

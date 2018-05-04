@@ -5,6 +5,7 @@
 #define BT_CUNO 2
 #define BT_PLAY 3
 #define BT_DRAW 4
+#define BT_COLOR 5
 
 Jeu::Jeu(QObject *parent) :
     QObject(parent)
@@ -47,7 +48,7 @@ void Jeu::gameStep()
                 qDebug() << "step 3";
                 if(message->num_joueur == mon_numero)
                 {
-                    qDebug() << "pourquoi?";
+                    qDebug() << "mon_numero?";
                     myturn=true;
                     emit myTurn();
                 }
@@ -59,13 +60,11 @@ void Jeu::gameStep()
             case JOUEUR_CHOIX_COULEUR:
                 if(message->num_joueur == mon_numero)
                 {
-                    qDebug() << "pourquoi?";
-                   /*myturn=true;
-                    emit myTurn();*/
+                    emit selectColor();
                 }
                 else
                 {
-                     m_partie->joueurs[message->num_joueur]->choisir_couleur_defaut();
+                     changeColor(couleur_to_string2(m_partie->joueurs[message->num_joueur]->choisir_couleur_defaut()));
                      gameStep();
                 }
                 break;
@@ -176,6 +175,11 @@ void Jeu::playerLoop()
         case BT_UNO:
             m_partie->joueurs[mon_numero]->appuie_uno();
             break;
+        case BT_COLOR:
+            m_partie->joueurs[mon_numero]->choisir_couleur(static_cast<Couleur>(new_color));
+            myturn=false;
+            fin_tour = true;
+            break;
         case BT_CUNO:
             /** std::cout << "Saisir le joueur : " << std::endl;
             std::cin >> saisie_nb;
@@ -186,7 +190,6 @@ void Jeu::playerLoop()
     }
     if(fin_tour)
     {
-        qDebug() << "maybe ?";
         gameStep();
     }
 }
@@ -263,6 +266,18 @@ void Jeu::playCardBtPressed(int i)
         current_card_nb = i;
         action=BT_PLAY;
         waiting=false;
+        qDebug()<<"essaye de jouer une carte";
+        playerLoop();
+    }
+}
+
+void Jeu::playChangeColor(int cl)
+{
+    if(myturn)
+    {
+        action=BT_COLOR;
+        waiting=false;
+        new_color=cl;
         qDebug()<<"essaye de jouer une carte";
         playerLoop();
     }

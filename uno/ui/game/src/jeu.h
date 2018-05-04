@@ -97,6 +97,8 @@ public:
 
     QEventLoop eventLoop;
 
+    int new_color;
+
     int current_card_nb ;
 
     bool myturn;
@@ -108,7 +110,9 @@ signals:
     // current card values change notif
     void curCardChange(int index, QString cl,int value);
     void myTurn();
+    void changeColor(QString cl);
     void playCardOk();
+    void selectColor();
 
 public slots:
 
@@ -117,6 +121,7 @@ public slots:
     void unoBtPressed();
     void contreUnoBtPressed();
     void playCardBtPressed(int i); // i porte l'indice de la carte active
+    void playChangeColor(int cl);
     void drawCardBtPressed();
 };
 

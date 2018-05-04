@@ -21,6 +21,11 @@ GameForm {
             print("onCurCardChange");
             playCardBt.changecrd(cl, index, value,0);
         }
+        onSelectColor:
+        {
+            changeColor.visible=true;
+        }
+
         onMyTurn:
         {
             print("onMyTurn");
@@ -30,6 +35,12 @@ GameForm {
         {
             print("onPlayCardOk");
             gameForm.myturn=false;
+        }
+
+        onChangeColor:
+        {
+            print("onChangeColor");
+            card1.changeCl(cl);
         }
 
     }
@@ -216,7 +227,7 @@ GameForm {
         {
             playCardBt2.visible=true;
             playCardBt2.rotation=rt;
-            card1.changecrd(cl,tp,vl);
+            card3.changecrd(cl,tp,vl);
         }
 
         CarteBase{
@@ -241,7 +252,7 @@ GameForm {
             visible=true;
             playCardBt2.changecrd(card2.color,card2.type,card2.value,playCardBt1.rotation)
             playCardBt1.rotation=rt;
-            card1.changecrd(cl,tp,vl);
+            card2.changecrd(cl,tp,vl);
         }
 
         CarteBase{
@@ -298,16 +309,32 @@ GameForm {
                 if(mouse.x<width/2)
                 {
                     if(mouse.y<height/2)
+                    {
+                        game.playChangeColor(3);
+                        card1.changeCl("b");
                         print("bleu");
+                    }
                     else
+                    {
+                        game.playChangeColor(4);
+                        card1.changeCl("j");
                         print("jaune");
+                    }
                 }
                 else
                 {
                     if(mouse.y<height/2)
+                    {
+                        game.playChangeColor(2);
+                        card1.changeCl("v");
                         print("vert");
+                    }
                     else
+                    {
+                        game.playChangeColor(1);
+                        card1.changeCl("r");
                         print("rouge");
+                    }
                 }
                 changeColor.visible=false;
             }
