@@ -46,7 +46,7 @@ ServerMenuForm {
             background: Rectangle { color: Qt.rgba(0,0,0,0)}
 
             onClicked: {
-                playClick.play();                
+                playClick.play();
                 swipeVertical.setCurrentIndex(0);
                 gameform.startGame();
             }

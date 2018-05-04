@@ -278,7 +278,7 @@ void Jeu::playChangeColor(int cl)
         action=BT_COLOR;
         waiting=false;
         new_color=cl;
-        qDebug()<<"essaye de jouer une carte";
+        qDebug()<<"playChangeColor";
         playerLoop();
     }
 }

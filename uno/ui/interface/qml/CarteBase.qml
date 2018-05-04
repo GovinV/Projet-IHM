@@ -29,10 +29,10 @@ Item {
               return "qrc:/cartes/cartes/"+cl+"/+2.png"
            }
            else if(tp === 4){//+4
-              return "qrc:/cartes/cartes/"+cl+"/c.png"
+              return "qrc:/cartes/cartes/n/c.png"
            }
            else if(tp === 5){//couleur
-              return "qrc:/cartes/cartes/"+cl+"/+4.png"
+              return "qrc:/cartes/cartes/n/+4.png"
            }
     }
 
