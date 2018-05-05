@@ -42,7 +42,7 @@ class Network : public QObject
     public slots:
 
         void receiveFromServer(QString mess);
-        void startGame(QString infos);
+        void startGame();
         void changeNickname(QString pseudo);
         void changeRoomName(QString name);
         void changeMaxPlayer(int n);

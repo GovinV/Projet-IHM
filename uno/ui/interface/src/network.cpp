@@ -116,9 +116,9 @@ void Network::quit()
     qDebug() << "quitGame";
 }
 
-void Network::startGame(QString infos)
+void Network::startGame()
 {
-    //lien vers une nouvelle classe Jeu pour style jeu actif bah t'envoie msg directe à l'objet jeu sinon tu crée l'objet jeu
+    client.UI_to_Soc("<startgame>\n");
     qDebug() << "startGame";
 }
 
