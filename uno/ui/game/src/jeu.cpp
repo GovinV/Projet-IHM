@@ -204,7 +204,7 @@ void Jeu::playerLoop()
     }
     if(fin_tour)
     {
-        gameStep();
+        emit waitForIA();
     }
 }
 
