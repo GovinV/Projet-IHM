@@ -11,13 +11,16 @@ Jeu::Jeu(QObject *parent) :
     QObject(parent)
 {
     qDebug()<<"init";
+    qsrand(QTime::currentTime().msec());
 }
 
 void Jeu::start()
 {
 
     m_partie = new Partie(MANCHE_UNIQUE,4);
-    m_partie->set_seed(42);
+    int myseed = rand() %100;
+    m_partie->set_seed(myseed);
+    qDebug()<<"myseed:"<< myseed;
     m_partie->nouvelle_manche(0);
 
     //hands[0].appendItem(TYPE_NB,"v",5);
