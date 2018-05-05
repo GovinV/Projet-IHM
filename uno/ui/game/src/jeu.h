@@ -108,6 +108,9 @@ public:
     bool waiting;
 
     int action;
+
+    Carte * c;
+
 signals:
     // current card values change notif
     void curCardChange(int index, QString cl,int value);

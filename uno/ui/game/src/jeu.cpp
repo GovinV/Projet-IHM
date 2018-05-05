@@ -11,28 +11,26 @@ Jeu::Jeu(QObject *parent) :
     QObject(parent)
 {
     qDebug()<<"init";
-    qsrand(QTime::currentTime().msec());
+    //qsrand(QTime::currentTime().msec());
 }
 
 void Jeu::start()
 {
 
     m_partie = new Partie(MANCHE_UNIQUE,4);
-    int myseed = rand() %100;
-    m_partie->set_seed(myseed);
-    qDebug()<<"myseed:"<< myseed;
-    m_partie->nouvelle_manche(0);
+    //int myseed = rand() %100;
+    //m_partie->set_seed(myseed);
+    //qDebug()<<"myseed:"<< myseed;
 
     //hands[0].appendItem(TYPE_NB,"v",5);
     //qDebug()<<"hello";
-    init_deck();
+
     //gameLoop();
     //QtConcurrent::run(this, &Jeu::gameLoop,&(hands[0]));
 
     mon_numero=0;
 
-    Carte *c = m_partie->manche_courante->active;
-    emit curCardChange(c->type,couleur_to_string2(c->couleur),c->valeur);
+
 
     gameStep();
 
@@ -81,6 +79,9 @@ void Jeu::gameStep()
                 std::cout << "\nUne manche vient de commencer !" << std::endl;
                 std::cout << "Carte sur la table : "
                       << m_partie->manche_courante->active << "\n" << std::endl;
+                c = m_partie->manche_courante->active;
+                emit curCardChange(c->type,couleur_to_string2(c->couleur),c->valeur);
+                init_deck();
                 gameStep();
                 break;
 
