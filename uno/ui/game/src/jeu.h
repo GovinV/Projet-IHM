@@ -119,6 +119,7 @@ signals:
     void playCardOk();
     void selectColor();
     void waitForIA();
+    void gameEnd(bool me);
 
 public slots:
 

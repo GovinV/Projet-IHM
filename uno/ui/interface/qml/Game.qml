@@ -26,6 +26,13 @@ GameForm {
             changeColor.visible=true;
         }
 
+        onGameEnd:
+        {
+            print("test end");
+            rectangleEnd.end=me;
+            rectangleEnd.visible=true;
+        }
+
         onMyTurn:
         {
             print("onMyTurn");
@@ -77,7 +84,7 @@ GameForm {
 
     function startGame()
     {
-       game.start();
+       setTimeout(game.start,100);
     }
 
     // PLAYER 0
@@ -340,13 +347,13 @@ GameForm {
                 {
                     if(mouse.y<height/2)
                     {
-                        game.playChangeColor(3);
+                        game.playChangeColor(2);
                         card1.changeCl("b");
                         print("bleu");
                     }
                     else
                     {
-                        game.playChangeColor(4);
+                        game.playChangeColor(3);
                         card1.changeCl("j");
                         print("jaune");
                     }
@@ -355,19 +362,123 @@ GameForm {
                 {
                     if(mouse.y<height/2)
                     {
-                        game.playChangeColor(2);
+                        game.playChangeColor(1);
                         card1.changeCl("v");
                         print("vert");
                     }
                     else
                     {
-                        game.playChangeColor(1);
+                        game.playChangeColor(0);
                         card1.changeCl("r");
                         print("rouge");
                     }
                 }
                 changeColor.visible=false;
             }
+        }
+    }
+
+    Rectangle {
+        id: rectangleEnd
+        x: 351
+        y: 242
+        width: 609
+        height: 288
+        color: "#272727"
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
+
+        visible: false
+
+        property bool end: false
+
+        Text {
+            id: text1
+            height: 100
+            color: "#e98515"
+            text: (rectangleEnd.end)?(qsTr("Victoire") + rootItem.emptyString):(qsTr("Défaite") + rootItem.emptyString)
+            horizontalAlignment: Text.AlignRight
+            verticalAlignment: Text.AlignVCenter
+            font.pixelSize: 40
+            font.bold: true
+            font.family: "Tahoma"
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.top: parent.top
+            anchors.topMargin: 20
+        }
+
+        Text {
+            id: text2
+            color: "#ffffff"
+            text: qsTr("Voulez-vous refaire une partie ?") + rootItem.emptyString
+            horizontalAlignment: Text.AlignRight
+            verticalAlignment: Text.AlignVCenter
+            font.pixelSize: 20
+            font.bold: true
+            font.family: "Tahoma"
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 100
+        }
+        Button {
+            id: buttonYes
+            text: qsTr("Oui") + rootItem.emptyString
+
+            onHoveredChanged:
+            {
+                if(hovered)
+                    playSnap.play();
+            }
+
+            background:Rectangle
+                {
+                    anchors.fill: parent
+                    radius: 20
+                    color:  buttonYes.hovered?"#e98515":"#ffffff"
+                }
+            onClicked:
+            {
+                playClick.play();
+                startGame();
+                rectangleEnd.visible=false;
+            }
+            font.pointSize: 15
+            width: 150
+            anchors.horizontalCenterOffset: -100
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 18
+            anchors.horizontalCenter: parent.horizontalCenter
+        }
+        Button {
+            id: buttonNo
+            text: qsTr("Non") + rootItem.emptyString
+
+            onHoveredChanged:
+            {
+                if(hovered)
+                    playSnap.play();
+            }
+
+            background:Rectangle
+                {
+                    anchors.fill: parent
+                    radius: 20
+                    color:  buttonNo.hovered?"#e98515":"#ffffff"
+                }
+            onClicked:
+            {
+                playClick.play();
+                network.roomList();
+                swipeVertical.currentIndex=1;
+                swipeHorizontalServeur.currentIndex=1;
+                changedReturnButton();
+            }
+            font.pointSize: 15
+            width: 150
+            anchors.horizontalCenterOffset: 100
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 18
+            anchors.horizontalCenter: parent.horizontalCenter
         }
     }
 }

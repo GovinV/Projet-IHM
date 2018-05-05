@@ -89,6 +89,7 @@ void Jeu::gameStep()
                 std::cout << "\nUne manche s'est terminée !\n" << std::endl;
                 std::cout << "Le gagnant de la manche est le joueur "
                       << message->num_joueur << "." << std::endl;
+                emit gameEnd(message->num_joueur==mon_numero);
                 std::cout << "\nPoints des joueurs dans la manche :" << std::endl;
                 for(u_int i=0; i<m_partie->nb_joueur; i++)
                 {
@@ -115,14 +116,21 @@ void Jeu::gameStep()
             {
                 std::cout << "Le gagnant de la partie est le joueur "
                           << m_partie->gagnants_partie[0] << "." << std::endl;
+                qDebug() << "wtf ?";
+                qDebug() << m_partie->gagnants_partie[0] << "!=" << mon_numero;
+                emit gameEnd(m_partie->gagnants_partie[0]==(int)mon_numero);
             }
             else
             {
                 std::cout << "Les gagnants sont les joueurs ";
+                bool me=false;
                 for(u_int i=0; i<m_partie->gagnants_partie.size(); i++)
                 {
                     std::cout << m_partie->gagnants_partie[i] << " ";
+                    if(m_partie->gagnants_partie[i]==(int)mon_numero)
+                        me=true;
                 }
+                emit gameEnd(me);
                 std::cout << "." << std::endl;
             }
             std::cout << "\nPoints des joueurs dans la partie :" << std::endl;
