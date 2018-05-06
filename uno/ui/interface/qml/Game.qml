@@ -387,9 +387,6 @@ GameForm {
         color: "#272727"
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
-        border.width: (parent.width / 2048) * 24
-        border.color: "#ffffff"
-        radius: 20
 
         visible: false
 
@@ -421,7 +418,7 @@ GameForm {
             font.family: "Tahoma"
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.bottom: parent.bottom
-            anchors.bottomMargin: 110
+            anchors.bottomMargin: 100
         }
         Button {
             id: buttonYes
@@ -449,7 +446,7 @@ GameForm {
             width: 150
             anchors.horizontalCenterOffset: -100
             anchors.bottom: parent.bottom
-            anchors.bottomMargin: 40
+            anchors.bottomMargin: 18
             anchors.horizontalCenter: parent.horizontalCenter
         }
         Button {
@@ -470,7 +467,6 @@ GameForm {
                 }
             onClicked:
             {
-                rectangleEnd.visible=false;
                 playClick.play();
                 network.roomList();
                 swipeVertical.currentIndex=1;
@@ -481,7 +477,7 @@ GameForm {
             width: 150
             anchors.horizontalCenterOffset: 100
             anchors.bottom: parent.bottom
-            anchors.bottomMargin: 40
+            anchors.bottomMargin: 18
             anchors.horizontalCenter: parent.horizontalCenter
         }
     }
