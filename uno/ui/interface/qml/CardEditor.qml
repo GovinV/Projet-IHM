@@ -7,8 +7,11 @@ CardEditorForm {
     width: 1280
     height: 800
 
+    property string style: "none"
+
     function loadUsedStyle()
     {
+        style=cardOnBack.style;
         cardOnFront.style=cardOnBack.style;
     }
 
@@ -115,6 +118,7 @@ CardEditorForm {
                                         playClick.play();
                                         //cardOnBack.style=model.style;
                                         cardOnFront.style=model.style;
+                                        style=model.style;
                                     }
 
                                     background:

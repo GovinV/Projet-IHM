@@ -222,6 +222,11 @@ GameForm {
                 source: "qrc:/resources/img/uno.png"
             }
         }
+
+        onClicked:
+        {
+            game.unoBtPressed();
+        }
     }
 
 

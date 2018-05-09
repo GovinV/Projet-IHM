@@ -61,6 +61,12 @@ Item {
         visible: showCard
         fillMode: Image.Stretch
     }
+    Image {
+        id: texture
+        visible: showCard
+        anchors.fill: parent
+        source: "qrc:/cartes/cartes/style/"+ cardEditor.style +".png"
+    }
     Image{
         id: circle
         source:showCard?"qrc:/cartes/cartes/bg.png":"qrc:/cartes/cartes/dos.png"
